@@ -1,4 +1,4 @@
-# Api ecommerce - stoom
+<!-- # Api ecommerce - stoom
 
 v1.0.0
 
@@ -83,4 +83,5 @@ Cole aqui
 ## DDD
 
 -   Nesse projeto eu utilizei a metodologia DDD e alguns patterns como aggregate e watchedList que me auxiliou bastante no desenvolvimento, adoraria falar mais sobre em uma proxima conversa :D
+ -->
 
