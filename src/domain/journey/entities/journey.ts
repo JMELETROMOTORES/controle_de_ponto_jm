@@ -5,8 +5,8 @@ export interface JourneyProps {
     name: string;
     dayOfWeek: {
         day: string;
-        start_date: string;
-        end_date: string;
+        start_date: Date;
+        end_date: Date;
     }[];
 }
 
@@ -26,8 +26,8 @@ export class Journey extends Entity<JourneyProps> {
     set dayOfWeek(
         dayOfWeek: {
             day: string;
-            start_date: string;
-            end_date: string;
+            start_date: Date;
+            end_date: Date;
         }[],
     ) {
         this.props.dayOfWeek = dayOfWeek;
