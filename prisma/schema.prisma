@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @unique @default(uuid())
+  name      String
+  email     String
+  password  String
+  createdAt DateTime?
+  updatedAt DateTime?
+  @@map("users")
+}
+
+model Product {
+  id          String   @unique @default(uuid())
+  name        String
+  description String
+  price       Float
+  inStock     Int
+  createdAt   DateTime
+  updatedAt   DateTime
+}
+
+model Employee {
+  id           Int         @id @default(autoincrement())
+  name         String
+  position     String
+  rfid         String      @unique
+  imgUrl       String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  Attendance   Attendance[]
+  shifts       Shift[]
+}
+
+model Attendance {
+  id           Int         @id @default(autoincrement())
+  employeeId   Int
+  date         DateTime
+  timeIn       DateTime
+  timeOut      DateTime
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  employee     Employee    @relation(fields: [employeeId], references: [id])
+}
+
+
+model Shift {
+  id           Int         @id @default(autoincrement())
+  name         String
+  dayOfWeek    DayOfWeek[]
+  employeeId   Int
+  employee     Employee    @relation(fields: [employeeId], references: [id])
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model DayOfWeek {
+  id           Int         @id @default(autoincrement())
+  day          String
+  startTime    DateTime
+  endTime      DateTime
+  shiftId      Int
+  shift        Shift       @relation(fields: [shiftId], references: [id])
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+

@@ -1,0 +1,88 @@
+@baseUrl = http://localhost:3333
+@authToken = {{authenticate.response.body.accessToken}}
+# @name create_account
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+  "name": "Gustavo Gomes",
+  "email": "gustvoa@.com.br",
+  "password": "12345678"
+
+}
+
+###
+
+# @name authenticate
+POST {{baseUrl}}/users/auth
+Content-Type: application/json
+
+{
+  "email": "gustvoa@.com.br",
+  "password": "12345678"
+}
+
+###
+
+
+
+POST  {{baseUrl}}/orders
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "adress": "Rua 1, 123",
+  "itens": [
+    {
+      "productId": "a1175b23-c23b-4c29-9219-bdf7a3fdcc08",
+      "quantity": 1
+    }
+  ]
+}
+
+###
+
+
+
+
+###
+
+PUT {{baseUrl}}/orders/status/bd87ccf3-b3ef-468d-a29c-8d23d98c7042
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "status": "PROCESSING_ORDER"
+}
+###
+
+
+GET {{baseUrl}}/orders
+content-type: application/json
+Authorization: Bearer {{authToken}}
+###
+POST {{baseUrl}}/products
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Produto 1",
+  "price": 10,
+  "description": "Descrição do produto 1",
+  "inStock": 19
+}
+
+
+###
+
+PUT {{baseUrl}}/products/6e8d1430-b5c8-46fd-bf1d-642eeb2d3e83
+Content-Type: application/json
+
+{
+  "inStock": 655
+}
+
+
+###
+
+DELETE {{baseUrl}}/products/7142e8dc-98b3-4837-9855-d2f6c044fc17
