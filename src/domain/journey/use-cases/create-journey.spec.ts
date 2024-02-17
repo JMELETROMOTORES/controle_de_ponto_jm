@@ -14,6 +14,7 @@ describe("Create Journey Use Case", () => {
     it("should be able to create a new journey", async () => {
         const newJourney = makeJourney();
         const response = await sut.execute(newJourney);
+        console.log(new Date("2021-10-10T08:00:00").toUTCString());
         expect(response.isRight()).toBeTruthy();
         console.log(inMemoryJourneyRepository.items[0].dayOfWeek);
         expect(inMemoryJourneyRepository.items.length).toBe(1);

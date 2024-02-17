@@ -6,38 +6,38 @@ import { Journey, JourneyProps } from "@/domain/journey/entities/journey";
 const allDayOfWeek = [
     {
         day: "Sunday",
-        start_date: "00:00",
-        end_date: "23:59",
+        start_date: new Date("2021-10-10T08:00:00"),
+        end_date: new Date("2021-10-10T18:00:00"),
     },
     {
         day: "Monday",
-        start_date: "00:00",
-        end_date: "23:59",
+        start_date: new Date("2021-10-10T08:00:00"),
+        end_date: new Date("2021-10-10T18:00:00"),
     },
     {
         day: "Tuesday",
-        start_date: "00:00",
-        end_date: "23:59",
+        start_date: new Date("2021-10-10T08:00:00"),
+        end_date: new Date("2021-10-10T18:00:00"),
     },
     {
         day: "Wednesday",
-        start_date: "00:00",
-        end_date: "23:59",
+        start_date: new Date("2021-10-10T08:00:00"),
+        end_date: new Date("2021-10-10T18:00:00"),
     },
     {
         day: "Thursday",
-        start_date: "00:00",
-        end_date: "23:59",
+        start_date: new Date("2021-10-10T08:00:00"),
+        end_date: new Date("2021-10-10T17:00:00"),
     },
     {
         day: "Friday",
-        start_date: "00:00",
-        end_date: "23:59",
+        start_date: new Date("2021-10-10T08:00:00"),
+        end_date: new Date("2021-10-10T18:00:00"),
     },
     {
         day: "Saturday",
-        start_date: "00:00",
-        end_date: "23:59",
+        start_date: new Date("2021-10-10T08:00:00"),
+        end_date: new Date("2021-10-10T18:00:00"),
     },
 ];
 
