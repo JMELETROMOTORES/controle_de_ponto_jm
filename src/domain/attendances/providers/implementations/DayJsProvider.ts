@@ -43,44 +43,112 @@ class DayjsDateProvider implements IDateProvider {
         return currentDate;
     }
 
-    calculateExtraTime(
-        start_time: Date,
+    calculateExtraTimeClockedOut(
         end_time: Date,
         toleranceTimeEnd: Date,
+    ): number {
+        const extraTime = this.compareInSeconds(end_time, toleranceTimeEnd);
+        if (extraTime < 0) {
+            return 0;
+        }
+        return extraTime;
+    }
+
+    calculateExtraTimeClockedIn(
+        start_time: Date,
         toleranceTimeStart: Date,
     ): number {
-        const end_date_utc = this.convertToUtc(end_time);
-        const start_date_utc = this.convertToUtc(start_time);
+        const extraTime = this.compareInSeconds(toleranceTimeStart, start_time);
+        console.log("extraTime", extraTime);
+        if (extraTime < 0) {
+            return 0;
+        }
+        return extraTime;
+    }
 
-        return dayjs(end_date_utc).diff(start_date_utc, "minutes");
+    compareInSeconds(start_date: Date, end_date: Date): number {
+        const end_date_utc = this.convertToUtc(end_date);
+        const start_date_utc = this.convertToUtc(start_date);
+
+        return dayjs(end_date_utc).diff(start_date_utc, "second");
     }
     calculateWorkTime(attendance: ICalculateWorkTime): number {
         const start_date = attendance.clockedIn;
         const end_date = attendance.clockedOut;
 
         const lunchStart = attendance.lunchStart;
+
+        if (!lunchStart) {
+            return 0;
+        }
         const lunchEnd = attendance.lunchEnd;
 
-        const start_date_utc = this.convertToUtc(start_date);
-        const end_date_utc = this.convertToUtc(end_date);
-        const lunchStart_utc = this.convertToUtc(lunchStart || new Date(0));
-        const lunchEnd_utc = this.convertToUtc(lunchEnd || new Date(0));
+        if (!lunchEnd) {
+            return 0;
+        }
 
-        const totalWorkedHours = dayjs(end_date_utc).diff(
-            start_date_utc,
-            "minutes",
-        );
+        const totalWorkedHours = this.compareInSeconds(start_date, end_date);
+        const lunchHours = this.compareInSeconds(lunchStart, lunchEnd);
+        const total = totalWorkedHours - lunchHours;
 
-        const lunchHours = dayjs(lunchEnd_utc).diff(lunchStart_utc, "hours");
-
-        return totalWorkedHours - lunchHours;
+        return total;
     }
 
-    calculateDelay(start_date: Date, toleranceTime: Date): number {
-        const start_date_utc = this.convertToUtc(new Date(start_date));
-        const toleranceTime_utc = this.convertToUtc(new Date(toleranceTime));
+    calculateExtraTime(
+        end_time: Date,
+        toleranceTimeEnd: Date,
+        start_time: Date,
+        toleranceTimeStart: Date,
+    ): number {
+        const extraTimeStart = this.calculateExtraTimeClockedIn(
+            toleranceTimeStart,
+            start_time,
+        );
 
-        return dayjs(start_date_utc).diff(toleranceTime_utc, "minutes");
+        if (extraTimeStart > 0) {
+            return extraTimeStart;
+        }
+
+        const extraTimeEnd = this.calculateExtraTimeClockedOut(
+            end_time,
+            toleranceTimeEnd,
+        );
+
+        if (extraTimeEnd > 0) {
+            return extraTimeEnd;
+        }
+
+        return extraTimeEnd + extraTimeStart;
+    }
+
+    calculateDelay(toleranceTime: Date, start_date: Date): number {
+        const start_date_utc = this.convertToUtc(start_date);
+        const toleranceTime_utc = this.convertToUtc(toleranceTime);
+
+        const diffInMs = dayjs(start_date_utc).diff(
+            toleranceTime_utc,
+            "second",
+        );
+        if (diffInMs < 0) {
+            return 0;
+        }
+        return diffInMs;
+    }
+
+    calculateDelayWithLunchTime(
+        toleranceTime: number,
+        lunchStart: Date,
+        lunchEnd: Date,
+    ): number {
+        const lunchHours = this.compareInSeconds(lunchStart, lunchEnd);
+
+        if (lunchHours >= toleranceTime * 60) {
+            const diff = lunchHours - 3600;
+
+            return diff;
+        } else {
+            return 0;
+        }
     }
 
     isTimeOfDateBetween(
@@ -161,13 +229,7 @@ class DayjsDateProvider implements IDateProvider {
         return compareTime < time;
     }
 
-    convertStrHourToDateTime(
-        hourString: string | null | undefined,
-    ): Date | null {
-        if (!hourString) {
-            return null;
-        }
-
+    convertStrHourToDateTime(hourString: string): Date {
         const [hour, minute] = hourString.split(":").map(Number);
         const date = new Date();
         date.setHours(hour, minute, 0, 0);

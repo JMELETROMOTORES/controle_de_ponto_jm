@@ -1,37 +1,46 @@
+import { makeEmployee } from "@/test/factories/make-employee";
+import { makeJourney } from "@/test/factories/make-journey";
 import { makeTimeIn } from "@/test/factories/make-time-in";
 import { InMemoryAttendanceRepository } from "@/test/in-memory-attendance-repository";
-import { RegisterTimeInAttendanceUseCase } from "./rfid-register-clocked-in";
+import { InMemoryEmployeeRepository } from "@/test/in-memory-employee-repository";
+import { FakeDateProvider } from "@/test/providers/fake-dayjs";
+import { InMemoryJourneyRepository } from "../../../test/in-memory-journey-repository";
 import { RegisterLunchStartAttendanceUseCase } from "./rfid-register-lunch-start";
 import dayjs = require("dayjs");
 let inMemoryAttendanceRepository: InMemoryAttendanceRepository;
+let inMemoryEmployeeRepository: InMemoryEmployeeRepository;
+let inMemoryJourneyRepository = new InMemoryJourneyRepository();
 let sut: RegisterLunchStartAttendanceUseCase;
-let sut2: RegisterTimeInAttendanceUseCase;
-
-describe("Create Employee Use Case", () => {
+let fakeDayjsProvider = new FakeDateProvider();
+describe("Register lunch time", () => {
     beforeEach(() => {
         inMemoryAttendanceRepository = new InMemoryAttendanceRepository();
+        inMemoryEmployeeRepository = new InMemoryEmployeeRepository();
         sut = new RegisterLunchStartAttendanceUseCase(
             inMemoryAttendanceRepository,
-        );
-        sut2 = new RegisterTimeInAttendanceUseCase(
-            inMemoryAttendanceRepository,
+            inMemoryEmployeeRepository,
         );
     });
 
-    it("should register time out", async () => {
+    it("should register lunch time", async () => {
+        const newJourney = makeJourney();
+        const newEmployee = makeEmployee({
+            journeyId: newJourney.id,
+        });
+        await inMemoryEmployeeRepository.create(newEmployee);
+        await inMemoryJourneyRepository.create(newJourney);
+
         const newAttendance = makeTimeIn({
-            clockedIn: dayjs("2024-02-12 8:00:00").toDate(),
+            clockedIn: fakeDayjsProvider.currentDateWithTime(8, 0, 0),
         });
 
         await inMemoryAttendanceRepository.create(newAttendance);
-        console.log(inMemoryAttendanceRepository.items);
 
         const result = await sut.execute({
-            rfid: "123",
-            lunchStart: dayjs("2024-02-12 12:30:00").toDate(),
+            id: newAttendance.id.toString(),
+            rfid: newEmployee.rfid,
+            lunchStart: fakeDayjsProvider.currentDateWithTime(12, 30, 0),
         });
-
-        console.log(inMemoryAttendanceRepository.items);
 
         expect(result.isRight()).toBeTruthy();
         expect(inMemoryAttendanceRepository.items.length).toBe(1);

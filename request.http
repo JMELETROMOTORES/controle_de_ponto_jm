@@ -1,25 +1,25 @@
 @baseUrl = http://localhost:3333
 @authToken = {{authenticate.response.body.accessToken}}
 # @name create_account
-POST {{baseUrl}}/users/register
+POST {{baseUrl}}/user/auth
 Content-Type: application/json
 
 {
-  "name": "Gustavo Gomes",
   "email": "gustvoa@.com.br",
   "password": "12345678"
-
 }
 
 ###
 
 # @name authenticate
-POST {{baseUrl}}/users/auth
+POST {{baseUrl}}/journey
 Content-Type: application/json
 
 {
-  "email": "gustvoa@.com.br",
-  "password": "12345678"
+  "name": "Jornada padrão",
+  "start_date": "08:00",
+  "end_date": "18:00",
+  "lunch_time_tolerance": 60
 }
 
 ###
@@ -57,9 +57,9 @@ Authorization: Bearer {{authToken}}
 ###
 
 
-GET {{baseUrl}}/orders
+PUT {{baseUrl}}/journey/20f20dee-21d3-4b72-8985-3d0d04cd8780
 content-type: application/json
-Authorization: Bearer {{authToken}}
+
 ###
 POST {{baseUrl}}/products
 Content-Type: application/json

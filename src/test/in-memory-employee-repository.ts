@@ -3,7 +3,7 @@ import {
     EmployeeRepository,
     IListEmployeesRequest,
     IListEmployeesResponse,
-} from "@/domain/employee/repositories/employees-repository";
+} from "@/domain/employee/repositories/employee-repository";
 
 export class InMemoryEmployeeRepository implements EmployeeRepository {
     public items: Employee[] = [];
@@ -17,9 +17,7 @@ export class InMemoryEmployeeRepository implements EmployeeRepository {
     }
 
     async findByRfid(rfid: string): Promise<Employee | null> {
-        const employee = this.items.find(
-            (employee) => employee.access_code === rfid,
-        );
+        const employee = this.items.find((employee) => employee.rfid === rfid);
 
         return employee || null;
     }

@@ -1,19 +1,21 @@
-import { Either, right } from "@/core/either";
+import { Either, left, right } from "@/core/either";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { IUseCase } from "@/core/protocols/IUseCase";
 import { Employee } from "../entities/employee";
-import { EmployeeRepository } from "../repositories/employees-repository";
+import { RfidAlreadyUseError } from "../errors/Rfid-already-use";
+import { MinimunLengthRfidError } from "../errors/minimum-length-rfid";
+import { EmployeeRepository } from "../repositories/employee-repository";
 
 export interface ICreateEmployeeDTO {
     name: string;
     position: string;
     imgUrl: string;
-    access_code: string;
+    rfid: string;
     journeyId: UniqueEntityID;
 }
 
 type CreateEmployeeUseCaseResponse = Either<
-    null,
+    RfidAlreadyUseError | MinimunLengthRfidError,
     {
         employee: Employee;
     }
@@ -28,14 +30,20 @@ export class CreateEmployeeUseCase
         position,
         imgUrl,
         journeyId,
-        access_code,
+        rfid,
     }: ICreateEmployeeDTO): Promise<CreateEmployeeUseCaseResponse> {
+        const employeeExist = await this.employeeRepository.findByRfid(rfid);
+
+        if (employeeExist) return left(new RfidAlreadyUseError());
+
+        if (rfid.length < 10) return left(new MinimunLengthRfidError());
+
         const employee = Employee.create({
             name,
             position,
             imgUrl,
             journeyId,
-            access_code,
+            rfid,
         });
 
         await this.employeeRepository.create(employee);

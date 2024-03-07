@@ -5,11 +5,12 @@ import { JourneyRepository } from "../repositories/journey-repository";
 
 export interface ICreateJourneyDTO {
     name: string;
-    dayOfWeek: {
-        day: string;
-        start_date: Date;
-        end_date: Date;
-    }[];
+    start_date: string;
+    end_date: string;
+    lunch_time_tolerance: number;
+    start_date_toleranceDelay: string;
+    start_date_toleranceExtraTime: string;
+    end_date_toleranceExtraTime: string;
 }
 
 type CreateJourneyUseCaseResponse = Either<
@@ -25,11 +26,21 @@ export class CreateJourneyUseCase
 
     async execute({
         name,
-        dayOfWeek,
+        start_date,
+        end_date,
+        lunch_time_tolerance,
+        start_date_toleranceExtraTime,
+        end_date_toleranceExtraTime,
+        start_date_toleranceDelay,
     }: ICreateJourneyDTO): Promise<CreateJourneyUseCaseResponse> {
         const journey = Journey.create({
             name,
-            dayOfWeek,
+            start_date,
+            end_date,
+            lunch_time_tolerance,
+            start_date_toleranceDelay,
+            start_date_toleranceExtraTime,
+            end_date_toleranceExtraTime,
         });
 
         await this.journeyRepository.create(journey);

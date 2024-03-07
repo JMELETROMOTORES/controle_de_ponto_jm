@@ -1,14 +1,15 @@
 import { Entity } from "@/core/entities/entity";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { Journey } from "@/domain/journey/entities/journey";
+import { Optional } from "@/core/types/optional";
 
 export interface EmployeeProps {
-    journeyId: UniqueEntityID;
-    Journey?: Journey;
     name: string;
     position: string;
     imgUrl: string;
-    access_code: string;
+    rfid: string;
+    journeyId: UniqueEntityID;
+    createdAt: Date;
+    updatedAt?: Date | null;
 }
 
 export class Employee extends Entity<EmployeeProps> {
@@ -16,15 +17,21 @@ export class Employee extends Entity<EmployeeProps> {
         return this.props.name;
     }
 
+    get rfid() {
+        return this.props.rfid;
+    }
+
     get journeyId() {
         return this.props.journeyId;
     }
 
-    get Journey() {
-        return this.props.Journey;
+    set journeyId(journeyId: UniqueEntityID) {
+        this.props.journeyId = journeyId;
+        this.touch();
     }
     set name(name: string) {
         this.props.name = name;
+        this.touch();
     }
 
     get position() {
@@ -33,6 +40,7 @@ export class Employee extends Entity<EmployeeProps> {
 
     set position(position: string) {
         this.props.position = position;
+        this.touch();
     }
 
     get imgUrl() {
@@ -41,18 +49,37 @@ export class Employee extends Entity<EmployeeProps> {
 
     set imgUrl(imgUrl: string) {
         this.props.imgUrl = imgUrl;
+        this.touch();
     }
 
-    get access_code() {
-        return this.props.access_code;
+    set rfid(rfid: string) {
+        this.props.rfid = rfid;
+        this.touch();
     }
 
-    set access_code(access_code: string) {
-        this.props.access_code = access_code;
+    get createdAt() {
+        return this.props.createdAt;
     }
 
-    static create(props: EmployeeProps, id?: UniqueEntityID) {
-        const employees = new Employee(props, id);
+    get updatedAt() {
+        return this.props.updatedAt;
+    }
+
+    private touch() {
+        this.props.updatedAt = new Date();
+    }
+
+    static create(
+        props: Optional<EmployeeProps, "createdAt">,
+        id?: UniqueEntityID,
+    ) {
+        const employees = new Employee(
+            {
+                ...props,
+                createdAt: props.createdAt ?? new Date(),
+            },
+            id,
+        );
 
         return employees;
     }

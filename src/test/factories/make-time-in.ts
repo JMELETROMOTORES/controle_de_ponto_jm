@@ -15,6 +15,7 @@ export function makeTimeIn(
             rfid: "123",
             date: dayjs().toDate(),
             clockedIn: new Date(),
+            employeeId: "123",
             ...override,
         },
         id,

@@ -1,5 +1,6 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { User } from "@/domain/users/entities/User";
+
 import { Prisma, User as PrismaUser } from "@prisma/client";
 
 export class PrismaUserMapper {
@@ -20,8 +21,7 @@ export class PrismaUserMapper {
             name: user.name,
             email: user.email,
             password: user.password,
-            createdAt: new Date(),
-            updatedAt: new Date(),
         };
     }
 }
+

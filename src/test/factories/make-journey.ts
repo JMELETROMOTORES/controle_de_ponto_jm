@@ -1,45 +1,7 @@
-import { faker } from "@faker-js/faker";
-
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { Journey, JourneyProps } from "@/domain/journey/entities/journey";
-
-const allDayOfWeek = [
-    {
-        day: "Sunday",
-        start_date: new Date("2021-10-10T08:00:00"),
-        end_date: new Date("2021-10-10T18:00:00"),
-    },
-    {
-        day: "Monday",
-        start_date: new Date("2021-10-10T08:00:00"),
-        end_date: new Date("2021-10-10T18:00:00"),
-    },
-    {
-        day: "Tuesday",
-        start_date: new Date("2021-10-10T08:00:00"),
-        end_date: new Date("2021-10-10T18:00:00"),
-    },
-    {
-        day: "Wednesday",
-        start_date: new Date("2021-10-10T08:00:00"),
-        end_date: new Date("2021-10-10T18:00:00"),
-    },
-    {
-        day: "Thursday",
-        start_date: new Date("2021-10-10T08:00:00"),
-        end_date: new Date("2021-10-10T17:00:00"),
-    },
-    {
-        day: "Friday",
-        start_date: new Date("2021-10-10T08:00:00"),
-        end_date: new Date("2021-10-10T18:00:00"),
-    },
-    {
-        day: "Saturday",
-        start_date: new Date("2021-10-10T08:00:00"),
-        end_date: new Date("2021-10-10T18:00:00"),
-    },
-];
+import { PrismaJourneyMapper } from "@/infra/database/mappers/prisma-journey-mapper";
+import { PrismaClient } from "@prisma/client";
 
 export function makeJourney(
     override: Partial<JourneyProps> = {},
@@ -47,12 +9,30 @@ export function makeJourney(
 ) {
     const journey = Journey.create(
         {
-            name: faker.commerce.productName(),
-            dayOfWeek: allDayOfWeek,
+            name: "jornada padrão",
+            start_date: "08:00",
+            start_date_toleranceDelay: "08:10",
+            end_date: "18:10",
+            lunch_time_tolerance: 60,
+            start_date_toleranceExtraTime: "07:50",
+            end_date_toleranceExtraTime: "18:10",
             ...override,
         },
         id,
     );
     return journey;
+}
+
+export class JourneyFactory {
+    constructor(private prisma: PrismaClient) {}
+
+    async makePrismaJourney(data: Partial<JourneyProps> = {}) {
+        const journey = makeJourney(data);
+
+        await this.prisma.journey.create({
+            data: PrismaJourneyMapper.toPrisma(journey),
+        });
+        return journey;
+    }
 }
 

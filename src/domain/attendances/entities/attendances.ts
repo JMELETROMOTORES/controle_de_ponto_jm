@@ -12,6 +12,7 @@ export interface AttendanceProps {
     hoursWorked: number;
     delay: number;
     extraHours: number;
+    employeeId: string;
     createdAt?: Date;
     updatedAt?: Date | null;
 }
@@ -19,6 +20,10 @@ export interface AttendanceProps {
 export class Attendance extends Entity<AttendanceProps> {
     get rfid() {
         return this.props.rfid;
+    }
+
+    get employeeId() {
+        return this.props.employeeId;
     }
 
     get date() {
@@ -88,6 +93,15 @@ export class Attendance extends Entity<AttendanceProps> {
     set extraHours(extraHours: number) {
         this.props.extraHours = extraHours;
     }
+
+    get createdAt() {
+        return this.props.createdAt;
+    }
+
+    get updatedAt() {
+        return this.props.updatedAt;
+    }
+
     private touch() {
         this.props.updatedAt = new Date();
     }
@@ -96,11 +110,11 @@ export class Attendance extends Entity<AttendanceProps> {
         props: Optional<
             AttendanceProps,
             | "extraHours"
-            | "delay"
             | "hoursWorked"
             | "date"
             | "clockedIn"
             | "createdAt"
+            | "delay"
         >,
         id?: UniqueEntityID,
     ) {
@@ -108,9 +122,9 @@ export class Attendance extends Entity<AttendanceProps> {
             {
                 ...props,
                 date: props.date ?? new Date(),
-                extraHours: 0,
-                delay: 0,
-                hoursWorked: 0,
+                extraHours: props.extraHours ?? 0,
+                delay: props.delay ?? 0,
+                hoursWorked: props.hoursWorked ?? 0,
                 clockedIn: props.clockedIn ?? new Date(),
                 createdAt: props.createdAt ?? new Date(),
             },

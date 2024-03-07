@@ -21,19 +21,30 @@ interface IDateProvider {
         firstDateTime: Date,
         secondDateTime: Date,
     ): boolean;
-    convertStrHourToDateTime(
-        hourString: string | null | undefined,
-    ): Date | null;
+    convertStrHourToDateTime(hourString: string): Date;
     compareInHours(start_date: Date, end_date: Date): number;
     currentDateWithTime(hour: number, minute: number, second: number): Date;
     convertToUtc(date: Date): string;
-    compareInMinutes(start_date: Date, end_date: Date): number;
+    compareInMinutes(start_date: Date | undefined, end_date: Date): number;
     calculateDelay(toleranceTime: Date, start_date: Date): number;
     calculateExtraTime(
-        start_time: Date,
         end_time: Date,
-        toleranceTimeStart: Date,
         toleranceTimeEnd: Date,
+        start_time: Date,
+        toleranceTimeStart: Date,
+    ): number;
+    calculateDelayWithLunchTime(
+        toleranceTime: number,
+        lunchStart: Date | undefined,
+        lunchEnd: Date,
+    ): number;
+    calculateExtraTimeClockedOut(
+        end_time: Date,
+        toleranceTimeEnd: Date,
+    ): number;
+    calculateExtraTimeClockedIn(
+        start_time: Date,
+        toleranceTimeStart: Date,
     ): number;
     isTimeOfDateBefore(compareDateTime: Date, dateTime: Date): boolean;
     isAM(dateTime: Date): boolean;
@@ -44,6 +55,7 @@ interface IDateProvider {
     compareInDays(start_date: Date, end_date: Date): number;
     addDays(date: Date, days: number): Date;
     addHours(date: Date, hours: number): Date;
+    compareInSeconds(start_date: Date, end_date: Date): number;
     compareIfBefore(start_date: Date, end_date: Date): boolean;
 }
 
