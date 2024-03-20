@@ -1,3 +1,7 @@
+import { DelayCalculationService } from "@/domain/services/delay-calculation-service";
+import { EntityFinderService } from "@/domain/services/entity-finder-service";
+import { ExtraTimeCalculationService } from "@/domain/services/extra-time-calculation";
+import { WorkTimeCalculationService } from "@/domain/services/work-time-calculation-service";
 import { makeEmployee } from "@/test/factories/make-employee";
 import { makeJourney } from "@/test/factories/make-journey";
 import { InMemoryAttendanceRepository } from "@/test/in-memory-attendance-repository";
@@ -8,10 +12,13 @@ import { RegisterFirstTimeInAttendanceUseCase } from "./rfid-register-first-time
 
 import dayjs = require("dayjs");
 let inMemoryAttendanceRepository: InMemoryAttendanceRepository;
-let inMemoryJourneyRepository = new InMemoryJourneyRepository();
-let inMemoryEmployeeRepository = new InMemoryEmployeeRepository();
-let fakeDayjsProvider = new FakeDateProvider();
-
+let inMemoryJourneyRepository: InMemoryJourneyRepository;
+let inMemoryEmployeeRepository: InMemoryEmployeeRepository;
+let entityFinderService: EntityFinderService;
+let delayCalculationService: DelayCalculationService;
+let calculateWorkTimeService: WorkTimeCalculationService;
+let calculateExtraTime: ExtraTimeCalculationService;
+let fakeDayjsProvider: FakeDateProvider;
 let sut: RegisterFirstTimeInAttendanceUseCase;
 
 describe("Register time in", () => {
@@ -20,11 +27,26 @@ describe("Register time in", () => {
         inMemoryJourneyRepository = new InMemoryJourneyRepository();
         inMemoryEmployeeRepository = new InMemoryEmployeeRepository();
         fakeDayjsProvider = new FakeDateProvider();
-        sut = new RegisterFirstTimeInAttendanceUseCase(
-            inMemoryAttendanceRepository,
+        calculateExtraTime = new ExtraTimeCalculationService(fakeDayjsProvider);
+        delayCalculationService = new DelayCalculationService(
             fakeDayjsProvider,
+        );
+        calculateWorkTimeService = new WorkTimeCalculationService(
+            fakeDayjsProvider,
+        );
+
+        entityFinderService = new EntityFinderService(
+            inMemoryAttendanceRepository,
             inMemoryEmployeeRepository,
             inMemoryJourneyRepository,
+        );
+        sut = new RegisterFirstTimeInAttendanceUseCase(
+            inMemoryAttendanceRepository,
+            delayCalculationService,
+            calculateExtraTime,
+            fakeDayjsProvider,
+            calculateWorkTimeService,
+            entityFinderService,
         );
     });
 

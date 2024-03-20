@@ -144,7 +144,7 @@ class DayjsDateProvider implements IDateProvider {
 
         if (lunchHours >= toleranceTime * 60) {
             const diff = lunchHours - 3600;
-
+            console.log("diff", diff);
             return diff;
         } else {
             return 0;
@@ -213,9 +213,14 @@ class DayjsDateProvider implements IDateProvider {
     }
 
     compareIfBefore(start_date: Date, end_date: Date): boolean {
+        console.log("start_date", start_date);
+        console.log("end_date", end_date);
         return dayjs(start_date).isBefore(end_date);
     }
 
+    isSameDay(date: Date, compareDate: Date): boolean {
+        return dayjs(date).isSame(compareDate, "day");
+    }
     isTimeOfDateBefore(compareDateTime: Date, dateTime: Date): boolean {
         const compareTimezone = compareDateTime.getTimezoneOffset();
         const compareDate = this.addMinutes(compareDateTime, compareTimezone);
@@ -223,8 +228,8 @@ class DayjsDateProvider implements IDateProvider {
         const timezone = dateTime.getTimezoneOffset();
         const date = this.addMinutes(compareDateTime, timezone);
 
-        const compareTime = compareDate.getTime();
-        const time = date.getTime();
+        const compareTime = compareDate;
+        const time = date;
 
         return compareTime < time;
     }

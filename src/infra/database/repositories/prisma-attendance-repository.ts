@@ -18,7 +18,7 @@ class AttendancePrismaRepository implements AttendanceRepository {
     async findByRfid(rfid: string): Promise<Attendance | null> {
         const attendance = await this.prismaClient.attendance.findFirst({
             where: {
-                rfId: rfid,
+                rfid: rfid,
             },
         });
         if (!attendance) {
@@ -56,6 +56,8 @@ class AttendancePrismaRepository implements AttendanceRepository {
             },
             data,
         });
+
+        console.log("Attendance updated");
     }
 
     async delete(attendance: Attendance): Promise<void> {

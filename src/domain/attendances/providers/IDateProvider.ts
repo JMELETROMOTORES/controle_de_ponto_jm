@@ -46,6 +46,7 @@ interface IDateProvider {
         start_time: Date,
         toleranceTimeStart: Date,
     ): number;
+    isSameDay(date: Date, compareDate: Date): boolean;
     isTimeOfDateBefore(compareDateTime: Date, dateTime: Date): boolean;
     isAM(dateTime: Date): boolean;
     isPM(dateTime: Date): boolean;

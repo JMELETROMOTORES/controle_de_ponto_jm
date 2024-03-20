@@ -7,7 +7,7 @@ export class PrismaAttendanceMapper {
     static toDomain(raw: PrismaAttendance): Attendance {
         return Attendance.create(
             {
-                rfid: raw.rfId,
+                rfid: raw.rfid,
                 date: raw.date,
                 clockedIn: raw.clockedIn,
                 lunchStart: raw.lunchStart ?? undefined,
@@ -27,12 +27,12 @@ export class PrismaAttendanceMapper {
     ): Prisma.AttendanceUncheckedCreateInput {
         return {
             id: attendance.id.toString(),
-            rfId: attendance.rfid,
+            rfid: attendance.rfid,
             date: attendance.date,
             clockedIn: attendance.clockedIn,
-            lunchStart: attendance.lunchStart ?? undefined,
-            lunchEnd: attendance.lunchEnd ?? undefined,
-            clockedOut: attendance.clockedOut ?? undefined,
+            lunchStart: attendance.lunchStart,
+            lunchEnd: attendance.lunchEnd,
+            clockedOut: attendance.clockedOut,
             delay: attendance.delay,
             extraHours: attendance.extraHours,
             hoursWorked: attendance.hoursWorked,

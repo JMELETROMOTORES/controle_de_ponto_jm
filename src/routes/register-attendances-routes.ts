@@ -1,4 +1,5 @@
 import {
+    deleteLunchStartController,
     registerClockedInAttendanceController,
     registerClockedOutAttendanceController,
     registerLunchEndAttendanceController,
@@ -6,9 +7,9 @@ import {
 } from "@/infra/http/controllers/attendance";
 import { Router } from "express";
 
-const RegisterAttendancesRoutes = Router();
+const SchedulesAttendancesRoutes = Router();
 
-RegisterAttendancesRoutes.post("/", (request, response, next) => {
+SchedulesAttendancesRoutes.post("/", (request, response, next) => {
     return registerClockedInAttendanceController.handle(
         request,
         response,
@@ -16,7 +17,7 @@ RegisterAttendancesRoutes.post("/", (request, response, next) => {
     );
 });
 
-RegisterAttendancesRoutes.put("/lunchstart/:id", (request, response, next) => {
+SchedulesAttendancesRoutes.put("/lunchstart/:id", (request, response, next) => {
     return registerLunchStartAttendanceController.handle(
         request,
         response,
@@ -24,11 +25,18 @@ RegisterAttendancesRoutes.put("/lunchstart/:id", (request, response, next) => {
     );
 });
 
-RegisterAttendancesRoutes.put("/lunchend/:id", (request, response, next) => {
+SchedulesAttendancesRoutes.put(
+    "/lunchstart/delete/:id",
+    (request, response, next) => {
+        return deleteLunchStartController.handle(request, response, next);
+    },
+);
+
+SchedulesAttendancesRoutes.put("/lunchend/:id", (request, response, next) => {
     return registerLunchEndAttendanceController.handle(request, response, next);
 });
 
-RegisterAttendancesRoutes.put("/clockedOut/:id", (request, response, next) => {
+SchedulesAttendancesRoutes.put("/clockedOut/:id", (request, response, next) => {
     return registerClockedOutAttendanceController.handle(
         request,
         response,
@@ -36,5 +44,5 @@ RegisterAttendancesRoutes.put("/clockedOut/:id", (request, response, next) => {
     );
 });
 
-export { RegisterAttendancesRoutes };
+export { SchedulesAttendancesRoutes };
 

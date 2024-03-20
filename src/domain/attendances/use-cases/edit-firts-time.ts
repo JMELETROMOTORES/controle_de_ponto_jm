@@ -1,76 +1,65 @@
 import { Either, left, right } from "@/core/either";
+
 import { IUseCase } from "@/core/protocols/IUseCase";
 import { DelayCalculationService } from "@/domain/services/delay-calculation-service";
 import { EntityFinderService } from "@/domain/services/entity-finder-service";
+import { ExtraTimeCalculationService } from "@/domain/services/extra-time-calculation";
 import { WorkTimeCalculationService } from "@/domain/services/work-time-calculation-service";
 import { Attendance } from "../entities/attendances";
-import { NotFoundAttendanceError } from "../errors/Not-found-attendance-error";
 import { NotFoundEmployeeError } from "../errors/Not-found-employee-error";
-import { IsSameDayError } from "../errors/is-same-day-error";
-import { LunchStartTimeError } from "../errors/lunch-start-time-error";
-import { IDateProvider } from "../providers/IDateProvider";
+import { EmployeeNotHaveAJourney } from "../errors/employee-not-have-journey-error";
 import { AttendanceRepository } from "../repositories/attendance-repository";
 
-export interface IRegisterLunchStartAttendanceDTO {
-    id: string;
+export interface IEditFirstTimeUseCaseDTO {
+    attendanceId: string;
     rfid: string;
-    lunchStart: Date;
+    newTime: Date;
 }
 
-type RegistertLunchStartAttendanceUseCaseResponse = Either<
-    | NotFoundAttendanceError
-    | NotFoundEmployeeError
-    | LunchStartTimeError
-    | IsSameDayError,
+type EditFirstTimeUseCaseResponse = Either<
+    EmployeeNotHaveAJourney | NotFoundEmployeeError,
     {
         attendance: Attendance;
     }
 >;
-export class RegisterLunchStartAttendanceUseCase
-    implements
-        IUseCase<
-            IRegisterLunchStartAttendanceDTO,
-            RegistertLunchStartAttendanceUseCaseResponse
-        >
+
+export class EditFirstTimeUseCase
+    implements IUseCase<IEditFirstTimeUseCaseDTO, EditFirstTimeUseCaseResponse>
 {
     constructor(
         private readonly attendanceRepository: AttendanceRepository,
-        private readonly calculateDelayService: DelayCalculationService,
-        private readonly calculateWorkTimeService: WorkTimeCalculationService,
-        private readonly dateProvider: IDateProvider,
         private entityFinderService: EntityFinderService,
+        private readonly calculateDelayService: DelayCalculationService,
+        private readonly calculaExtraTimeService: ExtraTimeCalculationService,
+        private readonly calculateWorkTimeService: WorkTimeCalculationService,
     ) {}
 
     async execute({
-        id,
+        attendanceId,
         rfid,
-        lunchStart,
-    }: IRegisterLunchStartAttendanceDTO): Promise<RegistertLunchStartAttendanceUseCaseResponse> {
-        const result = await this.entityFinderService.findEntities(id, rfid);
+        newTime,
+    }: IEditFirstTimeUseCaseDTO): Promise<EditFirstTimeUseCaseResponse> {
+        const result = await this.entityFinderService.findEntities(
+            attendanceId,
+            rfid,
+        );
         if (result.isLeft()) {
             return left(result.value);
         }
 
         const { journey, attendance } = result.value;
 
-        const isTimeDateBefore = this.dateProvider.compareIfBefore(
-            lunchStart,
-            attendance.clockedIn,
-        );
+        attendance.clockedIn = newTime;
 
-        if (isTimeDateBefore) {
-            return left(new LunchStartTimeError());
+        if (attendance.clockedOut) {
+            const extra = this.calculaExtraTimeService.calculateTotalExtraTime(
+                journey,
+                attendance,
+                attendance.clockedOut,
+            );
+
+            attendance.extraHours = extra;
         }
-
-        const isSameDay = this.dateProvider.isSameDay(
-            lunchStart,
-            attendance.date,
-        );
-
-        if (!isSameDay) {
-            return left(new IsSameDayError());
-        }
-        attendance.lunchStart = lunchStart;
 
         if (attendance.lunchEnd) {
             const delay = this.calculateDelayService.calculateTotalDelay(
@@ -78,7 +67,6 @@ export class RegisterLunchStartAttendanceUseCase
                 attendance,
                 attendance.lunchEnd,
             );
-
             attendance.delay = delay;
         }
 

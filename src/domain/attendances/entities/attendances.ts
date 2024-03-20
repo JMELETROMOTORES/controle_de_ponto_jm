@@ -6,9 +6,9 @@ export interface AttendanceProps {
     rfid: string;
     date: Date;
     clockedIn: Date;
-    lunchStart?: Date;
-    lunchEnd?: Date;
-    clockedOut?: Date;
+    lunchStart?: Date | null;
+    lunchEnd?: Date | null;
+    clockedOut?: Date | null;
     hoursWorked: number;
     delay: number;
     extraHours: number;
@@ -47,7 +47,7 @@ export class Attendance extends Entity<AttendanceProps> {
         return this.props.lunchStart;
     }
 
-    set lunchStart(lunchStart: Date | undefined) {
+    set lunchStart(lunchStart: Date | undefined | null) {
         this.props.lunchStart = lunchStart;
         this.touch();
     }
@@ -56,7 +56,7 @@ export class Attendance extends Entity<AttendanceProps> {
         return this.props.lunchEnd;
     }
 
-    set lunchEnd(lunchEnd: Date | undefined) {
+    set lunchEnd(lunchEnd: Date | undefined | null) {
         this.props.lunchEnd = lunchEnd;
         this.touch();
     }
@@ -65,7 +65,7 @@ export class Attendance extends Entity<AttendanceProps> {
         return this.props.clockedOut;
     }
 
-    set clockedOut(clockedOut: Date | undefined) {
+    set clockedOut(clockedOut: Date | undefined | null) {
         this.props.clockedOut = clockedOut;
         this.touch();
     }

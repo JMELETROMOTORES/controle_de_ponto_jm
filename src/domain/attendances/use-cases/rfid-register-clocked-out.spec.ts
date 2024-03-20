@@ -2,30 +2,45 @@ import { makeTimeIn } from "@/test/factories/make-time-in";
 import { InMemoryAttendanceRepository } from "@/test/in-memory-attendance-repository";
 import { InMemoryEmployeeRepository } from "@/test/in-memory-employee-repository";
 
+import { EntityFinderService } from "@/domain/services/entity-finder-service";
+import { ExtraTimeCalculationService } from "@/domain/services/extra-time-calculation";
+import { WorkTimeCalculationService } from "@/domain/services/work-time-calculation-service";
 import { makeEmployee } from "@/test/factories/make-employee";
 import { makeJourney } from "@/test/factories/make-journey";
 import { InMemoryJourneyRepository } from "@/test/in-memory-journey-repository";
 import { FakeDateProvider } from "@/test/providers/fake-dayjs";
 import { RegisterClockedOutAttendanceUseCase } from "./rifd-register-clocked-out";
 
-let inMemoryAttendanceRepository: InMemoryAttendanceRepository;
 let sut: RegisterClockedOutAttendanceUseCase;
+let inMemoryAttendanceRepository: InMemoryAttendanceRepository;
 let inMemoryJourneyRepository: InMemoryJourneyRepository;
 let inMemoryEmployeeRepository: InMemoryEmployeeRepository;
-let fakeDayjsProvider: FakeDateProvider;
 
+let entityFinderService: EntityFinderService;
+
+let calculateExtraTime: ExtraTimeCalculationService;
+let calculateWorkTime: WorkTimeCalculationService;
+let fakeDayjsProvider: FakeDateProvider;
 describe("Register time out", () => {
     beforeEach(() => {
+        fakeDayjsProvider = new FakeDateProvider(); // Instancie primeiro
+
         inMemoryAttendanceRepository = new InMemoryAttendanceRepository();
         inMemoryJourneyRepository = new InMemoryJourneyRepository();
         inMemoryEmployeeRepository = new InMemoryEmployeeRepository();
-        fakeDayjsProvider = new FakeDateProvider();
+        calculateExtraTime = new ExtraTimeCalculationService(fakeDayjsProvider);
+        calculateWorkTime = new WorkTimeCalculationService(fakeDayjsProvider);
+        entityFinderService = new EntityFinderService(
+            inMemoryAttendanceRepository,
+            inMemoryEmployeeRepository,
+            inMemoryJourneyRepository,
+        );
 
         sut = new RegisterClockedOutAttendanceUseCase(
+            entityFinderService,
+            calculateExtraTime,
+            calculateWorkTime,
             inMemoryAttendanceRepository,
-            inMemoryJourneyRepository,
-            inMemoryEmployeeRepository,
-            fakeDayjsProvider,
         );
     });
 
@@ -56,7 +71,7 @@ describe("Register time out", () => {
         expect(inMemoryAttendanceRepository.items[0].hoursWorked).toBe(32400); // SEGUNDOS EM HORAS ( 9 HORAS )
     });
 
-    it("should register time out with extra time", async () => {
+    it("should register time out with extra time acc extra time clockedIn", async () => {
         const Journey = makeJourney();
         await inMemoryJourneyRepository.create(Journey);
         const newEmployee = makeEmployee({
@@ -64,8 +79,8 @@ describe("Register time out", () => {
         });
         await inMemoryEmployeeRepository.create(newEmployee);
         const newAttendance = makeTimeIn({
-            date: fakeDayjsProvider.currentDateWithTime(8, 0, 0),
-            clockedIn: fakeDayjsProvider.currentDateWithTime(8, 0, 0),
+            date: fakeDayjsProvider.currentDateWithTime(9, 0, 0),
+            clockedIn: fakeDayjsProvider.currentDateWithTime(7, 30, 0),
             lunchStart: fakeDayjsProvider.currentDateWithTime(12, 30, 0),
             lunchEnd: fakeDayjsProvider.currentDateWithTime(13, 30, 0),
         });
@@ -80,8 +95,8 @@ describe("Register time out", () => {
 
         expect(result.isRight()).toBeTruthy();
         expect(inMemoryAttendanceRepository.items.length).toBe(1);
-        expect(inMemoryAttendanceRepository.items[0].hoursWorked).toBe(36000); // 9 horas
-        expect(inMemoryAttendanceRepository.items[0].extraHours).toBe(3000); // 50 minutos
+        expect(inMemoryAttendanceRepository.items[0].hoursWorked).toBe(37800); // 9 horas
+        expect(inMemoryAttendanceRepository.items[0].extraHours).toBe(4200); // 50 minutos
     });
 });
 

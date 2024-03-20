@@ -5,7 +5,7 @@ import { errorHandler } from "./core/middlewares/errorHandler";
 import { AttendancesRoutes } from "./routes/attendances-routes";
 import { EmployeeRoutes } from "./routes/employee.routes";
 import { JourneyRoutes } from "./routes/journey.routes";
-import { RegisterAttendancesRoutes } from "./routes/register-attendances-routes";
+import { SchedulesAttendancesRoutes } from "./routes/register-attendances-routes";
 import { userRoutes } from "./routes/users.routes";
 
 dotenv.config();
@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
     });
 });
 
-app.use("/register-time", RegisterAttendancesRoutes);
+app.use("/schedules", SchedulesAttendancesRoutes);
 app.use("/attendances", AttendancesRoutes);
 app.use("/journey", JourneyRoutes);
 app.use("/user", userRoutes);

@@ -34,7 +34,7 @@ model Employee {
 model Attendance {
   id          String    @unique @default(uuid())
   date        DateTime
-  rfId        String
+  rfid        String
   clockedIn   DateTime
   lunchStart  DateTime?
   lunchEnd    DateTime?

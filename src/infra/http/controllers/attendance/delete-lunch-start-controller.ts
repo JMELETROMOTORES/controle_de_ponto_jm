@@ -1,16 +1,11 @@
 import { HttpStatusCode } from "@/core/constants/HttpStatusCode";
 import { IController } from "@/core/protocols/IController";
-import { EditAttendanceUseCase } from "@/domain/attendances/use-cases/edit-attendance";
-
+import { DeleteLunchStartAtUseCase } from "@/domain/attendances/use-cases/delete-lunch-start";
 import { AttendancePresenter } from "@/infra/database/presenters/attendance-presenter";
-
 import { NextFunction, Request, Response } from "express";
 
-export { EditAttendanceController };
-
-class EditAttendanceController implements IController {
-    constructor(private readonly useCase: EditAttendanceUseCase) {}
-
+class DeleteLunchStartController implements IController {
+    constructor(private readonly useCase: DeleteLunchStartAtUseCase) {}
     async handle(
         request: Request,
         response: Response,
@@ -18,20 +13,11 @@ class EditAttendanceController implements IController {
     ): Promise<void | Response<any, Record<string, any>>> {
         try {
             const { id } = request.params;
-            const { clockedIn, lunchStart, lunchEnd, clockedOut } =
-                request.body;
-
-            const result = await this.useCase.execute({
-                id,
-                clockedIn,
-                lunchStart,
-                lunchEnd,
-                clockedOut,
-            });
+            const result = await this.useCase.execute(id);
 
             if (result.isLeft())
                 return response
-                    .status(HttpStatusCode.BAD_REQUEST)
+                    .status(HttpStatusCode.NOT_ACCEPTABLE)
                     .json(result.value);
 
             return response
@@ -42,4 +28,6 @@ class EditAttendanceController implements IController {
         }
     }
 }
+
+export { DeleteLunchStartController };
 

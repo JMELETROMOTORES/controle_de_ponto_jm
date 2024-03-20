@@ -24,7 +24,7 @@ CREATE TABLE "Employee" (
 CREATE TABLE "Attendance" (
     "id" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
-    "rfId" TEXT NOT NULL,
+    "rfid" TEXT NOT NULL,
     "clockedIn" TIMESTAMP(3) NOT NULL,
     "lunchStart" TIMESTAMP(3),
     "lunchEnd" TIMESTAMP(3),

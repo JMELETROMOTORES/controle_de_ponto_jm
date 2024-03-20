@@ -105,6 +105,14 @@ class FakeDateProvider implements IDateProvider {
         return Math.floor(diffInMs / (1000 * 60));
     }
 
+    isSameDay(date: Date, compareDate: Date): boolean {
+        return (
+            date.getDate() === compareDate.getDate() &&
+            date.getMonth() === compareDate.getMonth() &&
+            date.getFullYear() === compareDate.getFullYear()
+        );
+    }
+
     convertStrHourToDateTime(hourString: string): Date {
         const [hour, minute] = hourString.split(":");
         const date = new Date();

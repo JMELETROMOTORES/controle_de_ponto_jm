@@ -1,10 +1,13 @@
 import { Either, left, right } from "@/core/either";
 import { IUseCase } from "@/core/protocols/IUseCase";
-import { EmployeeRepository } from "@/domain/employee/repositories/employee-repository";
-import { JourneyRepository } from "@/domain/journey/repositories/journey-repository";
+import { DelayCalculationService } from "@/domain/services/delay-calculation-service";
+import { EntityFinderService } from "@/domain/services/entity-finder-service";
+import { ExtraTimeCalculationService } from "@/domain/services/extra-time-calculation";
+import { WorkTimeCalculationService } from "@/domain/services/work-time-calculation-service";
 import { Attendance } from "../entities/attendances";
 import { NotFoundEmployeeError } from "../errors/Not-found-employee-error";
 import { EmployeeNotHaveAJourney } from "../errors/employee-not-have-journey-error";
+import { IsSameDayError } from "../errors/is-same-day-error";
 import { IDateProvider } from "../providers/IDateProvider";
 import { AttendanceRepository } from "../repositories/attendance-repository";
 
@@ -14,7 +17,7 @@ export interface IRegisterFirstTimeInAttendanceDTO {
 }
 
 type RegistertTimeInAttendanceUseCaseResponse = Either<
-    EmployeeNotHaveAJourney | NotFoundEmployeeError,
+    EmployeeNotHaveAJourney | NotFoundEmployeeError | IsSameDayError,
     {
         attendance: Attendance;
     }
@@ -28,53 +31,58 @@ export class RegisterFirstTimeInAttendanceUseCase
 {
     constructor(
         private readonly attendanceRepository: AttendanceRepository,
-        private readonly dayjsProvider: IDateProvider,
-        private readonly employeeRepository: EmployeeRepository,
-        private readonly journeyRepository: JourneyRepository,
+        private readonly calculateDelayService: DelayCalculationService,
+        private readonly calculaExtraTimeService: ExtraTimeCalculationService,
+        private readonly dateProvider: IDateProvider,
+        private readonly calculateWorkTimeService: WorkTimeCalculationService,
+        private entityFinderService: EntityFinderService,
     ) {}
 
     async execute({
         rfid,
         clockedIn,
     }: IRegisterFirstTimeInAttendanceDTO): Promise<RegistertTimeInAttendanceUseCaseResponse> {
-        const employee = await this.employeeRepository.findByRfid(rfid);
-
-        if (!employee) {
-            return left(new NotFoundEmployeeError());
+        const result =
+            await this.entityFinderService.findEntitiesNoAttendance(rfid);
+        if (result.isLeft()) {
+            return left(result.value);
         }
+
+        const { employee, journey } = result.value;
+
         const attendance = Attendance.create({
             rfid,
             clockedIn,
             employeeId: employee.id.toString(),
         });
 
-        const journey = await this.journeyRepository.findById(
-            employee.journeyId.toString(),
+        const isSameDay = this.dateProvider.isSameDay(
+            attendance.clockedIn,
+            attendance.date,
         );
 
-        if (!journey) {
-            return left(new EmployeeNotHaveAJourney());
+        if (!isSameDay) {
+            return left(new IsSameDayError());
         }
 
-        const journeyToleranceTime =
-            this.dayjsProvider.convertStrHourToDateTime(
-                journey.start_date_toleranceDelay,
+        const extraTimeBefore =
+            this.calculaExtraTimeService.calculateExtraTimeBefore(
+                journey,
+                attendance,
             );
 
-        const start_date_extratime =
-            this.dayjsProvider.convertStrHourToDateTime(
-                journey.start_date_toleranceExtraTime,
+        const delay = this.calculateDelayService.calculateDelayFirtsTime(
+            journey,
+            attendance,
+        );
+
+        if (attendance.clockedOut) {
+            const hoursWorked = this.calculateWorkTimeService.calculateWorkTime(
+                attendance,
+                attendance.clockedOut,
             );
-
-        const extraTimeBefore = this.dayjsProvider.calculateExtraTimeClockedIn(
-            start_date_extratime,
-            attendance.clockedIn,
-        );
-
-        const delay = this.dayjsProvider.calculateDelay(
-            journeyToleranceTime,
-            attendance.clockedIn,
-        );
+            attendance.hoursWorked = hoursWorked;
+        }
 
         attendance.delay = delay;
         attendance.extraHours = extraTimeBefore;
