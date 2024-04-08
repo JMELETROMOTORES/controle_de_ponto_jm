@@ -5,7 +5,7 @@ import { Optional } from "@/core/types/optional";
 export interface AttendanceProps {
     rfid: string;
     date: Date;
-    clockedIn: Date;
+    clockedIn?: Date | null;
     lunchStart?: Date | null;
     lunchEnd?: Date | null;
     clockedOut?: Date | null;
@@ -13,8 +13,11 @@ export interface AttendanceProps {
     delay: number;
     extraHours: number;
     employeeId: string;
+    paid?: boolean;
+    absenseReason?: string;
     createdAt?: Date;
     updatedAt?: Date | null;
+
 }
 
 export class Attendance extends Entity<AttendanceProps> {
@@ -34,12 +37,28 @@ export class Attendance extends Entity<AttendanceProps> {
         this.props.date = date;
     }
 
+    get absenseReason() {
+        return this.props.absenseReason;
+    }
+
+    set absenseReason(absenseReason: string | undefined) {
+        this.props.absenseReason = absenseReason;
+    }
+
+    get paid() {
+        return this.props.paid;
+    }
+
+    set paid(paid: boolean | undefined) {
+        this.props.paid = paid;
+    }
+
     get clockedIn() {
         return this.props.clockedIn;
     }
 
-    set clockedIn(clockedIn: Date) {
-        this.props.clockedIn = clockedIn;
+    set clockedIn(clockedIn: Date | undefined | null) {
+        this.props.clockedIn = clockedIn ;
         this.touch();
     }
 
@@ -125,7 +144,6 @@ export class Attendance extends Entity<AttendanceProps> {
                 extraHours: props.extraHours ?? 0,
                 delay: props.delay ?? 0,
                 hoursWorked: props.hoursWorked ?? 0,
-                clockedIn: props.clockedIn ?? new Date(),
                 createdAt: props.createdAt ?? new Date(),
             },
             id,

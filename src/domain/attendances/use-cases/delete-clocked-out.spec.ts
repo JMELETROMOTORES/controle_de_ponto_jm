@@ -19,7 +19,7 @@ describe("Delete clockedOut register", () => {
         console.log(inMemoryAttendanceRepository.items[0]);
         expect(
             inMemoryAttendanceRepository.items[0].clockedOut,
-        ).toBeUndefined();
+        ).toBeNull();
     });
 });
 

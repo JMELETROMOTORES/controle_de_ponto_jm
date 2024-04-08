@@ -56,36 +56,39 @@ export class RegisterFirstTimeInAttendanceUseCase
             employeeId: employee.id.toString(),
         });
 
-        const isSameDay = this.dateProvider.isSameDay(
-            attendance.clockedIn,
-            attendance.date,
-        );
+        if(clockedIn) {
+            const isSameDay = this.dateProvider.isSameDay(
+                attendance.clockedIn,
+                attendance.date,
+            );
 
-        if (!isSameDay) {
-            return left(new IsSameDayError());
-        }
-
-        const extraTimeBefore =
-            this.calculaExtraTimeService.calculateExtraTimeBefore(
+            if (!isSameDay) {
+                return left(new IsSameDayError());
+            }
+            const extraTimeBefore =
+                this.calculaExtraTimeService.calculateExtraTimeBefore(
+                    journey,
+                    attendance,
+                );
+            attendance.extraHours = extraTimeBefore;
+            const delay = this.calculateDelayService.calculateDelayFirtsTime(
                 journey,
                 attendance,
             );
-
-        const delay = this.calculateDelayService.calculateDelayFirtsTime(
-            journey,
-            attendance,
-        );
-
-        if (attendance.clockedOut) {
-            const hoursWorked = this.calculateWorkTimeService.calculateWorkTime(
-                attendance,
-                attendance.clockedOut,
-            );
-            attendance.hoursWorked = hoursWorked;
+            attendance.delay = delay;
+            if (attendance.clockedOut) {
+                const hoursWorked = this.calculateWorkTimeService.calculateWorkTime(
+                    attendance,
+                    attendance.clockedOut,
+                );
+                attendance.hoursWorked = hoursWorked;
+            }
         }
+    
 
-        attendance.delay = delay;
-        attendance.extraHours = extraTimeBefore;
+
+
+
         await this.attendanceRepository.create(attendance);
         return right({ attendance });
     }

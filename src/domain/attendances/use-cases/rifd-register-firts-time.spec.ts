@@ -10,7 +10,7 @@ import { InMemoryJourneyRepository } from "@/test/in-memory-journey-repository";
 import { FakeDateProvider } from "@/test/providers/fake-dayjs";
 import { RegisterFirstTimeInAttendanceUseCase } from "./rfid-register-first-time";
 
-import dayjs = require("dayjs");
+
 let inMemoryAttendanceRepository: InMemoryAttendanceRepository;
 let inMemoryJourneyRepository: InMemoryJourneyRepository;
 let inMemoryEmployeeRepository: InMemoryEmployeeRepository;

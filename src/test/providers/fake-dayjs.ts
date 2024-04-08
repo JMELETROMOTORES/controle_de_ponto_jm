@@ -3,8 +3,26 @@ import {
     IDateProvider,
     WeekDay,
 } from "@/domain/attendances/providers/IDateProvider";
+import dayjs from "dayjs";
 
 class FakeDateProvider implements IDateProvider {
+    dateTomorrow(): Date {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 22);
+        return tomorrow;
+    }
+
+    dateYesterday(): Date {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 7);
+        return yesterday;
+    }
+
+    dateYesterday2(): Date {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        return yesterday;
+    }
     nextWeekDay(weekDay: WeekDay): WeekDay {
         throw new Error("Method not implemented.");
     }
@@ -32,7 +50,11 @@ class FakeDateProvider implements IDateProvider {
         return Math.floor(diffInMs / (1000 * 60 * 60));
     }
 
-    compareInSeconds(start_date: Date, end_date: Date): number {
+    compareInSeconds(start_date: Date | undefined | null, end_date: Date | undefined | null): number {
+        if (!start_date || !end_date) {
+            return 0;
+        }
+        
         const diffInMs = end_date.getTime() - start_date.getTime();
         return Math.floor(diffInMs / 1000);
     }
@@ -60,6 +82,12 @@ class FakeDateProvider implements IDateProvider {
         return Math.floor(diffInMs / 1000);
     }
 
+    daysInMonth(): number {
+        const date = dayjs();
+        const AllDays = date.daysInMonth();
+        return AllDays;
+    }
+
     currentDateWithTime(hour: number, minute: number, second: number): Date {
         const date = new Date();
         date.setHours(hour);
@@ -67,6 +95,35 @@ class FakeDateProvider implements IDateProvider {
         date.setSeconds(second);
         return date;
     }
+
+    tomorroDateWithTime(hour: number, minute: number, second: number): Date {
+        const date = new Date();
+        date.setDate(date.getDate() + 1);
+        date.setHours(hour);
+        date.setMinutes(minute);
+        date.setSeconds(second);
+        return date;
+    }
+
+    tomorroDateWithTime2(hour: number, minute: number, second: number): Date {
+        const date = new Date();
+        date.setDate(date.getDate() + 2);
+        date.setHours(hour);
+        date.setMinutes(minute);
+        date.setSeconds(second);
+        return date;
+    }
+
+    yesterdayDateWithTime(hour: number, minute: number, second: number): Date {
+        const date = new Date();
+        date.setDate(date.getDate() - 1);
+        date.setHours(hour);
+        date.setMinutes(minute);
+        date.setSeconds(second);
+        return date;
+    }
+
+
 
     calculateExtraTimeClockedOut(
         end_time: Date,
@@ -105,7 +162,11 @@ class FakeDateProvider implements IDateProvider {
         return Math.floor(diffInMs / (1000 * 60));
     }
 
-    isSameDay(date: Date, compareDate: Date): boolean {
+    isSameDay(date: Date | undefined | null, compareDate: Date | undefined | null): boolean {
+        if (!date || !compareDate) {
+            return false;
+        }
+        
         return (
             date.getDate() === compareDate.getDate() &&
             date.getMonth() === compareDate.getMonth() &&

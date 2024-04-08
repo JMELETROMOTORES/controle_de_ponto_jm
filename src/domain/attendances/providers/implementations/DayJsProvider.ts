@@ -35,6 +35,11 @@ class DayjsDateProvider implements IDateProvider {
         return dayjs(end_date_utc).diff(start_date_utc, "hours");
     }
 
+    daysInMonth(): number {
+        const date = dayjs();
+        const AllDays = date.daysInMonth();
+        return AllDays;
+    }
     currentDateWithTime(hour: number, minute: number, second: number): Date {
         const currentDate = this.dateNow();
         currentDate.setHours(hour);
@@ -66,7 +71,11 @@ class DayjsDateProvider implements IDateProvider {
         return extraTime;
     }
 
-    compareInSeconds(start_date: Date, end_date: Date): number {
+    compareInSeconds(start_date: Date | null | undefined, end_date: Date | null | undefined): number {
+        if (!start_date || !end_date) {
+            return 0;
+        }
+
         const end_date_utc = this.convertToUtc(end_date);
         const start_date_utc = this.convertToUtc(start_date);
 
@@ -86,6 +95,8 @@ class DayjsDateProvider implements IDateProvider {
         if (!lunchEnd) {
             return 0;
         }
+
+
 
         const totalWorkedHours = this.compareInSeconds(start_date, end_date);
         const lunchHours = this.compareInSeconds(lunchStart, lunchEnd);

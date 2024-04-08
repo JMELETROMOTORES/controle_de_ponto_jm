@@ -53,43 +53,48 @@ export class RegisterLunchStartAttendanceUseCase
 
         const { journey, attendance } = result.value;
 
-        const isTimeDateBefore = this.dateProvider.compareIfBefore(
-            lunchStart,
-            attendance.clockedIn,
-        );
-
-        if (isTimeDateBefore) {
-            return left(new LunchStartTimeError());
-        }
-
-        const isSameDay = this.dateProvider.isSameDay(
-            lunchStart,
-            attendance.date,
-        );
-
-        if (!isSameDay) {
-            return left(new IsSameDayError());
-        }
-        attendance.lunchStart = lunchStart;
-
-        if (attendance.lunchEnd) {
-            const delay = this.calculateDelayService.calculateTotalDelay(
-                journey,
-                attendance,
-                attendance.lunchEnd,
+        if(attendance.clockedIn) {
+            const isTimeDateBefore = this.dateProvider.compareIfBefore(
+                lunchStart,
+                attendance.clockedIn,
             );
-
-            attendance.delay = delay;
-        }
-
-        if (attendance.clockedOut) {
-            const hoursWorked = this.calculateWorkTimeService.calculateWorkTime(
-                attendance,
-                attendance.clockedOut,
+    
+            if (isTimeDateBefore) {
+                return left(new LunchStartTimeError());
+            }
+    
+            const isSameDay = this.dateProvider.isSameDay(
+                lunchStart,
+                attendance.date,
             );
-            attendance.hoursWorked = hoursWorked;
+    
+            if (!isSameDay) {
+                return left(new IsSameDayError());
+            }
+            attendance.lunchStart = lunchStart;
+    
+            if (attendance.lunchEnd) {
+                const delay = this.calculateDelayService.calculateTotalDelay(
+                    journey,
+                    attendance,
+                    attendance.lunchEnd,
+                );
+    
+                attendance.delay = delay;
+            }
+    
+            if (attendance.clockedOut) {
+                const hoursWorked = this.calculateWorkTimeService.calculateWorkTime(
+                    attendance,
+                    attendance.clockedOut,
+                );
+                attendance.hoursWorked = hoursWorked;
+            }
+    
+        } else { 
+            console.log('else')
         }
-
+        
         await this.attendanceRepository.save(attendance);
 
         return right({ attendance });

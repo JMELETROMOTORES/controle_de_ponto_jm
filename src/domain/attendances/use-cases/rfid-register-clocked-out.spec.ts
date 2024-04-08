@@ -23,7 +23,7 @@ let calculateWorkTime: WorkTimeCalculationService;
 let fakeDayjsProvider: FakeDateProvider;
 describe("Register time out", () => {
     beforeEach(() => {
-        fakeDayjsProvider = new FakeDateProvider(); // Instancie primeiro
+        fakeDayjsProvider = new FakeDateProvider(); 
 
         inMemoryAttendanceRepository = new InMemoryAttendanceRepository();
         inMemoryJourneyRepository = new InMemoryJourneyRepository();

@@ -17,7 +17,7 @@ describe("Delete lunch end register", () => {
 
         await sut.execute(newAttendance.id.toString());
 
-        expect(inMemoryAttendanceRepository.items[0].lunchEnd).toBeUndefined();
+        expect(inMemoryAttendanceRepository.items[0].lunchEnd).toBeNull();
     });
 });
 

@@ -16,12 +16,42 @@ export class InMemoryAttendanceRepository implements AttendanceRepository {
         return attendance || null;
     }
 
+    async findByEmployeeId(employeeId: string): Promise<Attendance[] | null> {
+        const attendances = this.items.filter(
+            (attendance) => attendance.employeeId.toString() === employeeId,
+        );
+
+        console.log(attendances);
+        return attendances || null;
+    }
+
     async findByRfid(rfid: string): Promise<Attendance | null> {
         const attendance = this.items.find(
             (attendance) => attendance.rfid === rfid,
         );
 
         return attendance || null;
+    }
+
+    async findAllByRfid(rfid: string): Promise<Attendance[] | null> {
+        const attendances = this.items.filter(
+            (attendance) => attendance.rfid === rfid,
+        );
+
+        return attendances || null;
+    }
+    
+    async generateReport(rfid: string, startDate: Date, endDate: Date): Promise<Attendance[] | null> {
+        const attendances = this.items.filter(
+            (attendance) => attendance.rfid === rfid,
+        );
+
+        const filteredAttendances = attendances.filter((attendance) => {
+            const attendanceDate = new Date(attendance.date);
+            return attendanceDate >= startDate && attendanceDate <= endDate;
+        });
+
+        return filteredAttendances || null;
     }
 
     async save(attendance: Attendance): Promise<void> {

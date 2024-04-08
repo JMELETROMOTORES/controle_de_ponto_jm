@@ -10,7 +10,7 @@ import { DelayCalculationService } from "./../../services/delay-calculation-serv
 import { EntityFinderService } from "./../../services/entity-finder-service";
 import { RegisterLunchEndAttendanceUseCase } from "./rifd-register-lunch-end";
 
-import dayjs = require("dayjs");
+
 let inMemoryAttendanceRepository: InMemoryAttendanceRepository;
 let sut: RegisterLunchEndAttendanceUseCase;
 let inMemoryJourneyRepository: InMemoryJourneyRepository;
