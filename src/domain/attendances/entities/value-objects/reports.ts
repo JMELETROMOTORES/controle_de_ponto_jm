@@ -4,16 +4,18 @@ import { ValueObject } from "@/core/entities/value-obeject";
 
 export interface IPaidAbs {
     date: Date;
-    reason: string;
+    absenseReason: string;
 }
 export interface IReports {
-    employeeId: UniqueEntityID;
+    employeeName: string;
     totalDelay: number;
     totalOvertime: number;
     totalWorkedHours: number;
     absences: number;
     daysAbsences: Date[];
     paidAbsences: IPaidAbs[];
+    interval: string;
+    workDays: object[];
 }
 
 export class Reports extends ValueObject<IReports> {
@@ -22,8 +24,12 @@ export class Reports extends ValueObject<IReports> {
         super(props);
     }
 
-    get employeeId(): UniqueEntityID {
-        return this.props.employeeId;
+    get employeeName(): string {
+        return this.props.employeeName;
+    }
+
+    get interval(): string {
+        return this.props.interval;
     }
 
     get totalDelay(): number {
@@ -36,6 +42,10 @@ export class Reports extends ValueObject<IReports> {
 
     get totalWorkedHours(): number {
         return this.props.totalWorkedHours;
+    }
+
+    get workDays(): object[] {
+        return this.props.workDays;
     }
 
     get absences(): number {

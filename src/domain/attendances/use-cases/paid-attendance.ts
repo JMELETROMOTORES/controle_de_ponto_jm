@@ -3,8 +3,6 @@ import { IUseCase } from "@/core/protocols/IUseCase";
 import { EntityFinderService } from "@/domain/services/entity-finder-service";
 import { Attendance } from "../entities/attendances";
 import { NotFoundEmployeeError } from "../errors/Not-found-employee-error";
-import { EmployeeNotHaveAJourney } from "../errors/employee-not-have-journey-error";
-import { IsSameDayError } from "../errors/is-same-day-error";
 import { AttendanceRepository } from "../repositories/attendance-repository";
 import { Abonos } from "../entities/value-objects/abonos";
 
@@ -61,7 +59,7 @@ export class PaidAttendanceUseCase
         });
     
     
-
+    
         await this.attendanceRepository.create(attendance);
         return right({ abonos });
     }

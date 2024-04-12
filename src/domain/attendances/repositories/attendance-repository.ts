@@ -22,7 +22,6 @@ export interface IListUseCaseParams {
 export abstract class AttendanceRepository {
     abstract findById(id: string): Promise<Attendance | null>;
     abstract generateReport(rfid: string, startDate: Date, endDate: Date): Promise<Attendance[] | null>;
-    abstract findAllByRfid(employeeId: string): Promise<Attendance[] | null>;
     abstract findByRfid(rfid: string): Promise<Attendance| null>;
     abstract list({
         search,

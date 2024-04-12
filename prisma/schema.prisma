@@ -18,6 +18,14 @@ model User {
   @@map("users")
 }
 
+model holiday {
+  id        String    @unique @default(uuid())
+  reason    String
+  date      DateTime
+  createdAt DateTime?
+  updatedAt DateTime?
+}
+
 model Employee {
   id         String       @unique @default(uuid())
   name       String
@@ -35,13 +43,14 @@ model Attendance {
   id          String    @unique @default(uuid())
   date        DateTime
   rfid        String
-  clockedIn   DateTime
+  clockedIn   DateTime?
   lunchStart  DateTime?
   lunchEnd    DateTime?
   clockedOut  DateTime?
   hoursWorked Int
   delay       Int
   extraHours  Int
+  paid        Boolean?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   employeeId  String

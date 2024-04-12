@@ -68,6 +68,29 @@ class AttendancePrismaRepository implements AttendanceRepository {
         });
     }
 
+    async generateReport(rfid: string, startDate: Date, endDate: Date): Promise<Attendance[] | null> {
+
+        const attendancesP = await this.prismaClient.attendance.findMany({
+            where: {
+                rfid: rfid,
+                createdAt: {
+                    gte: startDate,
+                    lte: endDate,
+                },
+            },
+        });
+    
+        if (!attendancesP) return null;
+
+        const attendances = await Promise.all(
+            attendancesP.map(async (attendanceP) => {
+                return PrismaAttendanceMapper.toDomain(attendanceP);
+            }),
+        );
+
+        return attendances;
+    }
+
     async list({
         search,
         limit,

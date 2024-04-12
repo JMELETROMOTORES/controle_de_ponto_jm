@@ -31,7 +31,7 @@ export class GenerateReport implements IUseCase<IGenerateReportUseCaseDTO,Genera
 
         const attendance = await this.attendanceRepository.generateReport(rfid, startDate, endDate);
     
-        console.log(startDate, endDate, attendance);
+
         
         if(!attendance){
             return left(null);
@@ -73,7 +73,7 @@ export class GenerateReport implements IUseCase<IGenerateReportUseCaseDTO,Genera
 
 
     const absences = daysAbsences.length;
-        console.log(daysAbsences);
+
         const report = Reports.create({
             employeeId: employee.id,
             totalDelay,

@@ -19,12 +19,23 @@ import { RegisterClockedInAttendanceController } from "./create-attendance-contr
 import { DeleteLunchStartController } from "./delete-lunch-start-controller";
 import { EditFirstTimeController } from "./edit-first-time-controller";
 import { ListAttendanceController } from "./fetch-attendances-controller";
+
+import { PaidAttendanceController } from "./paid-attendance-controller";
+import { PaidAttendanceUseCase } from "@/domain/attendances/use-cases/paid-attendance";
 import { RegisterClockedOutAttendanceController } from "./register-clocked-out-attendance-controller";
 import { RegisterLunchEndAttendanceController } from "./register-lunch-end-attendance-controller";
 import { RegisterLunchStartAttendanceController } from "./register-lunch-start-attendance-controller";
+import { PdfService } from "@/domain/services/pdfservice";
+import { GenerateReportController } from "./generate-report-controller";
+import { HolidayPrismaRepository } from "@/infra/database/repositories/prisma-holiday-repository";
+import { GenerateReportUseCase } from "@/domain/attendances/use-cases/generate-report";
+import { HtmlPdfGenerator } from "../../../application/pdf-generator";
+import { GeneratePdfUseCase } from "@/domain/attendances/use-cases/generate-pdf-use-case";
+import { GeneratePdfController } from "./generate-pdf-controller";
 const offsetGenerator = new OffsetGenerator();
 const totalPagesGenerator = new TotalPagesGenerator();
 const journeyRepository = new JourneyPrismaRepository();
+const holidayRepository = new HolidayPrismaRepository();
 const employeeRepository = new EmployeePrismaRepository();
 const dayjsProvider = new DayjsDateProvider();
 const calculaExtraTimeService = new ExtraTimeCalculationService(dayjsProvider);
@@ -36,7 +47,13 @@ const entityFinderService = new EntityFinderService(
     employeeRepository,
     journeyRepository,
 );
+const generateReportUseCase = new GenerateReportUseCase(employeeRepository,attendanceRepository,holidayRepository)
+const generateReportController = new GenerateReportController(generateReportUseCase)
 
+const pdfGenerator = new HtmlPdfGenerator();
+const pdfService = new PdfService(pdfGenerator);
+const generatePdfuseCase = new GeneratePdfUseCase(pdfService);
+const generatePdfController = new GeneratePdfController(generatePdfuseCase);
 const deleteLunchStartUseCase = new DeleteLunchStartAtUseCase(
     attendanceRepository,
 );
@@ -50,6 +67,14 @@ const listAttendanceUseCase = new ListAttendanceUseCase(
     offsetGenerator,
     totalPagesGenerator,
 );
+
+const paidAttendanceUseCase = new PaidAttendanceUseCase(
+    attendanceRepository,
+    entityFinderService
+)
+
+const paidAttendanceController = new PaidAttendanceController(
+    paidAttendanceUseCase)
 
 const listAttendanceController = new ListAttendanceController(
     listAttendanceUseCase,
@@ -123,6 +148,9 @@ export {
     registerClockedOutAttendanceController,
     registerLunchEndAttendanceController,
     registerLunchStartAttendanceController,
+    generatePdfController,
+    generateReportController,
+    paidAttendanceController
 };
 
 // Path: src/infra/http/routes/attendance-routes.ts
