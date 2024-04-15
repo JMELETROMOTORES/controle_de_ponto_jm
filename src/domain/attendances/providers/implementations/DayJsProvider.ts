@@ -64,7 +64,6 @@ class DayjsDateProvider implements IDateProvider {
         toleranceTimeStart: Date,
     ): number {
         const extraTime = this.compareInSeconds(toleranceTimeStart, start_time);
-        console.log("extraTime", extraTime);
         if (extraTime < 0) {
             return 0;
         }
@@ -155,7 +154,7 @@ class DayjsDateProvider implements IDateProvider {
 
         if (lunchHours >= toleranceTime * 60) {
             const diff = lunchHours - 3600;
-            console.log("diff", diff);
+
             return diff;
         } else {
             return 0;
@@ -224,8 +223,6 @@ class DayjsDateProvider implements IDateProvider {
     }
 
     compareIfBefore(start_date: Date, end_date: Date): boolean {
-        console.log("start_date", start_date);
-        console.log("end_date", end_date);
         return dayjs(start_date).isBefore(end_date);
     }
 

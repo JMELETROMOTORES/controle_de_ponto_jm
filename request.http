@@ -33,7 +33,7 @@ Content-Type: application/json
   "position": "Desenvolvedor Front-end",
   "imgUrl": "http",
   "rfid": "1234567811",
-  "journeyId": "82ea2d4e-be9d-4a81-b79c-342f76b86d95"
+  "journeyId": "b6b5f418-5046-4842-bd26-1daa01ec32b1"
 }
 
 ###
@@ -41,7 +41,7 @@ GET {{baseUrl}}/report
 Content-Type: application/json
 
 {
-  "rfid": "1234567894",
+  "rfid": "1234567811",
   "startDate":  "2024-04-01T23:59:00.000Z",
   "endDate": "2024-04-30T23:59:00.000Z"
 }
@@ -49,10 +49,11 @@ Content-Type: application/json
 ###
 
 ###
-POST {{baseUrl}}/holiday
+POST {{baseUrl}}/abono
 Content-Type: application/json
 
 {
+  "rfid": "1234567811",
   "date":  "2024-04-05T00:00:00.000Z",
   "reason": "Ano novo"
 }
@@ -82,8 +83,20 @@ Authorization: Bearer {{authToken}}
 
 {
   "rfid": "1234567811",
-  "clockedIn": "2024-04-12T11:00:00.000Z"
+  "date": "2024-04-16T00:00:00.000Z",
+  "clockedIn": "2024-04-16T11:00:00.000Z"
 }
+
+###
+
+###
+
+
+
+PUT  {{baseUrl}}/schedules/lunchend/delete/b37338f0-60ee-41eb-8e1c-5297cfc2bf24
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
 
 ###
 
@@ -98,7 +111,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-PUT  {{baseUrl}}/schedules/lunchend/27960ac7-938b-4062-bbe4-567538789124
+PUT  {{baseUrl}}/schedules/lunchend/b37338f0-60ee-41eb-8e1c-5297cfc2bf24
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -109,7 +122,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-PUT  {{baseUrl}}/schedules/clockedout/27960ac7-938b-4062-bbe4-567538789124
+PUT  {{baseUrl}}/schedules/clockedout/b37338f0-60ee-41eb-8e1c-5297cfc2bf24
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

@@ -53,6 +53,7 @@ export class RegisterFirstTimeInAttendanceUseCase
         const attendance = Attendance.create({
             rfid,
             clockedIn,
+            date: clockedIn,
             employeeId: employee.id.toString(),
         });
 

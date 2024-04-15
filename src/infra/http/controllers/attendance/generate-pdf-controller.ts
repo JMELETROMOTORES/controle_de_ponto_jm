@@ -1,4 +1,5 @@
 import { IController } from "@/core/protocols/IController";
+import { HtmlBolTemplate } from "@/core/templates/relatoriotemplate";
 import { GeneratePdfUseCase } from "@/domain/attendances/use-cases/generate-pdf-use-case";
 import e from "cors";
 
@@ -7,20 +8,14 @@ class GeneratePdfController implements IController {
 
     async handle(request: any, response: any, next: any): Promise<void | any> {
         try {
-            const html = `ola mundo!`
+            
             const options = { 
                 format: 'A4',
-                orientation: 'portrait',
-                border: {
-                    top: '1in',
-                    right: '1in',
-                    bottom: '1in',
-                    left: '1in'
-                }
+                orientation: 'portrait'
             }
 
             const result = await this.useCase.execute(
-                html,
+                request.params.rfid,
                 options,
             );
 

@@ -5,11 +5,7 @@ export class AttendancePresenter {
         return {
             id: attendance.id.toString(),
             employeeId: attendance.employeeId,
-            date: attendance.date.toLocaleDateString("pt-BR", {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-            }),
+            date: attendance.date,
             clockedIn: attendance.clockedIn,
             lunchStart: attendance.lunchStart,
             lunchEnd: attendance.lunchEnd,

@@ -19,7 +19,10 @@ import { RegisterClockedInAttendanceController } from "./create-attendance-contr
 import { DeleteLunchStartController } from "./delete-lunch-start-controller";
 import { EditFirstTimeController } from "./edit-first-time-controller";
 import { ListAttendanceController } from "./fetch-attendances-controller";
-
+import { DeleteClockedOutUseCase } from "@/domain/attendances/use-cases/delete-clocked-out";
+import { DeleteClockedOutController } from "./delete-clocked-out-controller";
+import { DeleteLunchEndAtUseCase } from "@/domain/attendances/use-cases/delete-lunch-end";
+import { DeleteLunchEndController } from "./delete-lunch-end-controller";
 import { PaidAttendanceController } from "./paid-attendance-controller";
 import { PaidAttendanceUseCase } from "@/domain/attendances/use-cases/paid-attendance";
 import { RegisterClockedOutAttendanceController } from "./register-clocked-out-attendance-controller";
@@ -32,6 +35,7 @@ import { GenerateReportUseCase } from "@/domain/attendances/use-cases/generate-r
 import { HtmlPdfGenerator } from "../../../application/pdf-generator";
 import { GeneratePdfUseCase } from "@/domain/attendances/use-cases/generate-pdf-use-case";
 import { GeneratePdfController } from "./generate-pdf-controller";
+import e from "cors";
 const offsetGenerator = new OffsetGenerator();
 const totalPagesGenerator = new TotalPagesGenerator();
 const journeyRepository = new JourneyPrismaRepository();
@@ -52,10 +56,24 @@ const generateReportController = new GenerateReportController(generateReportUseC
 
 const pdfGenerator = new HtmlPdfGenerator();
 const pdfService = new PdfService(pdfGenerator);
-const generatePdfuseCase = new GeneratePdfUseCase(pdfService);
+const generatePdfuseCase = new GeneratePdfUseCase(pdfService,
+    generateReportUseCase,
+);
 const generatePdfController = new GeneratePdfController(generatePdfuseCase);
 const deleteLunchStartUseCase = new DeleteLunchStartAtUseCase(
     attendanceRepository,
+);
+
+const deletelunchendUsecase = new DeleteLunchEndAtUseCase(attendanceRepository);
+const deleteLunchEndController = new DeleteLunchEndController(deletelunchendUsecase);
+
+
+const deleteClockedOutUseCase = new DeleteClockedOutUseCase(
+    attendanceRepository,
+);
+
+const deleteClockedOutController = new DeleteClockedOutController(
+    deleteClockedOutUseCase,
 );
 
 const deleteLunchStartController = new DeleteLunchStartController(
@@ -150,7 +168,9 @@ export {
     registerLunchStartAttendanceController,
     generatePdfController,
     generateReportController,
-    paidAttendanceController
+    paidAttendanceController,
+    deleteLunchEndController,
+    deleteClockedOutController
 };
 
 // Path: src/infra/http/routes/attendance-routes.ts

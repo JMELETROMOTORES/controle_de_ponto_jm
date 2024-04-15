@@ -1,4 +1,5 @@
 import {
+    deleteLunchEndController,
     deleteLunchStartController,
     registerClockedInAttendanceController,
     registerClockedOutAttendanceController,
@@ -29,6 +30,13 @@ SchedulesAttendancesRoutes.put(
     "/lunchstart/delete/:id",
     (request, response, next) => {
         return deleteLunchStartController.handle(request, response, next);
+    },
+);
+
+SchedulesAttendancesRoutes.put(
+    "/lunchend/delete/:id",
+    (request, response, next) => {
+        return deleteLunchEndController.handle(request, response, next);
     },
 );
 

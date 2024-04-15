@@ -57,7 +57,6 @@ class AttendancePrismaRepository implements AttendanceRepository {
             data,
         });
 
-        console.log("Attendance updated");
     }
 
     async delete(attendance: Attendance): Promise<void> {
