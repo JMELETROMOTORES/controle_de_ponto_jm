@@ -11,6 +11,8 @@ export interface ICreateJourneyDTO {
     start_date_toleranceDelay: string;
     start_date_toleranceExtraTime: string;
     end_date_toleranceExtraTime: string;
+    friday_end_date: string;
+    friday_end_date_toleranceExtraTime: string;
 }
 
 type CreateJourneyUseCaseResponse = Either<
@@ -32,6 +34,8 @@ export class CreateJourneyUseCase
         start_date_toleranceExtraTime,
         end_date_toleranceExtraTime,
         start_date_toleranceDelay,
+        friday_end_date,   
+        friday_end_date_toleranceExtraTime
     }: ICreateJourneyDTO): Promise<CreateJourneyUseCaseResponse> {
         const journey = Journey.create({
             name,
@@ -41,6 +45,8 @@ export class CreateJourneyUseCase
             start_date_toleranceDelay,
             start_date_toleranceExtraTime,
             end_date_toleranceExtraTime,
+            friday_end_date,
+            friday_end_date_toleranceExtraTime
         });
 
         await this.journeyRepository.create(journey);

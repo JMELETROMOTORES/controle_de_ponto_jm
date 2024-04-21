@@ -20,16 +20,32 @@ export class ExtraTimeCalculationService {
     }
 
     calculateExtraTimeAfter(journey: Journey, clockedOut: Date): number {
-        const end_date_extratime = this.dateProvider.convertStrHourToDateTime(
-            journey.end_date_toleranceExtraTime,
-        );
+        const currentDay = this.dateProvider.currentDay();
 
-        const extraTimeAfter = this.dateProvider.calculateExtraTimeClockedOut(
-            end_date_extratime,
-            clockedOut,
-        );
-
-        return extraTimeAfter;
+        if(currentDay.getDay() !== 6 ) {
+            const end_date_extratime = this.dateProvider.convertStrHourToDateTime(
+                journey.end_date_toleranceExtraTime,
+            );
+    
+            const extraTimeAfter = this.dateProvider.calculateExtraTimeClockedOut(
+                end_date_extratime,
+                clockedOut,
+            );
+            
+            return extraTimeAfter;
+        } else {
+            const end_date_extratime = this.dateProvider.convertStrHourToDateTime(
+                journey.friday_end_date_toleranceExtraTime,
+            );
+    
+            const extraTimeAfter = this.dateProvider.calculateExtraTimeClockedOut(
+                end_date_extratime,
+                clockedOut,
+            );
+            return extraTimeAfter;
+        }
+        
+        
     }
 
     // calculate total extra time

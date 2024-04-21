@@ -10,6 +10,8 @@ export interface JourneyProps {
     end_date: string;
     end_date_toleranceExtraTime: string;
     lunch_time_tolerance: number;
+    friday_end_date_toleranceExtraTime: string;
+    friday_end_date: string;
     createdAt: Date;
     updatedAt?: Date | null;
 }
@@ -35,6 +37,24 @@ export class Journey extends Entity<JourneyProps> {
         return this.props.start_date_toleranceDelay;
     }
 
+    get friday_end_date_toleranceExtraTime() {
+        return this.props.friday_end_date_toleranceExtraTime;
+    }
+
+    get friday_end_date() {
+        return this.props.friday_end_date;
+    }
+
+    set friday_end_date(friday_end_date: string) {
+        this.props.friday_end_date = friday_end_date;
+        this.touch();
+    }
+
+    set friday_end_date_toleranceExtraTime(friday_end_date_toleranceExtraTime: string) {
+        this.props.friday_end_date_toleranceExtraTime = friday_end_date_toleranceExtraTime;
+        this.touch();
+    }
+    
     set start_date_toleranceDelay(start_date_toleranceDelay: string) {
         this.props.start_date_toleranceDelay = start_date_toleranceDelay;
         this.touch();

@@ -16,6 +16,8 @@ export function makeJourney(
             lunch_time_tolerance: 60,
             start_date_toleranceExtraTime: "07:50",
             end_date_toleranceExtraTime: "18:10",
+            friday_end_date: "17:10",
+            friday_end_date_toleranceExtraTime: "17:10",
             ...override,
         },
         id,
