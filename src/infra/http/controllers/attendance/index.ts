@@ -35,7 +35,8 @@ import { GenerateReportUseCase } from "@/domain/attendances/use-cases/generate-r
 import { HtmlPdfGenerator } from "../../../application/pdf-generator";
 import { GeneratePdfUseCase } from "@/domain/attendances/use-cases/generate-pdf-use-case";
 import { GeneratePdfController } from "./generate-pdf-controller";
-import e from "cors";
+import { EditLunchStartAttendanceUseCase } from "@/domain/attendances/use-cases/edit-lunch-start";
+import { EditLunchStartAttendanceController } from "./edit-lunch-start-controller";
 const offsetGenerator = new OffsetGenerator();
 const totalPagesGenerator = new TotalPagesGenerator();
 const journeyRepository = new JourneyPrismaRepository();
@@ -131,6 +132,14 @@ const registerLunchStartAttendanceUseCase =
         dayjsProvider,
         entityFinderService,
     );
+
+const editLunchStartAttendanceUseCase = new EditLunchStartAttendanceUseCase(attendanceRepository,
+    delayCalculationService,
+    calculateWorkTimeService,
+    dayjsProvider,
+    entityFinderService,)
+
+const editLunchStartAttendanceController = new EditLunchStartAttendanceController(editLunchStartAttendanceUseCase)
 const registerLunchStartAttendanceController =
     new RegisterLunchStartAttendanceController(
         registerLunchStartAttendanceUseCase,
@@ -170,7 +179,8 @@ export {
     generateReportController,
     paidAttendanceController,
     deleteLunchEndController,
-    deleteClockedOutController
+    deleteClockedOutController,
+    editLunchStartAttendanceController
 };
 
 // Path: src/infra/http/routes/attendance-routes.ts

@@ -39,7 +39,7 @@ export class EditFirstTimeUseCase
         rfid,
         newTime,
     }: IEditFirstTimeUseCaseDTO): Promise<EditFirstTimeUseCaseResponse> {
-        const result = await this.entityFinderService.findEntities(
+        const result = await this.entityFinderService.findEntitiesId(
             attendanceId,
             rfid,
         );
@@ -78,6 +78,7 @@ export class EditFirstTimeUseCase
             attendance.hoursWorked = hoursWorked;
         }
 
+    
         await this.attendanceRepository.save(attendance);
 
         return right({ attendance });

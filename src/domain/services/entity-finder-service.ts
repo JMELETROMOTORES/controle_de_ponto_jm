@@ -21,7 +21,7 @@ export class EntityFinderService {
     ) {}
 
     async findEntities(
-        id: string,
+        date: Date,
         rfid: string,
     ): Promise<
         Either<
@@ -31,10 +31,12 @@ export class EntityFinderService {
             { attendance: Attendance; employee: Employee; journey: Journey }
         >
     > {
-        const attendance = await this.attendanceRepository.findById(id);
+        const attendance = await this.attendanceRepository.findByDateAndRfid(date, rfid);
         if (!attendance) {
             return left(new NotFoundAttendanceError());
         }
+
+        
 
         const employee = await this.employeeRepository.findByRfid(rfid);
         if (!employee) {
@@ -75,5 +77,39 @@ export class EntityFinderService {
 
         return right({ employee, journey });
     }
+
+    async findEntitiesId(
+        id: string,
+        rfid: string,
+    ): Promise<
+        Either<
+            | NotFoundAttendanceError
+            | NotFoundEmployeeError
+            | EmployeeNotHaveAJourney,
+            { attendance: Attendance; employee: Employee; journey: Journey }
+        >
+    > {
+        const attendance = await this.attendanceRepository.findById(id);
+        if (!attendance) {
+            return left(new NotFoundAttendanceError());
+        }
+
+        
+
+        const employee = await this.employeeRepository.findByRfid(rfid);
+        if (!employee) {
+            return left(new NotFoundEmployeeError());
+        }
+
+        const journey = await this.journeyRepository.findById(
+            employee.journeyId.toString(),
+        );
+        if (!journey) {
+            return left(new EmployeeNotHaveAJourney());
+        }
+
+        return right({ attendance, employee, journey });
+    }
+    
 }
 

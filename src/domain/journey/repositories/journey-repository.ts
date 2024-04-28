@@ -20,7 +20,7 @@ export interface IListUseCaseParams {
 }
 
 export abstract class JourneyRepository {
-    abstract findById(id: string): Promise<Journey | null>;
+    abstract findById(id: string): Promise<Journey | null>
     abstract list({
         search,
         limit,

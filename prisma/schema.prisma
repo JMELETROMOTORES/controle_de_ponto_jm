@@ -65,6 +65,7 @@ model Journey {
   start_date_toleranceDelay          String
   end_date                           String
   end_date_toleranceExtraTime        String
+  friday_end_date                    String
   friday_end_date_toleranceExtraTime String
   lunch_time_tolerance               Int
   createdAt                          DateTime   @default(now())

@@ -32,8 +32,8 @@ Content-Type: application/json
   "name": "Gustavo Santos",
   "position": "Desenvolvedor Front-end",
   "imgUrl": "http",
-  "rfid": "1234567811",
-  "journeyId": "b6b5f418-5046-4842-bd26-1daa01ec32b1"
+  "rfid": "1234567813",
+  "journeyId": "47cbae4a-822a-490d-95b2-7ebb88482e15"
 }
 
 ###
@@ -70,7 +70,9 @@ Content-Type: application/json
   "start_date_toleranceDelay": "08:10",
   "end_date_toleranceExtraTime": "18:10",
   "lunch_time_tolerance": 60,
-  "start_date_toleranceExtraTime": "07:50"
+  "start_date_toleranceExtraTime": "07:50",
+  "friday_end_date": "17:00",
+  "friday_end_date_toleranceExtraTime": "17:10"
 }
 
 ###
@@ -82,9 +84,9 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "rfid": "1234567811",
-  "date": "2024-04-16T00:00:00.000Z",
-  "clockedIn": "2024-04-16T11:00:00.000Z"
+  "rfid": "1234567813",
+  "date": "2024-04-21T10:00:00.000Z",
+  "clockedIn": "2024-04-21T13:00:00.000Z"
 }
 
 ###
@@ -100,24 +102,24 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-PUT  {{baseUrl}}/schedules/lunchstart/27960ac7-938b-4062-bbe4-567538789124
+PUT  {{baseUrl}}/schedules/lunchstart
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "rfid": "1234567895",
-  "lunchStart": "2024-04-12T15:00:00.000Z"
+  "rfid": "1234567813",
+  "lunchStart": "2024-04-21T15:00:00.000Z"
 }
 
 ###
 
-PUT  {{baseUrl}}/schedules/lunchend/b37338f0-60ee-41eb-8e1c-5297cfc2bf24
+PUT  {{baseUrl}}/attendances/776b869f-b74b-4a34-9cca-5eb1c90c179a
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "rfid": "1234567895",
-  "lunchEnd": "2024-04-12T16:00:00.000Z"
+  "rfid": "1234567811",
+  "newTime": "2024-04-20T14:00:00.000Z"
 }
 
 ###

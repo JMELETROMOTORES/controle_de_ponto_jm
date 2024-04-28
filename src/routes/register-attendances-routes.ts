@@ -18,7 +18,7 @@ SchedulesAttendancesRoutes.post("/", (request, response, next) => {
     );
 });
 
-SchedulesAttendancesRoutes.put("/lunchstart/:id", (request, response, next) => {
+SchedulesAttendancesRoutes.put("/lunchstart", (request, response, next) => {
     return registerLunchStartAttendanceController.handle(
         request,
         response,
@@ -40,11 +40,11 @@ SchedulesAttendancesRoutes.put(
     },
 );
 
-SchedulesAttendancesRoutes.put("/lunchend/:id", (request, response, next) => {
+SchedulesAttendancesRoutes.put("/lunchend", (request, response, next) => {
     return registerLunchEndAttendanceController.handle(request, response, next);
 });
 
-SchedulesAttendancesRoutes.put("/clockedOut/:id", (request, response, next) => {
+SchedulesAttendancesRoutes.put("/clockedOut", (request, response, next) => {
     return registerClockedOutAttendanceController.handle(
         request,
         response,

@@ -1,13 +1,13 @@
 import { HttpStatusCode } from "@/core/constants/HttpStatusCode";
 import { IController } from "@/core/protocols/IController";
-import { RegisterLunchStartAttendanceUseCase } from "@/domain/attendances/use-cases/rfid-register-lunch-start";
+import { EditLunchStartAttendanceUseCase } from "@/domain/attendances/use-cases/edit-lunch-start"
 
 import { AttendancePresenter } from "@/infra/database/presenters/attendance-presenter";
 import { NextFunction, Request, Response } from "express";
 
-class RegisterLunchStartAttendanceController implements IController {
+class EditLunchStartAttendanceController implements IController {
     constructor(
-        private readonly useCase: RegisterLunchStartAttendanceUseCase,
+        private readonly useCase: EditLunchStartAttendanceUseCase,
     ) {}
 
     async handle(
@@ -16,9 +16,11 @@ class RegisterLunchStartAttendanceController implements IController {
         next: NextFunction,
     ): Promise<void | Response<any, Record<string, any>>> {
         try {
+            const { id } = request.params;
             const { rfid, lunchStart } = request.body;
 
             const result = await this.useCase.execute({
+                id,
                 rfid,
                 lunchStart,
             });
@@ -36,5 +38,5 @@ class RegisterLunchStartAttendanceController implements IController {
         }
     }
 }
-export { RegisterLunchStartAttendanceController };
+export { EditLunchStartAttendanceController };
 

@@ -42,6 +42,13 @@ describe("Register lunch time", () => {
         const newEmployee = makeEmployee({
             journeyId: newJourney.id,
         });
+
+        const newEmployee2 = makeEmployee({
+            journeyId: newJourney.id,
+            rfid: "123456789",
+        })
+
+        await inMemoryEmployeeRepository.create(newEmployee2);
         await inMemoryEmployeeRepository.create(newEmployee);
         await inMemoryJourneyRepository.create(newJourney);
 
@@ -49,16 +56,22 @@ describe("Register lunch time", () => {
             clockedIn: fakeDayjsProvider.currentDateWithTime(8, 0, 0),
         });
 
+        const otherAttendance = makeTimeIn({
+            clockedIn: fakeDayjsProvider.currentDateWithTime(8, 0, 0),
+            rfid: newEmployee2.rfid,
+        })
+        await inMemoryAttendanceRepository.create(otherAttendance);
         await inMemoryAttendanceRepository.create(newAttendance);
 
         const result = await sut.execute({
-            id: newAttendance.id.toString(),
             rfid: newEmployee.rfid,
             lunchStart: fakeDayjsProvider.currentDateWithTime(12, 30, 0),
         });
+    
 
         expect(result.isRight()).toBeTruthy();
-        expect(inMemoryAttendanceRepository.items.length).toBe(1);
+        expect(inMemoryAttendanceRepository.items.length).toBe(2);
+        console.log(inMemoryAttendanceRepository.items);
     });
 });
 

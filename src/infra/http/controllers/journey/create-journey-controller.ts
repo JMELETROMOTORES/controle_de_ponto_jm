@@ -24,6 +24,8 @@ class CreateJourneyController implements IController {
                 start_date_toleranceExtraTime,
                 end_date_toleranceExtraTime,
                 start_date_toleranceDelay,
+                friday_end_date,
+                friday_end_date_toleranceExtraTime,
             } = request.body;
 
             const result = await this.useCase.execute({
@@ -34,6 +36,8 @@ class CreateJourneyController implements IController {
                 start_date_toleranceExtraTime,
                 end_date_toleranceExtraTime,
                 start_date_toleranceDelay,
+                friday_end_date,
+                friday_end_date_toleranceExtraTime,
             });
 
             if (result.isLeft())

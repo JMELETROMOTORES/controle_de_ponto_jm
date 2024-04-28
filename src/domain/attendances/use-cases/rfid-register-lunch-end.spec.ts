@@ -60,7 +60,6 @@ describe("Register LunchEnd", () => {
 
         await inMemoryAttendanceRepository.create(newAttendance);
         const result = await sut.execute({
-            id: newAttendance.id.toString(),
             rfid: newEmployee.rfid,
             lunchEnd: fakeDayjsProvider.currentDateWithTime(13, 30, 0),
         });
@@ -84,7 +83,6 @@ describe("Register LunchEnd", () => {
         await inMemoryAttendanceRepository.create(newAttendance);
 
         const result = await sut.execute({
-            id: newAttendance.id.toString(),
             rfid: newEmployee.rfid,
             lunchEnd: fakeDayjsProvider.currentDateWithTime(13, 40, 0),
         });
@@ -109,7 +107,6 @@ describe("Register LunchEnd", () => {
         await inMemoryAttendanceRepository.create(newAttendance);
 
         const result = await sut.execute({
-            id: newAttendance.id.toString(),
             rfid: newEmployee.rfid,
             lunchEnd: fakeDayjsProvider.currentDateWithTime(13, 40, 0),
         });

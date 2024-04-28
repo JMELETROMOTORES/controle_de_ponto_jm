@@ -11,12 +11,13 @@ import { LunchStartTimeError } from "../errors/lunch-start-time-error";
 import { IDateProvider } from "../providers/IDateProvider";
 import { AttendanceRepository } from "../repositories/attendance-repository";
 
-export interface IRegisterLunchStartAttendanceDTO {
+export interface IEditLunchStartAttendanceDTO {
+    id: string;
     rfid: string;
     lunchStart: Date;
 }
 
-type RegistertLunchStartAttendanceUseCaseResponse = Either<
+type EditLunchStartAttendanceUseCaseResponse = Either<
     | NotFoundAttendanceError
     | NotFoundEmployeeError
     | LunchStartTimeError
@@ -25,11 +26,11 @@ type RegistertLunchStartAttendanceUseCaseResponse = Either<
         attendance: Attendance;
     }
 >;
-export class RegisterLunchStartAttendanceUseCase
+export class EditLunchStartAttendanceUseCase
     implements
         IUseCase<
-            IRegisterLunchStartAttendanceDTO,
-            RegistertLunchStartAttendanceUseCaseResponse
+            IEditLunchStartAttendanceDTO,
+            EditLunchStartAttendanceUseCaseResponse
         >
 {
     constructor(
@@ -41,16 +42,17 @@ export class RegisterLunchStartAttendanceUseCase
     ) {}
 
     async execute({
+        id,
         rfid,
         lunchStart,
-    }: IRegisterLunchStartAttendanceDTO): Promise<RegistertLunchStartAttendanceUseCaseResponse> {
-        const result = await this.entityFinderService.findEntities(new Date(), rfid);
+    }: IEditLunchStartAttendanceDTO): Promise<EditLunchStartAttendanceUseCaseResponse> {
+        const result = await this.entityFinderService.findEntitiesId(id, rfid);
         if (result.isLeft()) {
             return left(result.value);
         }
 
         const { journey, attendance } = result.value;
-        
+
         if(attendance.clockedIn) {
             const isTimeDateBefore = this.dateProvider.compareIfBefore(
                 lunchStart,
@@ -77,7 +79,6 @@ export class RegisterLunchStartAttendanceUseCase
                     attendance,
                     attendance.lunchEnd,
                 );
-    
                 attendance.delay = delay;
             }
     

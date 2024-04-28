@@ -16,11 +16,9 @@ class RegisterClockedOutAttendanceController implements IController {
         next: NextFunction,
     ): Promise<void | Response<any, Record<string, any>>> {
         try {
-            const { id } = request.params;
             const { rfid, clockedOut } = request.body;
 
             const result = await this.useCase.execute({
-                id,
                 rfid,
                 clockedOut,
             });

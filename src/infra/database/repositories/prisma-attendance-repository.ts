@@ -41,6 +41,33 @@ class AttendancePrismaRepository implements AttendanceRepository {
         return PrismaAttendanceMapper.toDomain(attendancesP);
     }
 
+     async findByDateAndRfid(date: Date, rfid: string): Promise<Attendance | null> {
+    
+        const startOfDay = new Date(date);
+        startOfDay.setHours(0, 0, 0, 0);
+        
+        const endOfDay = new Date(date);
+        endOfDay.setHours(23, 59, 59, 999); 
+        
+        const attendance = await this.prismaClient.attendance.findFirst({
+            where: {
+                rfid: rfid,
+                date: {
+                    gte: startOfDay, // Início do dia
+                    lt: endOfDay, // Fim do dia
+                },
+            },
+        });
+        
+
+    console.log(attendance);
+        if (!attendance) {
+            return null;
+        }
+
+        return PrismaAttendanceMapper.toDomain(attendance);
+    }
+
     async create(attendance: Attendance): Promise<void> {
         const data = PrismaAttendanceMapper.toPrisma(attendance);
 

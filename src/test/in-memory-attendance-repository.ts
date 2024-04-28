@@ -24,7 +24,15 @@ export class InMemoryAttendanceRepository implements AttendanceRepository {
         console.log(attendances);
         return attendances || null;
     }
-
+    
+    async findByDateAndRfid(date: Date, rfid: string): Promise<Attendance | null> {
+        const attendance = this.items.find(
+            (attendance) =>
+                attendance.date.toDateString() === date.toDateString() && attendance.rfid === rfid,
+        );
+        
+        return attendance || null;
+    }
     async findByRfid(rfid: string): Promise<Attendance | null> {
         const attendance = this.items.find(
             (attendance) => attendance.rfid === rfid,

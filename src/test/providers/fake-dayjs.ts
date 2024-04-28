@@ -18,6 +18,9 @@ class FakeDateProvider implements IDateProvider {
         return yesterday;
     }
 
+    currentDay(): Date {
+        return new Date();
+    }
     dateYesterday2(): Date {
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);

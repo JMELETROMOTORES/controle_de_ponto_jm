@@ -11,7 +11,6 @@ import { EmployeeNotHaveAJourney } from "../errors/employee-not-have-journey-err
 import { AttendanceRepository } from "../repositories/attendance-repository";
 
 export interface IRegisterLunchEndAttendanceDTO {
-    id: string;
     rfid: string;
     lunchEnd: Date;
 }
@@ -37,11 +36,10 @@ export class RegisterLunchEndAttendanceUseCase
     ) {}
 
     async execute({
-        id,
         rfid,
         lunchEnd,
     }: IRegisterLunchEndAttendanceDTO): Promise<RegistertLunchEndAttendanceUseCaseResponse> {
-        const result = await this.entityFinderService.findEntities(id, rfid);
+        const result = await this.entityFinderService.findEntities(new Date(), rfid);
         if (result.isLeft()) {
             return left(result.value);
         }

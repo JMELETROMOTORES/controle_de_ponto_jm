@@ -11,10 +11,14 @@ export class ExtraTimeCalculationService {
         const start_date_extratime = this.dateProvider.convertStrHourToDateTime(
             journey.start_date_toleranceExtraTime,
         );
+
+        console.log('start_date_extratime', start_date_extratime);
         const extraTimeBefore = this.dateProvider.calculateExtraTimeClockedIn(
             start_date_extratime,
             attendance.clockedIn,
         );
+
+        console.log('extraTimeBefore', start_date_extratime);
 
         return extraTimeBefore;
     }

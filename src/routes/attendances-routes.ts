@@ -1,5 +1,6 @@
 import {
     editFirstTimeController,
+    editLunchStartAttendanceController,
     listAttendanceController,
 } from "@/infra/http/controllers/attendance";
 import { Router } from "express";
@@ -14,8 +15,10 @@ AttendancesRoutes.put("/:attendanceId", (request, response, next) => {
     return editFirstTimeController.handle(request, response, next);
 });
 
-AttendancesRoutes.put("/:attendanceId", (request, response, next) => {
-    return editFirstTimeController.handle(request, response, next);
+
+
+AttendancesRoutes.put("/lunch/:attendanceId", (request, response, next) => {
+    return editLunchStartAttendanceController.handle(request, response, next);
 });
 
 export { AttendancesRoutes };

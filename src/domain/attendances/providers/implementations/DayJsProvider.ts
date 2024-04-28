@@ -35,6 +35,10 @@ class DayjsDateProvider implements IDateProvider {
         return dayjs(end_date_utc).diff(start_date_utc, "hours");
     }
 
+    currentDay(): Date {
+        return dayjs().toDate();
+    }
+
     daysInMonth(): number {
         const date = dayjs();
         const AllDays = date.daysInMonth();
@@ -52,6 +56,7 @@ class DayjsDateProvider implements IDateProvider {
         end_time: Date,
         toleranceTimeEnd: Date,
     ): number {
+
         const extraTime = this.compareInSeconds(end_time, toleranceTimeEnd);
         if (extraTime < 0) {
             return 0;
@@ -63,6 +68,7 @@ class DayjsDateProvider implements IDateProvider {
         start_time: Date,
         toleranceTimeStart: Date,
     ): number {
+        console.log(start_time);
         const extraTime = this.compareInSeconds(toleranceTimeStart, start_time);
         if (extraTime < 0) {
             return 0;
@@ -132,17 +138,18 @@ class DayjsDateProvider implements IDateProvider {
     }
 
     calculateDelay(toleranceTime: Date, start_date: Date): number {
-        const start_date_utc = this.convertToUtc(start_date);
-        const toleranceTime_utc = this.convertToUtc(toleranceTime);
-
-        const diffInMs = dayjs(start_date_utc).diff(
-            toleranceTime_utc,
-            "second",
-        );
-        if (diffInMs < 0) {
+        const start = dayjs().hour(dayjs(start_date).hour()).minute(dayjs(start_date).minute()).second(dayjs(start_date).second());
+        const end = dayjs().hour(dayjs(toleranceTime).hour()).minute(dayjs(toleranceTime).minute()).second(dayjs(toleranceTime).second());
+    
+        // Calcula a diferença em segundos
+        let diffInSeconds = start.diff(end, 'second');
+        console.log(diffInSeconds);
+        // Se end for antes de start, assumimos que end é no dia seguinte
+        if (diffInSeconds < 0) {
             return 0;
         }
-        return diffInMs;
+    
+        return diffInSeconds;
     }
 
     calculateDelayWithLunchTime(
@@ -245,7 +252,7 @@ class DayjsDateProvider implements IDateProvider {
     convertStrHourToDateTime(hourString: string): Date {
         const [hour, minute] = hourString.split(":").map(Number);
         const date = new Date();
-        date.setHours(hour, minute, 0, 0);
+        date.setUTCHours(hour, minute, 0, 0);
         return date;
     }
 }

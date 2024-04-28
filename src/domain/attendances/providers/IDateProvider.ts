@@ -21,6 +21,7 @@ interface IDateProvider {
         firstDateTime: Date,
         secondDateTime: Date,
     ): boolean;
+    currentDay(): Date;
     daysInMonth(): number;
     convertStrHourToDateTime(hourString: string): Date;
     compareInHours(start_date: Date | null | undefined, end_date: Date | null | undefined): number;

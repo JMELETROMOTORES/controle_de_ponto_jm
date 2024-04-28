@@ -12,9 +12,11 @@ export class DelayCalculationService {
         attendance: Attendance,
         lunchEnd: Date,
     ): number {
+        
         const journeyToleranceTime = this.dateProvider.convertStrHourToDateTime(
             journey.start_date_toleranceDelay,
         );
+
         const delay = this.dateProvider.calculateDelay(
             journeyToleranceTime,
             attendance.clockedIn,
