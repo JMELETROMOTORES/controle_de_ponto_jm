@@ -32,7 +32,7 @@ Content-Type: application/json
   "name": "Gustavo Santos",
   "position": "Desenvolvedor Front-end",
   "imgUrl": "http",
-  "rfid": "1234567813",
+  "rfid": "9234567813",
   "journeyId": "47cbae4a-822a-490d-95b2-7ebb88482e15"
 }
 

@@ -2,85 +2,12 @@ import { Attendance } from "@/domain/attendances/entities/attendances";
 import { Reports } from "@/domain/attendances/entities/value-objects/reports";
 
 export const HtmlBolTemplate = (attendances: Reports, cliNome: string) => {
-     const rows = attendances.daysAbsences.map(workDay => {
-    return `
-      <tr>
-        <td>${workDay}</td>
-      </tr>
-    `;
-  }).join(''); 
   return `<!DOCTYPE html>
-  <html lang="pt">
-  <head>
-      <meta charset="UTF-8">
-      <title>Eventos do banco de horas de Agosto/2019</title>
-      <style>
-          body {
-              font-family: Arial, sans-serif;
-              margin: 40px;
-              background-color: #f0f0f0;
-          }
-          table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-top: 20px;
-          }
-          th, td {
-              border: 1px solid #dddddd;
-              text-align: center;
-              padding: 8px;
-          }
-          th {
-              background-color: #e9e9e9;
-          }
-          .header {
-              text-align: left;
-              background-color: white;
-          }
-          .assinaturas {
-              margin-top: 20px;
-              text-align: left;
-          }
-          .assinaturas div {
-              display: inline-block;
-              width: 48%;
-          }
-      </style>
-  </head>
+  <html lang="pt-BR">
   <body>
-      <div style="text-align: center;">
-          <h2>Eventos do banco de horas de ${attendances.interval}</h2>
-          <p>Extraído às 15:57 de 31/10/2019 | Período de 01/08/19 até 30/08/19</p>
-      </div>
-      
-      <div class="header">
-          <p>Nome: Talita</p>
-          <p>Local de trabalho: PontoTel Teste</p>
-          <p>Data de admissão: 04/06/2018</p>
-          <p>CPF: 452.8408985 Empresa: Pontotel</p>
-      </div>
-      
-      <table>
-          <tr>
-              <th>Data</th>
-              <th>H. Trabalhadas</th>
-              <th>H. Extra</th>
-              <th>H. Atrasos</th>
-              <th>Faltas</th>
-          </tr>
-          <tr>
-             ${rows}
-              <td>00:00</td>
-              <td>00:00</td>
-              <td>00:00</td>
-          </tr>
-      </table>
-      
-      <div class="assinaturas">
-          <div>Assinatura do Funcionário: ___________________________</div>
-          <div>Assinatura do Superior Imediato: ____________________</div>
-          <div>Assinatura do RH/Administração: _____________________</div>
-      </div>
+  <h1>
+      teste
+  </h1>
   </body>
   </html>
   `;

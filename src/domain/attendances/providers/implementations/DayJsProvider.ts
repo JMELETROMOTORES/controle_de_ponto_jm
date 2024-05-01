@@ -141,10 +141,9 @@ class DayjsDateProvider implements IDateProvider {
         const start = dayjs().hour(dayjs(start_date).hour()).minute(dayjs(start_date).minute()).second(dayjs(start_date).second());
         const end = dayjs().hour(dayjs(toleranceTime).hour()).minute(dayjs(toleranceTime).minute()).second(dayjs(toleranceTime).second());
     
-        // Calcula a diferença em segundos
+    
         let diffInSeconds = start.diff(end, 'second');
         console.log(diffInSeconds);
-        // Se end for antes de start, assumimos que end é no dia seguinte
         if (diffInSeconds < 0) {
             return 0;
         }
