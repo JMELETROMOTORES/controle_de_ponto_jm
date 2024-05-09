@@ -14,8 +14,10 @@ class GeneratePdfController implements IController {
                 orientation: 'portrait'
             }
 
+            const { rfid, startDate, endDate } = request.params;
+
             const result = await this.useCase.execute(
-                request.params.rfid,
+                rfid, startDate, endDate,
                 options,
             );
 

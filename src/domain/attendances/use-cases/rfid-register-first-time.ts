@@ -87,9 +87,6 @@ export class RegisterFirstTimeInAttendanceUseCase
         }
     
 
-
-
-
         await this.attendanceRepository.create(attendance);
         return right({ attendance });
     }

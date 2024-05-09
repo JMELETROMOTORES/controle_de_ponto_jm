@@ -12,21 +12,21 @@ export class ExtraTimeCalculationService {
             journey.start_date_toleranceExtraTime,
         );
 
-        console.log('start_date_extratime', start_date_extratime);
+
         const extraTimeBefore = this.dateProvider.calculateExtraTimeClockedIn(
             start_date_extratime,
             attendance.clockedIn,
         );
 
-        console.log('extraTimeBefore', start_date_extratime);
 
+    
         return extraTimeBefore;
     }
 
     calculateExtraTimeAfter(journey: Journey, clockedOut: Date): number {
-        const currentDay = this.dateProvider.currentDay();
+        const currentDay = this.dateProvider.currentDay(clockedOut);
 
-        if(currentDay.getDay() !== 6 ) {
+        if(currentDay.getDay() !== 5 ) {
             const end_date_extratime = this.dateProvider.convertStrHourToDateTime(
                 journey.end_date_toleranceExtraTime,
             );
@@ -35,24 +35,26 @@ export class ExtraTimeCalculationService {
                 end_date_extratime,
                 clockedOut,
             );
-            
+
             return extraTimeAfter;
         } else {
             const end_date_extratime = this.dateProvider.convertStrHourToDateTime(
                 journey.friday_end_date_toleranceExtraTime,
             );
-    
+            
+        
             const extraTimeAfter = this.dateProvider.calculateExtraTimeClockedOut(
                 end_date_extratime,
                 clockedOut,
             );
+            console.log('teste', end_date_extratime.getDay());
             return extraTimeAfter;
         }
         
         
     }
 
-    // calculate total extra time
+
     calculateTotalExtraTime(
         journey: Journey,
         attendance: Attendance,
@@ -63,10 +65,17 @@ export class ExtraTimeCalculationService {
             attendance,
         );
 
+        console.log('teste1', extraTimeBefore);
+
         const extraTimeAfter = this.calculateExtraTimeAfter(
             journey,
             clockedOut,
         );
+        console.log('teste1', journey);
+        console.log('teste1', clockedOut);
+        
+
+
         const totalExtraTime = extraTimeBefore + extraTimeAfter;
 
         return totalExtraTime;

@@ -7,6 +7,8 @@ import {
 import { PrismaClient } from "@prisma/client";
 import { context } from "../context";
 import { PrismaAttendanceMapper } from "../mappers/prisma-attendance-mapper";
+import { PrismaAttendancesEmployeesMapper } from "../mappers/prism-attendance-with-employee-mapper";
+import { AttendancesEmployees } from "@/domain/attendances/entities/value-objects/attendances-with-employees";
 
 class AttendancePrismaRepository implements AttendanceRepository {
     private prismaClient: PrismaClient;
@@ -28,6 +30,27 @@ class AttendancePrismaRepository implements AttendanceRepository {
         return PrismaAttendanceMapper.toDomain(attendance);
     }
 
+    async findByEmployeeId(employeeId: string): Promise<AttendancesEmployees[] | null> {
+        const attendancesP = await this.prismaClient.attendance.findMany({
+            where: {
+                employeeId,
+            },
+            include: {
+                employee: true,
+            }
+        });
+        if (!attendancesP) {
+            return null;
+        }
+
+        const attendances = await Promise.all(
+            attendancesP.map(async (attendanceP) => {
+                return PrismaAttendancesEmployeesMapper.toDomain(attendanceP);
+            }),
+        );
+
+        return attendances;
+    }
     async findById(id: string): Promise<Attendance | null> {
         const attendancesP = await this.prismaClient.attendance.findFirst({
             where: {
@@ -59,6 +82,7 @@ class AttendancePrismaRepository implements AttendanceRepository {
             },
         });
         
+        console.log('repositorio')
 
     console.log(attendance);
         if (!attendance) {
@@ -126,7 +150,7 @@ class AttendancePrismaRepository implements AttendanceRepository {
             ? {
                   OR: [
                       {
-                          name: {
+                          employeeId: {
                               contains: search,
                           },
                       },
@@ -139,13 +163,17 @@ class AttendancePrismaRepository implements AttendanceRepository {
         const attendancesP = await this.prismaClient.attendance.findMany({
             take: limit,
             skip: offset,
+            where,
+            include: {
+                employee: true,
+            }
         });
 
         if (!attendancesP) return null;
 
         const attendances = await Promise.all(
             attendancesP.map(async (attendanceP) => {
-                return PrismaAttendanceMapper.toDomain(attendanceP);
+                return PrismaAttendancesEmployeesMapper.toDomain(attendanceP);
             }),
         );
 

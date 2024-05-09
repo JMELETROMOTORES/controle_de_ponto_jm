@@ -61,7 +61,6 @@ describe("Register time out", () => {
         await inMemoryAttendanceRepository.create(newAttendance);
 
         const result = await sut.execute({
-            id: newAttendance.id.toString(),
             rfid: "123",
             clockedOut: fakeDayjsProvider.currentDateWithTime(18, 0, 0),
         });
@@ -88,7 +87,7 @@ describe("Register time out", () => {
         await inMemoryAttendanceRepository.create(newAttendance);
 
         const result = await sut.execute({
-            id: newAttendance.id.toString(),
+
             rfid: "123",
             clockedOut: fakeDayjsProvider.currentDateWithTime(19, 0, 0),
         });

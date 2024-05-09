@@ -35,8 +35,8 @@ class DayjsDateProvider implements IDateProvider {
         return dayjs(end_date_utc).diff(start_date_utc, "hours");
     }
 
-    currentDay(): Date {
-        return dayjs().toDate();
+    currentDay(day: Date): Date {
+        return dayjs(day).toDate();
     }
 
     daysInMonth(): number {
@@ -56,24 +56,32 @@ class DayjsDateProvider implements IDateProvider {
         end_time: Date,
         toleranceTimeEnd: Date,
     ): number {
+        const start = dayjs().hour(dayjs(end_time).hour()).minute(dayjs(end_time).minute()).second(dayjs(end_time).second());
+        const end = dayjs().hour(dayjs(toleranceTimeEnd).hour()).minute(dayjs(toleranceTimeEnd).minute()).second(dayjs(toleranceTimeEnd).second());
+        let diffInSeconds = end.diff(start, 'second');
+        
 
-        const extraTime = this.compareInSeconds(end_time, toleranceTimeEnd);
-        if (extraTime < 0) {
+        if (diffInSeconds < 0) {
             return 0;
         }
-        return extraTime;
+    
+        return diffInSeconds;
     }
 
     calculateExtraTimeClockedIn(
         start_time: Date,
         toleranceTimeStart: Date,
     ): number {
-        console.log(start_time);
-        const extraTime = this.compareInSeconds(toleranceTimeStart, start_time);
-        if (extraTime < 0) {
+        const start = dayjs().hour(dayjs(start_time).hour()).minute(dayjs(start_time).minute()).second(dayjs(start_time).second());
+        const end = dayjs().hour(dayjs(toleranceTimeStart).hour()).minute(dayjs(toleranceTimeStart).minute()).second(dayjs(toleranceTimeStart).second());
+
+        let diffInSeconds = start.diff(end, 'second');
+        
+        if (diffInSeconds < 0) {
             return 0;
         }
-        return extraTime;
+    
+        return diffInSeconds;
     }
 
     compareInSeconds(start_date: Date | null | undefined, end_date: Date | null | undefined): number {
@@ -87,26 +95,26 @@ class DayjsDateProvider implements IDateProvider {
         return dayjs(end_date_utc).diff(start_date_utc, "second");
     }
     calculateWorkTime(attendance: ICalculateWorkTime): number {
-        const start_date = attendance.clockedIn;
-        const end_date = attendance.clockedOut;
-
-        const lunchStart = attendance.lunchStart;
+        const start = dayjs().hour(dayjs(attendance.clockedIn).hour()).minute(dayjs(attendance.clockedIn).minute()).second(dayjs(attendance.clockedIn).second());
+        const end = dayjs().hour(dayjs(attendance.clockedOut).hour()).minute(dayjs(attendance.clockedOut).minute()).second(dayjs(attendance.clockedOut).second());
+        const lunchStart = dayjs().hour(dayjs(attendance.lunchStart).hour()).minute(dayjs(attendance.lunchStart).minute()).second(dayjs(attendance.lunchStart).second());
+        
 
         if (!lunchStart) {
             return 0;
         }
-        const lunchEnd = attendance.lunchEnd;
+        const lunchEnd = dayjs().hour(dayjs(attendance.lunchEnd).hour()).minute(dayjs(attendance.lunchEnd).minute()).second(dayjs(attendance.lunchEnd).second());
 
         if (!lunchEnd) {
             return 0;
         }
 
 
-
-        const totalWorkedHours = this.compareInSeconds(start_date, end_date);
-        const lunchHours = this.compareInSeconds(lunchStart, lunchEnd);
+        const totalWorkedHours = end.diff(start, 'second');
+        const lunchHours = lunchEnd.diff(lunchStart, 'second');
+        
         const total = totalWorkedHours - lunchHours;
-
+    
         return total;
     }
 
@@ -120,6 +128,8 @@ class DayjsDateProvider implements IDateProvider {
             toleranceTimeStart,
             start_time,
         );
+        
+    
 
         if (extraTimeStart > 0) {
             return extraTimeStart;
@@ -130,6 +140,7 @@ class DayjsDateProvider implements IDateProvider {
             toleranceTimeEnd,
         );
 
+    
         if (extraTimeEnd > 0) {
             return extraTimeEnd;
         }
@@ -143,7 +154,7 @@ class DayjsDateProvider implements IDateProvider {
     
     
         let diffInSeconds = start.diff(end, 'second');
-        console.log(diffInSeconds);
+    
         if (diffInSeconds < 0) {
             return 0;
         }
@@ -156,11 +167,15 @@ class DayjsDateProvider implements IDateProvider {
         lunchStart: Date,
         lunchEnd: Date,
     ): number {
-        const lunchHours = this.compareInSeconds(lunchStart, lunchEnd);
+
+
+        const start = dayjs().hour(dayjs(lunchStart).hour()).minute(dayjs(lunchStart).minute()).second(dayjs(lunchStart).second());
+        const end = dayjs().hour(dayjs(lunchEnd).hour()).minute(dayjs(lunchEnd).minute()).second(dayjs(lunchEnd).second());
+        const lunchHours = end.diff(start, 'second');
 
         if (lunchHours >= toleranceTime * 60) {
             const diff = lunchHours - 3600;
-
+        
             return diff;
         } else {
             return 0;

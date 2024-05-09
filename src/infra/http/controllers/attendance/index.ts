@@ -29,14 +29,21 @@ import { RegisterClockedOutAttendanceController } from "./register-clocked-out-a
 import { RegisterLunchEndAttendanceController } from "./register-lunch-end-attendance-controller";
 import { RegisterLunchStartAttendanceController } from "./register-lunch-start-attendance-controller";
 import { PdfService } from "@/domain/services/pdfservice";
+import { EditLunchEndAttendanceUseCase } from "@/domain/attendances/use-cases/edit-lunch-end";
+import { EditLunchEndAttendanceController } from "./edit-lunch-end-controller";
 import { GenerateReportController } from "./generate-report-controller";
 import { HolidayPrismaRepository } from "@/infra/database/repositories/prisma-holiday-repository";
 import { GenerateReportUseCase } from "@/domain/attendances/use-cases/generate-report";
-import { HtmlPdfGenerator } from "../../../application/pdf-generator";
+import { PuppeteerPdfGenerator } from "../../../application/pdf-generator";
+import { GetSchedulesByEmployeeIdController } from "./get-schedules-by-employee-id";
+import { GetSchedulesByEmployeeIdUseCase } from "@/domain/attendances/use-cases/get-attendances-by-employee-id";
 import { GeneratePdfUseCase } from "@/domain/attendances/use-cases/generate-pdf-use-case";
 import { GeneratePdfController } from "./generate-pdf-controller";
 import { EditLunchStartAttendanceUseCase } from "@/domain/attendances/use-cases/edit-lunch-start";
 import { EditLunchStartAttendanceController } from "./edit-lunch-start-controller";
+import { AbsenceAllowancePrismaRepository } from "@/infra/database/repositories/prisma-absence-allowance-repository";
+import { EditClockedOutAttendanceUseCase } from "@/domain/attendances/use-cases/edit-clocked-out";
+import { EditClockedOutAttendanceController } from "./edit-clocked-out-controller.";
 const offsetGenerator = new OffsetGenerator();
 const totalPagesGenerator = new TotalPagesGenerator();
 const journeyRepository = new JourneyPrismaRepository();
@@ -52,10 +59,11 @@ const entityFinderService = new EntityFinderService(
     employeeRepository,
     journeyRepository,
 );
-const generateReportUseCase = new GenerateReportUseCase(employeeRepository,attendanceRepository,holidayRepository)
+const absenceAllowanceRepository = new AbsenceAllowancePrismaRepository();
+const generateReportUseCase = new GenerateReportUseCase(employeeRepository,attendanceRepository,holidayRepository,absenceAllowanceRepository)
 const generateReportController = new GenerateReportController(generateReportUseCase)
 
-const pdfGenerator = new HtmlPdfGenerator();
+const pdfGenerator = new PuppeteerPdfGenerator();
 const pdfService = new PdfService(pdfGenerator);
 const generatePdfuseCase = new GeneratePdfUseCase(pdfService,
     generateReportUseCase,
@@ -64,11 +72,27 @@ const generatePdfController = new GeneratePdfController(generatePdfuseCase);
 const deleteLunchStartUseCase = new DeleteLunchStartAtUseCase(
     attendanceRepository,
 );
-
+const getSchedulesByEmployeeIdUseCase = new GetSchedulesByEmployeeIdUseCase(attendanceRepository)
+const getSchedulesByEmployeeIdController = new GetSchedulesByEmployeeIdController(getSchedulesByEmployeeIdUseCase)
 const deletelunchendUsecase = new DeleteLunchEndAtUseCase(attendanceRepository);
 const deleteLunchEndController = new DeleteLunchEndController(deletelunchendUsecase);
 
+const editlunchEndUseCase = new EditLunchEndAttendanceUseCase(attendanceRepository,
+    delayCalculationService,
+    calculateWorkTimeService,
+    dayjsProvider,
+    entityFinderService,)
 
+const editLunchEndAttendanceController = new EditLunchEndAttendanceController(editlunchEndUseCase);
+
+const editClockedOutUseCase = new EditClockedOutAttendanceUseCase(attendanceRepository,
+    delayCalculationService,
+    calculateWorkTimeService,
+    calculaExtraTimeService,
+    dayjsProvider,
+    entityFinderService,)
+
+const editClockedOutAttendanceController = new EditClockedOutAttendanceController(editClockedOutUseCase);
 const deleteClockedOutUseCase = new DeleteClockedOutUseCase(
     attendanceRepository,
 );
@@ -180,7 +204,10 @@ export {
     paidAttendanceController,
     deleteLunchEndController,
     deleteClockedOutController,
-    editLunchStartAttendanceController
+    editLunchStartAttendanceController,
+    getSchedulesByEmployeeIdController,
+    editLunchEndAttendanceController,
+    editClockedOutAttendanceController
 };
 
 // Path: src/infra/http/routes/attendance-routes.ts

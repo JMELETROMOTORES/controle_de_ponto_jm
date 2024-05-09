@@ -57,7 +57,7 @@ export class EditFirstTimeUseCase
                 attendance,
                 attendance.clockedOut,
             );
-
+            
             attendance.extraHours = extra;
         }
 

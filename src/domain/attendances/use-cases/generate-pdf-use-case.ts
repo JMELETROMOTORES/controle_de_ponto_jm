@@ -10,18 +10,15 @@ export class GeneratePdfUseCase {
 
         private readonly generateReportUseCase: GenerateReportUseCase
     ) {}
-    async execute(rfid: string, options: any): Promise<Buffer> {
-        const startDate = new Date( 2024, 4, 1);
-        const endDate = new Date( 2024, 4, 30);
+    async execute(rfid: string, startDate: Date , endDate: Date, options: any): Promise<Buffer> {
+    
         const report = await this.generateReportUseCase.execute({rfid, startDate, endDate});
-
-
 
         if (!report.value?.report) {
             throw new Error('Report not found');
         }
-
-        const html2 = HtmlBolTemplate(report.value?.report, 'leo');
+        console.log(report.value?.report);
+        const html2 = HtmlBolTemplate(report.value?.report);
         return this.pdfService.generatePdf(html2, options);
 
 

@@ -3,6 +3,7 @@ import { IController } from "@/core/protocols/IController";
 import { ListAttendanceUseCase } from "@/domain/attendances/use-cases/fetch-attendances";
 
 import { AttendancePresenter } from "@/infra/database/presenters/attendance-presenter";
+import { AttendanceEmployeePresenter } from "@/infra/database/presenters/attendance-with-employees-presenter";
 import { NextFunction, Request, Response } from "express";
 
 export class ListAttendanceController implements IController {
@@ -38,8 +39,8 @@ export class ListAttendanceController implements IController {
                     .json(result.value);
             }
 
-            const attendance: AttendancePresenter[] = result.value.result.map(
-                (attendance) => AttendancePresenter.toHTTP(attendance),
+            const attendance: AttendanceEmployeePresenter[] = result.value.result.map(
+                (attendance) => AttendanceEmployeePresenter.toHTTP(attendance),
             );
 
             return response.status(HttpStatusCode.OK).json({

@@ -63,16 +63,9 @@ export class EditLunchStartAttendanceUseCase
                 return left(new LunchStartTimeError());
             }
     
-            const isSameDay = this.dateProvider.isSameDay(
-                lunchStart,
-                attendance.date,
-            );
     
-            if (!isSameDay) {
-                return left(new IsSameDayError());
-            }
             attendance.lunchStart = lunchStart;
-    
+        
             if (attendance.lunchEnd) {
                 const delay = this.calculateDelayService.calculateTotalDelay(
                     journey,
@@ -80,6 +73,7 @@ export class EditLunchStartAttendanceUseCase
                     attendance.lunchEnd,
                 );
                 attendance.delay = delay;
+
             }
     
             if (attendance.clockedOut) {
@@ -93,7 +87,7 @@ export class EditLunchStartAttendanceUseCase
         } else { 
             console.log('else')
         }
-        
+
         await this.attendanceRepository.save(attendance);
 
         return right({ attendance });

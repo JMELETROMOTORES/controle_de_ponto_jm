@@ -1,8 +1,617 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folha de Ponto</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap">
+    <style>
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.folha-de-ponto, .dados-empregador, .dados-trabalhador, .expediente{
+    margin-bottom: 10px;
+    border: 1px solid #cccccc60;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+
+.assin_r{
+    display: flexbox;
+    text-align: center;
+    margin-bottom: 10px;
+    border: 1px solid #cccccc60;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    padding: 50px;
+}
+
+.assin_t{
+    display: flexbox;
+    text-align: center;
+    margin-bottom: 10px;
+    border: 1px solid #cccccc60;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    padding: 50px;
+}
+
+.cienc{
+    margin-top: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    border: 1px solid #cccccc60;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+.folha-de-ponto h1, .dados-empregador h2, .dados-trabalhador h2, .expediente h2 {
+    margin-top: 0;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #8f8f8f;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+@media screen and (max-width: 600px) {
+            /* Transforma a tabela em uma tabela de formato tabular */
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            /* Remove a borda das células */
+            th, td {
+                border: none;
+                padding: 8px;
+            }
+
+            /* Adiciona uma borda inferior para as células de cabeçalho */
+            th {
+                border-bottom: 1px solid #ddd;
+            }
+
+            /* Adiciona uma borda inferior para as células, exceto a última linha */
+            td {
+                border-bottom: 1px solid #ddd;
+            }
+
+            /* Adiciona espaçamento entre as células */
+            td:before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+            }
+        }
+
+    </style>
+</head>
+
 <body>
-<h1>
-    teste
-</h1>
+    
+    <div class="container">
+        <div class="folha-de-ponto">
+            <h1>Folha de Ponto</h1>
+        </div>
+        <div class="dados-empregador">
+            <h2>Dados do Empregador</h2>
+            <ul>
+                <li><strong>Razão Social:</strong> José Evaldo de Almeida Xavier</li>
+                <li><strong>Endereço:</strong> Rua Principal, 123 - Cidade - Estado</li>
+                <li><strong>CNPJ:</strong> 00.000.000/0001-00</li>
+            </ul>
+        </div>
+        <div class="dados-trabalhador">
+            <h2>Dados do Trabalhador</h2>
+            <ul>
+                <li><strong>Nome:</strong> Clarice Lispector (59)</li>
+                <li><strong>Data de admissão:</strong> 01/01/2024</li>
+                <li><strong>Departamento:</strong> Literatura</li>
+                <li><strong>Setor:</strong> conteporaneo</li>
+                <li><strong>Cargo:</strong> Editora</li>
+                <li><strong>CPF:</strong> 08.645.340-24</li>
+                <li><strong>CTPS:</strong> 154878</li>
+                <li><strong>Série:</strong> 126</li>
+                <li><strong>PIS / PASEP:</strong> 454.93933.15-8</li>
+                <li><strong>eSocial:</strong> 0028sjsbns2i28308uj47e8bd7485</li>
+            </ul>
+        </div>
+        <div class="expediente">
+            <h2>Expediente(s)</h2>
+            <ul>
+                <li>De segunda-feira a quinta-feira de 08:00 às 18:00 e intervalo de 12:00 às 13:00. Sexta-feira de 08:00 às 17:00 e intervalo de 12:00 às 13:00.</li>
+            </ul>
+            <ul>
+                <li>Vigente a partir do dia 18/03/2024;</li>
+            </ul>
+        </div>
+    <div style="overflow-x:auto;">
+        <table>
+            <tr>
+                <th>Dia</th>
+                <th>Marcações</th>
+                <th>Previstas</th>
+                <th>Trabalhadas</th>
+                <th>Abono</th>
+                <th>Saldo</th>
+            </tr>
+            <tr>
+                <td>01/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>02/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>03/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>04/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>05/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>06/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>07/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>08/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>09/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>10/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>11/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>12/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>13/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>14/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>15/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>16/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>17/03/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>18/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>19/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>20/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>21/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>22/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>23/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>24/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>25/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>26/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>27/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>28/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>29/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>30/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>31/03/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>01/04/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>02/04/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>03/04/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>04/04/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>05/04/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>06/04/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>07/04/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>08/04/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>09/04/2024</td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>10/04/2024</td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>11/04/2024</td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>12/04/2024</td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>13/04/2024</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>14/04/2024 </td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>15/04/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>15/04/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>16/04/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>17/04/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+            <tr>
+                <td>18/04/2024 </td>
+                <td>07:00(E)12:00(E)13:00(E)17:59(S)</td>
+                <td>09:00</td>
+                <td>09:19</td>
+                <td>-</td>
+                <td>00:19</td>
+            </tr>
+        </table>
+    </div>
+    <div class="cienc">
+            <ul>
+                <li>
+                    Reconheço com exatidão os registros constantes neste documento, pois represento o ocorrido neste período.
+                </li>
+            </ul>
+        </div>
+        <div class="distan_assin">
+            <div class="assin_r">
+                <ul>
+                    <li>
+                        José Evaldo de Almeida Xavier
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <strong>Responsável</strong>
+                    </li>
+                </ul>
+            </div>   
+                <div class="assin_t">
+                    <ul>
+                        <li>
+                        Clarice Lispector (59)
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                        <strong>Trabalhador</strong>
+                        </li>
+                    </ul> 
+                </div>
+            
+        </div>
+
+    </div>
+</div>
 </body>
 </html>

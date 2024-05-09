@@ -18,12 +18,12 @@ class GenerateReportController implements IController {
     ): Promise<void | Response<any, Record<string, any>>> {
         try {
       
-            const { rfid, startDate, endDate } = request.body;
+            const { rfid, startDate, endDate } = request.params;
 
             const result = await this.useCase.execute({
                 rfid,
-                startDate,
-                endDate,
+                startDate: new Date(startDate),
+                endDate: new Date(endDate),
             });
 
             if (result.isLeft())

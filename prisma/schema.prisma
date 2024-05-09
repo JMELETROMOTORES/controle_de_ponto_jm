@@ -27,16 +27,17 @@ model holiday {
 }
 
 model Employee {
-  id         String       @unique @default(uuid())
-  name       String
-  journeyId  String
-  journey    Journey      @relation(fields: [journeyId], references: [id])
-  position   String
-  rfid       String       @unique
-  imgUrl     String
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime?    @updatedAt
-  Attendance Attendance[]
+  id               String             @unique @default(uuid())
+  name             String
+  journeyId        String
+  journey          Journey            @relation(fields: [journeyId], references: [id])
+  position         String
+  rfid             String             @unique
+  imgUrl           String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime?          @updatedAt
+  Attendance       Attendance[]
+  absenceAllowance absenceAllowance[]
 }
 
 model Attendance {
@@ -55,6 +56,16 @@ model Attendance {
   updatedAt   DateTime  @updatedAt
   employeeId  String
   employee    Employee  @relation(fields: [employeeId], references: [id])
+}
+
+model absenceAllowance {
+  id         String    @unique @default(uuid())
+  employeeId String
+  employee   Employee  @relation(fields: [employeeId], references: [id])
+  reason     String
+  date       DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
 }
 
 model Journey {

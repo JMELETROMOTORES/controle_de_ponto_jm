@@ -6,6 +6,17 @@ export interface IPaidAbs {
     date: Date;
     absenseReason: string;
 }
+
+type workDay = {
+    date: Date | null | undefined;
+    clockedIn: Date | null | undefined;  
+    lunchStart: Date | null | undefined;
+    lunchEnd: Date | null | undefined; 
+    clockedOut: Date | null | undefined;
+    hoursWorked: number | null | undefined;
+    delay: number | null | undefined;
+    overtime: number | null | undefined;
+}
 export interface IReports {
     employeeName: string;
     totalDelay: number;
@@ -13,9 +24,9 @@ export interface IReports {
     totalWorkedHours: number;
     absences: number;
     daysAbsences: Date[];
-    paidAbsences: IPaidAbs[];
+    paidAbsences: any;
     interval: string;
-    workDays: object[];
+    workDays: workDay[];
 }
 
 export class Reports extends ValueObject<IReports> {
@@ -44,7 +55,7 @@ export class Reports extends ValueObject<IReports> {
         return this.props.totalWorkedHours;
     }
 
-    get workDays(): object[] {
+    get workDays(): workDay[] {
         return this.props.workDays;
     }
 
@@ -56,7 +67,7 @@ export class Reports extends ValueObject<IReports> {
         return this.props.daysAbsences;
     }
 
-    get paidAbsences(): IPaidAbs[] {
+    get paidAbsences(): [] {
         return this.props.paidAbsences;
     }
 

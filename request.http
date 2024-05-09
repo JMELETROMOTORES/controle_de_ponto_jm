@@ -1,12 +1,14 @@
 @baseUrl = http://localhost:3333
 @authToken = {{authenticate.response.body.accessToken}}
 # @name create_account
-POST {{baseUrl}}/user/auth
+POST {{baseUrl}}/user/register
 Content-Type: application/json
 
-{
-  "email": "gustvoa@.com.br",
-  "password": "12345678"
+{ 
+  "name": "jm",
+  "email": "gustvoa@gmail.com",
+  "password": "12345678",
+  "role": "ADMIN"
 }
 
 ###
@@ -37,13 +39,13 @@ Content-Type: application/json
 }
 
 ###
-GET {{baseUrl}}/report
+GET {{baseUrl}}/report/2024-05-01T23:59:00.000Z/2024-05-31T23:59:00.000Z/9234567813
 Content-Type: application/json
 
 {
-  "rfid": "1234567811",
+  "rfid": "9234567813",
   "startDate":  "2024-04-01T23:59:00.000Z",
-  "endDate": "2024-04-30T23:59:00.000Z"
+  "endDate": "2024-04-31T23:59:00.000Z"
 }
 
 ###

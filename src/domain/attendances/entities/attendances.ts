@@ -15,7 +15,7 @@ export interface AttendanceProps {
     employeeId: string;
     paid?: boolean;
     absenseReason?: string;
-    createdAt?: Date;
+    createdAt: Date;
     updatedAt?: Date | null;
 
 }
@@ -144,7 +144,7 @@ export class Attendance extends Entity<AttendanceProps> {
                 extraHours: props.extraHours ?? 0,
                 delay: props.delay ?? 0,
                 hoursWorked: props.hoursWorked ?? 0,
-                createdAt: props.createdAt ?? new Date(),
+                createdAt:  new Date(),
             },
             id,
         );

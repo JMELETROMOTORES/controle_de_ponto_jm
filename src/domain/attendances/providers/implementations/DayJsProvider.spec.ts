@@ -63,7 +63,7 @@ describe("DayjsDateProvider", () => {
             const result = dateProvider.convertStrHourToDateTime(hourString);
             expect(result).toBeInstanceOf(Date);
             if (result) {
-                expect(result.getHours()).toBe(9);
+                expect(result.getHours()).toBe(6);
                 expect(result.getMinutes()).toBe(30);
             }
         });

@@ -1,7 +1,8 @@
 import { Attendance } from "../entities/attendances";
+import { AttendancesEmployees } from "../entities/value-objects/attendances-with-employees";
 
 export interface IListAttendancesResponse {
-    attendances: Attendance[];
+    attendances: AttendancesEmployees[];
     count: number;
 }
 
@@ -21,6 +22,7 @@ export interface IListUseCaseParams {
 
 export abstract class AttendanceRepository {
     abstract findById(id: string): Promise<Attendance | null>;
+    abstract findByEmployeeId(employeeId: string): Promise<AttendancesEmployees[] | null>;
     abstract findByDateAndRfid(date: Date, rfid: string): Promise<Attendance | null>;
     abstract generateReport(rfid: string, startDate: Date, endDate: Date): Promise<Attendance[] | null>;
     abstract findByRfid(rfid: string): Promise<Attendance| null>;

@@ -1,14 +1,27 @@
 import { IPdfGenerator } from '@/domain/services/pdfservice';
-import * as htmlPdf from 'html-pdf';
+import * as puppeteer from 'puppeteer';
 
+export class PuppeteerPdfGenerator implements IPdfGenerator {
+    async generatePdf(html: string, options?: puppeteer.PDFOptions): Promise<Buffer> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                // Inicia o navegador em modo headless
+                const browser = await puppeteer.launch();
+                const page = await browser.newPage();
+                
+                // Define o conteúdo HTML da página
+                await page.setContent(html);
 
-export class HtmlPdfGenerator implements IPdfGenerator {
-    generatePdf(html: string, options?: any): Promise<Buffer> {
-        return new Promise((resolve, reject) => {
-            htmlPdf.create(html, options).toBuffer((err, buffer) => {
-                if (err) reject(err);
-                else resolve(buffer);
-            });
+                // Gera o PDF a partir do conteúdo HTML
+                const buffer = await page.pdf(options);
+
+                // Fecha o navegador
+                await browser.close();
+
+                resolve(buffer);
+            } catch (error) {
+                reject(error);
+            }
         });
     }
 }

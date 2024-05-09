@@ -1,4 +1,5 @@
 import { Attendance } from "@/domain/attendances/entities/attendances";
+import { AttendancesEmployees } from "@/domain/attendances/entities/value-objects/attendances-with-employees";
 import {
     AttendanceRepository,
     IListAttendancesRequest,
@@ -6,7 +7,9 @@ import {
 } from "@/domain/attendances/repositories/attendance-repository";
 
 export class InMemoryAttendanceRepository implements AttendanceRepository {
-    public items: Attendance[] = [];
+    public items: Attendance[]  = [];
+    public attendancesEmployees: AttendancesEmployees[] = [];
+
 
     async findById(id: string): Promise<Attendance | null> {
         const attendance = this.items.find(
@@ -16,12 +19,11 @@ export class InMemoryAttendanceRepository implements AttendanceRepository {
         return attendance || null;
     }
 
-    async findByEmployeeId(employeeId: string): Promise<Attendance[] | null> {
-        const attendances = this.items.filter(
-            (attendance) => attendance.employeeId.toString() === employeeId,
+    async findByEmployeeId(employeeId: string): Promise<AttendancesEmployees[] | null> {
+        const attendances = this.attendancesEmployees.filter(
+            (attendance) => attendance.employee.id === employeeId,
         );
 
-        console.log(attendances);
         return attendances || null;
     }
     
@@ -81,7 +83,7 @@ export class InMemoryAttendanceRepository implements AttendanceRepository {
         limit,
         offset,
     }: IListAttendancesRequest): Promise<IListAttendancesResponse> {
-        let filteredAttendances = this.items;
+        let filteredAttendances = this.attendancesEmployees;
 
         if (search) {
         }

@@ -7,12 +7,13 @@ import { IOffsetGenerator } from "@/core/pagination/adapters/IOffset";
 import { ITotalPagesGenerator } from "@/core/pagination/adapters/ITotalPagesGenerator";
 import { IPaginationResponse } from "@/core/pagination/interfaces/IPaginationResponse";
 
-import { Attendance } from "../entities/attendances";
+
 import { AttendanceRepository } from "../repositories/attendance-repository";
+import { AttendancesEmployees } from "../entities/value-objects/attendances-with-employees";
 
 type FetchAttendanceUseCaseResponse = Either<
     Error,
-    IPaginationResponse<Attendance>
+    IPaginationResponse<AttendancesEmployees>
 >;
 export class ListAttendanceUseCase {
     constructor(
