@@ -23,8 +23,6 @@ import { DeleteClockedOutUseCase } from "@/domain/attendances/use-cases/delete-c
 import { DeleteClockedOutController } from "./delete-clocked-out-controller";
 import { DeleteLunchEndAtUseCase } from "@/domain/attendances/use-cases/delete-lunch-end";
 import { DeleteLunchEndController } from "./delete-lunch-end-controller";
-import { PaidAttendanceController } from "./paid-attendance-controller";
-import { PaidAttendanceUseCase } from "@/domain/attendances/use-cases/paid-attendance";
 import { RegisterClockedOutAttendanceController } from "./register-clocked-out-attendance-controller";
 import { RegisterLunchEndAttendanceController } from "./register-lunch-end-attendance-controller";
 import { RegisterLunchStartAttendanceController } from "./register-lunch-start-attendance-controller";
@@ -111,13 +109,7 @@ const listAttendanceUseCase = new ListAttendanceUseCase(
     totalPagesGenerator,
 );
 
-const paidAttendanceUseCase = new PaidAttendanceUseCase(
-    attendanceRepository,
-    entityFinderService
-)
 
-const paidAttendanceController = new PaidAttendanceController(
-    paidAttendanceUseCase)
 
 const listAttendanceController = new ListAttendanceController(
     listAttendanceUseCase,
@@ -201,7 +193,6 @@ export {
     registerLunchStartAttendanceController,
     generatePdfController,
     generateReportController,
-    paidAttendanceController,
     deleteLunchEndController,
     deleteClockedOutController,
     editLunchStartAttendanceController,

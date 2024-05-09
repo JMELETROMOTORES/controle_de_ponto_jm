@@ -1,12 +1,14 @@
 import { PrismaClient } from "@prisma/client";
-import { seedProduct } from "./seeds/product";
+import { seedJourney } from "./seeds/journey";
+import { seedEmployee } from "./seeds/employee";
 
 const prisma = new PrismaClient({
     log: ["query", "info", "warn", "error"],
 });
 
 const main = async () => {
-    await seedProduct(prisma);
+    await seedJourney(prisma);
+    await seedEmployee(prisma);
 };
 
 main()

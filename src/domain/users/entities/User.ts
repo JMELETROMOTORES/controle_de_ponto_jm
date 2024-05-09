@@ -5,6 +5,7 @@ export interface IUserProps {
     name: string;
     email: string;
     password: string;
+    role: string;
 }
 
 export class User extends Entity<IUserProps> {
@@ -19,6 +20,11 @@ export class User extends Entity<IUserProps> {
     get password() {
         return this.props.password;
     }
+
+    get role() {
+        return this.props.role;
+    }
+    
 
     static create(props: IUserProps, id?: UniqueEntityID) {
         const user = new User(props, id);

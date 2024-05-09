@@ -13,7 +13,6 @@ export interface AttendanceProps {
     delay: number;
     extraHours: number;
     employeeId: string;
-    paid?: boolean;
     absenseReason?: string;
     createdAt: Date;
     updatedAt?: Date | null;
@@ -45,13 +44,6 @@ export class Attendance extends Entity<AttendanceProps> {
         this.props.absenseReason = absenseReason;
     }
 
-    get paid() {
-        return this.props.paid;
-    }
-
-    set paid(paid: boolean | undefined) {
-        this.props.paid = paid;
-    }
 
     get clockedIn() {
         return this.props.clockedIn;

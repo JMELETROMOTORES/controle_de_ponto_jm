@@ -36,7 +36,7 @@ app.use("/report", reportRoutes);
 app.use("/schedules", SchedulesAttendancesRoutes);
 app.use("/attendances", AttendancesRoutes);
 app.use("/journey", JourneyRoutes);
-app.use("/user", userRoutes);
+app.use("/auth", userRoutes);
 app.use("/employee", EmployeeRoutes);
 app.use("/holiday", holidayRoutes);
 // const pdfGenerator = new HtmlPdfGenerator();

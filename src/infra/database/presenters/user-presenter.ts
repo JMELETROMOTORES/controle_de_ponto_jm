@@ -5,6 +5,7 @@ export interface IUserPresenter {
     name: string;
     email: string;
     password: string;
+    role: string;
 }
 
 export class UserPresenter {
@@ -14,6 +15,7 @@ export class UserPresenter {
             name: user.name,
             email: user.email,
             password: user.password,
+            role: user.role,
         };
     }
 }

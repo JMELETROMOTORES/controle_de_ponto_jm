@@ -47,7 +47,6 @@ export class ExtraTimeCalculationService {
                 end_date_extratime,
                 clockedOut,
             );
-            console.log('teste', end_date_extratime.getDay());
             return extraTimeAfter;
         }
         

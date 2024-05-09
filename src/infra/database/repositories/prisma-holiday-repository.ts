@@ -41,6 +41,13 @@ async findHolidaysBetween(start: Date, end: Date): Promise<Holiday[]> {
     });
   }
 
+ async delete(holiday: Holiday): Promise<void> {
+    await this.prismaClient.holiday.delete({
+        where: {
+            id: holiday.id.toString(),
+        },
+    });
+}
   
     async create(holiday: Holiday): Promise<void> {
         const data = PrismaholidayMapper.toPrisma(holiday);

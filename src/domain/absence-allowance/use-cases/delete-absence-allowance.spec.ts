@@ -1,24 +1,30 @@
 import { makeEmployee } from "@/test/factories/make-employee";
+import { InMemoryAbsenceAllowanceRepository } from "@/test/in-memory-absence-allowance-repository";
 import { InMemoryEmployeeRepository } from "@/test/in-memory-employee-repository";
-import { DeleteEmployeeUseCase } from "./delete-employee";
+import { CreateAbsenceAllowanceUseCase } from "./create-absence-allowance";
+import { DeleteAbsenceAllowanceUseCase } from "./delete-absence-allowance";
+import { makeAbsenceAllowance } from "@/test/factories/make-absence-allowance";
+let inMemoryAbsenceAllowanceRepository: InMemoryAbsenceAllowanceRepository;
 let inMemoryEmployeeRepository: InMemoryEmployeeRepository;
-let sut: DeleteEmployeeUseCase; // Declare sut variable
+let sut: DeleteAbsenceAllowanceUseCase;
 
-describe("Delete employee", () => {
+
+describe("Delete Absence Allowance", () => {
     beforeEach(() => {
-        inMemoryEmployeeRepository = new InMemoryEmployeeRepository();
-        sut = new DeleteEmployeeUseCase(inMemoryEmployeeRepository);
+        inMemoryAbsenceAllowanceRepository = new InMemoryAbsenceAllowanceRepository();
+        sut = new DeleteAbsenceAllowanceUseCase(inMemoryAbsenceAllowanceRepository);
     });
 
-    it("should be able to delete a employee", async () => {
-        const newEmployee = makeEmployee();
-        const newEmployee2 = makeEmployee();
 
-        await inMemoryEmployeeRepository.create(newEmployee);
-        await inMemoryEmployeeRepository.create(newEmployee2);
+    it("should be able to delete a absence Allowance", async () => {
+        const newAbsenceAllowance = makeAbsenceAllowance()
+        const newAbsenceAllowance2 = makeAbsenceAllowance()
 
-        await sut.execute(newEmployee.id.toString());
-        expect(inMemoryEmployeeRepository.items.length).toBe(1);
+        await inMemoryAbsenceAllowanceRepository.create(newAbsenceAllowance);
+        await inMemoryAbsenceAllowanceRepository.create(newAbsenceAllowance2);
+
+        await sut.execute(newAbsenceAllowance.id.toString());
+        expect(inMemoryAbsenceAllowanceRepository.items.length).toBe(1);
     });
 });
 

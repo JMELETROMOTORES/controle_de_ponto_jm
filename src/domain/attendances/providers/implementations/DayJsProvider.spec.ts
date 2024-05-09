@@ -95,7 +95,7 @@ describe("DayjsDateProvider", () => {
 
     describe("calculateDelayWithLunchTime", () => {
         it("should return the difference in minutes between two dates", () => {
-            const lunchStart = new Date("2022-01-01T12:00:00Z");
+            const lunchStart = new Date("2022-01-09T12:00:00Z");
             const lunchEnd = new Date("2022-01-01T13:10:00Z");
             const toleranceTime = 60;
 

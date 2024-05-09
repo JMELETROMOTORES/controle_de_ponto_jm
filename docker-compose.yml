@@ -1,6 +1,4 @@
 #create compose for mysql
-version: "3.1"
-
 services:
     postgres:
         container_name: point_system_v2

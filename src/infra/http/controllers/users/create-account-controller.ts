@@ -15,12 +15,13 @@ class CreateUserController implements IController {
         next: NextFunction,
     ): Promise<void | Response<any, Record<string, any>>> {
         try {
-            const { name, email, password } = request.body;
+            const { name, email, password, role } = request.body;
 
             const result = await this.useCase.execute({
                 name,
                 email,
                 password,
+                role,
             });
 
             if (result.isLeft()) return response.status(409).json(result.value);

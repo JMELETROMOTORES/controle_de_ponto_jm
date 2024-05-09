@@ -12,6 +12,7 @@ export function makeUser(
             name: faker.person.fullName(),
             email: faker.internet.email(),
             password: faker.internet.password(),
+            role: "ADMIN",
             ...override,
         },
         id,

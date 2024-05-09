@@ -28,7 +28,8 @@ export abstract class HolidayRepository {
     }: IListHolidaysRequest): Promise<IListHolidaysResponse | null>;
     abstract findHolidaysBetween(start: Date, end: Date): Promise<Holiday[]>;
     abstract save(holiday: Holiday): Promise<void>;
-    abstract create(holiday: Holiday): Promise<void>;
+    abstract create(holiday: Holiday): Promise<void>;   
+    abstract delete(holiday: Holiday): Promise<void>;
 
 }
 

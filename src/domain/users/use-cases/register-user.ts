@@ -9,6 +9,7 @@ export interface IRegisterUserDTO {
     name: string;
     email: string;
     password: string;
+    role: string;
 }
 
 type RegisterUserUseCaseResponse = Either<
@@ -30,6 +31,7 @@ export class RegisterUserUseCase
         name,
         email,
         password,
+        role,
     }: IRegisterUserDTO): Promise<RegisterUserUseCaseResponse> {
         const userWithSameEmail = await this.userRepository.findByMail(email);
 
@@ -43,6 +45,7 @@ export class RegisterUserUseCase
             name,
             email,
             password: hashedPassword,
+            role,
         });
 
         await this.userRepository.create(user);

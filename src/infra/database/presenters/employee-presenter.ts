@@ -8,6 +8,7 @@ export class EmployeePresenter {
             position: employee.position,
             rfid: employee.rfid,
             imgUrl: employee.imgUrl,
+            journeyId: employee.journeyId.toString(),
             createdAt: employee.createdAt,
             updatedAt: employee.updatedAt,
         };

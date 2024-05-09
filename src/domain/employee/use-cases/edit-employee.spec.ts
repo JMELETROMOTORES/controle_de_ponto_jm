@@ -21,7 +21,7 @@ describe("Edit Employee", () => {
                 name: "Employee 1",
                 position: "Developer",
                 imgUrl: "image.png",
-                rfid: "123456",
+                rfid: "12345609383",
                 journeyId: new UniqueEntityID("1"),
             },
             new UniqueEntityID("1"),
@@ -34,14 +34,14 @@ describe("Edit Employee", () => {
             name: "Employee 2",
             position: "faxineiro",
             imgUrl: "image.png",
-            rfid: "1234567",
+            rfid: "12345609383",
             journeyId: new UniqueEntityID("2"),
         });
 
         expect(result.isRight()).toBe(true);
         expect(inMemoryEmployeesRepository.items[0].name).toBe("Employee 2");
         expect(inMemoryEmployeesRepository.items[0].position).toBe("faxineiro");
-        expect(inMemoryEmployeesRepository.items[0].rfid).toBe("1234567");
+        expect(inMemoryEmployeesRepository.items[0].rfid).toBe("12345609383");
     });
 
     it("should not be able to edit a employee with an existing rfid", async () => {

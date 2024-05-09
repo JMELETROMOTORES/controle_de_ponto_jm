@@ -12,6 +12,7 @@ model User {
   name      String
   email     String
   password  String
+  role      String
   createdAt DateTime?
   updatedAt DateTime?
 
@@ -51,7 +52,6 @@ model Attendance {
   hoursWorked Int
   delay       Int
   extraHours  Int
-  paid        Boolean?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   employeeId  String
