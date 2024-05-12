@@ -14,6 +14,7 @@ import { holidayRoutes } from "./routes/holiday-routes";
 import { envs } from "./shared/envs";
 
 import { AbonoRoutes } from "./routes/abono-routes";
+import dayjs from "dayjs";
 
 dotenv.config();
 const app = express();
@@ -31,7 +32,7 @@ app.use(errorHandler);
 
 app.get("/", (req, res) => {
     res.json({
-        timestamp: new Date(),
+        Horario: dayjs.utc().toDate(),
     });
 });
 app.use("/abono", AbonoRoutes);
