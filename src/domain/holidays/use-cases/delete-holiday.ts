@@ -2,8 +2,11 @@ import { Either, left, right } from "@/core/either";
 import { IUseCase } from "@/core/protocols/IUseCase";
 import { NotFoundError } from "../errors/Not-found-error";
 import { HolidayRepository } from "../repositories/holiday-repository";
+import { Holiday } from "../entities/holiday";
 
-type DeleteHolidayUseCaseResponse = Either<NotFoundError, null>;
+type DeleteHolidayUseCaseResponse = Either<NotFoundError, {
+    result: Holiday;
+}>;
 export class DeleteHolidayUseCase
     implements IUseCase<string, DeleteHolidayUseCaseResponse>
 {
@@ -18,7 +21,9 @@ export class DeleteHolidayUseCase
 
         await this.holidayRepository.delete(holiday);
 
-        return right(null);
+        return right({
+            result: holiday,
+        });
     }
 }
 

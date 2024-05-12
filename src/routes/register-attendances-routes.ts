@@ -10,7 +10,7 @@ import { Router } from "express";
 
 const SchedulesAttendancesRoutes = Router();
 
-SchedulesAttendancesRoutes.post("/", (request, response, next) => {
+SchedulesAttendancesRoutes.post("/clockedIn", (request, response, next) => {
     return registerClockedInAttendanceController.handle(
         request,
         response,
@@ -18,7 +18,7 @@ SchedulesAttendancesRoutes.post("/", (request, response, next) => {
     );
 });
 
-SchedulesAttendancesRoutes.put("/lunchstart", (request, response, next) => {
+SchedulesAttendancesRoutes.post("/lunchstart", (request, response, next) => {
     return registerLunchStartAttendanceController.handle(
         request,
         response,
@@ -40,11 +40,11 @@ SchedulesAttendancesRoutes.put(
     },
 );
 
-SchedulesAttendancesRoutes.put("/lunchend", (request, response, next) => {
+SchedulesAttendancesRoutes.post("/lunchend", (request, response, next) => {
     return registerLunchEndAttendanceController.handle(request, response, next);
 });
 
-SchedulesAttendancesRoutes.put("/clockedOut", (request, response, next) => {
+SchedulesAttendancesRoutes.post("/clockedOut", (request, response, next) => {
     return registerClockedOutAttendanceController.handle(
         request,
         response,

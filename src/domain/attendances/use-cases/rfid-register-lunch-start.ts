@@ -10,6 +10,7 @@ import { IsSameDayError } from "../errors/is-same-day-error";
 import { LunchStartTimeError } from "../errors/lunch-start-time-error";
 import { IDateProvider } from "../providers/IDateProvider";
 import { AttendanceRepository } from "../repositories/attendance-repository";
+import { ScheduleAlreadyExist } from "../errors/schedule-already-exist";
 
 export interface IRegisterLunchStartAttendanceDTO {
     rfid: string;
@@ -20,7 +21,8 @@ type RegistertLunchStartAttendanceUseCaseResponse = Either<
     | NotFoundAttendanceError
     | NotFoundEmployeeError
     | LunchStartTimeError
-    | IsSameDayError,
+    | IsSameDayError
+    | ScheduleAlreadyExist,
     {
         attendance: Attendance;
     }
@@ -51,6 +53,10 @@ export class RegisterLunchStartAttendanceUseCase
 
         const { journey, attendance } = result.value;
         
+        if(attendance.lunchStart) {
+            return left(new ScheduleAlreadyExist());
+        }
+    
         if(attendance.clockedIn) {
             const isTimeDateBefore = this.dateProvider.compareIfBefore(
                 lunchStart,
@@ -70,7 +76,7 @@ export class RegisterLunchStartAttendanceUseCase
                 return left(new IsSameDayError());
             }
             attendance.lunchStart = lunchStart;
-    
+
             if (attendance.lunchEnd) {
                 const delay = this.calculateDelayService.calculateTotalDelay(
                     journey,
@@ -94,7 +100,6 @@ export class RegisterLunchStartAttendanceUseCase
         }
         
         await this.attendanceRepository.save(attendance);
-
         return right({ attendance });
     }
 }
