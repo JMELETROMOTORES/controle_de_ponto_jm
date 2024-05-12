@@ -8,7 +8,6 @@ import { EmployeeRoutes } from "./routes/employee.routes";
 import { JourneyRoutes } from "./routes/journey.routes";
 import { SchedulesAttendancesRoutes } from "./routes/register-attendances-routes";
 import { userRoutes } from "./routes/users.routes";
-import { PdfService } from "./domain/services/pdfservice";
 import { reportRoutes } from "./routes/report-routes";
 import { holidayRoutes } from "./routes/holiday-routes";
 import { envs } from "./shared/envs";
