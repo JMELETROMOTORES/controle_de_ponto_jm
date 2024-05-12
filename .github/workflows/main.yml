@@ -32,5 +32,5 @@ jobs:
                   username: ${{ secrets.SSH_USER }}
                   port: ${{ secrets.SSH_PORT }}
                   key: ${{ secrets.SSH_KEY }}
-                  source: "., !node_modules/**/*"
-                  target: "~/app/controle_de_ponto_jm"
+                  source: "., !node_modules"
+                  target: "~/app/app/controle_de_ponto_jm"
