@@ -31,7 +31,7 @@ app.use(errorHandler);
 
 app.get("/", (req, res) => {
     res.json({
-        Horario: dayjs.utc().toDate(),
+        timestemp: dayjs.utc().toDate(),
     });
 });
 app.use("/abono", AbonoRoutes);
