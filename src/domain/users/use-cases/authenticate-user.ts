@@ -13,7 +13,8 @@ interface IAuthenticaseUserDTO {
 type AuthenticateUserUseCaseResponse = Either<
     WrongCredentialsError,
     {
-        accessToken: string;
+        token: string;
+        role: string;
     }
 >;
 
@@ -50,7 +51,8 @@ export class AuthenticateUserUseCase
         });
 
         return right({
-            accessToken,
+            token: accessToken,
+            role: user.role,
         });
     }
 }
