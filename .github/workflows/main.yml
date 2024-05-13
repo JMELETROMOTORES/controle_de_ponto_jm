@@ -1,0 +1,52 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout do Repositório
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: "18.19.1" 
+
+            - name: install dependencies
+              run: npm install
+                  
+            - name: Build
+              run: npm run build
+
+
+            - name: Deploy 
+              uses: appleboy/scp-action@master
+              with:
+                  host: ${{ secrets.SSH_HOST }}
+                  username: ${{ secrets.SSH_USER }}
+                  port: ${{ secrets.SSH_PORT }}
+                  key: ${{ secrets.SSH_KEY }}
+                  source: "., !node_modules"
+                  target: "~/controle_de_ponto_jm"
+
+            - name: update API
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.SSH_HOST }}
+                  username: ${{ secrets.SSH_USER }}
+                  port: ${{ secrets.SSH_PORT }}
+                  key: ${{ secrets.SSH_KEY }}
+                  script: |
+                      cd "~/controle_de_ponto_jm"
+                      npm install
+                      npx prisma generate 
+                      echo "Prisma generation completed."
+                      npx prisma migrate deploy 
+                      echo "Prisma migration completed."
+                      pm2 restart point_system

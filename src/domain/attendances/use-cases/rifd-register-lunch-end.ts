@@ -9,6 +9,7 @@ import { NotFoundAttendanceError } from "../errors/Not-found-attendance-error";
 import { NotFoundEmployeeError } from "../errors/Not-found-employee-error";
 import { EmployeeNotHaveAJourney } from "../errors/employee-not-have-journey-error";
 import { AttendanceRepository } from "../repositories/attendance-repository";
+import { ScheduleAlreadyExist } from "../errors/schedule-already-exist";
 
 export interface IRegisterLunchEndAttendanceDTO {
     rfid: string;
@@ -16,7 +17,7 @@ export interface IRegisterLunchEndAttendanceDTO {
 }
 
 type RegistertLunchEndAttendanceUseCaseResponse = Either<
-    NotFoundAttendanceError | NotFoundEmployeeError | EmployeeNotHaveAJourney,
+    NotFoundAttendanceError | NotFoundEmployeeError | EmployeeNotHaveAJourney | ScheduleAlreadyExist,
     {
         attendance: Attendance;
     }
@@ -45,6 +46,10 @@ export class RegisterLunchEndAttendanceUseCase
         }
 
         const { attendance, journey } = result.value;
+
+        if(attendance.lunchEnd) {
+            return left(new ScheduleAlreadyExist());
+        }
 
         const delay = this.calculateDelayService.calculateTotalDelay(
             journey,

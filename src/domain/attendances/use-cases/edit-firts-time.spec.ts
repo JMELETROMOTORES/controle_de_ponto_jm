@@ -72,7 +72,7 @@ describe("Edit firts time", () => {
         const response = await sut.execute({
             attendanceId: newAttendance.id.toString(),
             rfid: newEmployee.rfid,
-            newTime: fakeDayjsProvider.currentDateWithTime(7, 49, 0),
+            clockedIn: fakeDayjsProvider.currentDateWithTime(7, 49, 0),
         });
         console.log(inMemoryAttendanceRepository.items[0])
         expect(inMemoryAttendanceRepository.items[0].extraHours).toBe(60);

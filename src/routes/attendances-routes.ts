@@ -14,7 +14,7 @@ AttendancesRoutes.get("/", (request, response, next) => {
     return listAttendanceController.handle(request, response, next);
 });
 
-AttendancesRoutes.put("/:attendanceId", (request, response, next) => {
+AttendancesRoutes.put("/clockedIn/:attendanceId", (request, response, next) => {
     return editFirstTimeController.handle(request, response, next);
 });
 

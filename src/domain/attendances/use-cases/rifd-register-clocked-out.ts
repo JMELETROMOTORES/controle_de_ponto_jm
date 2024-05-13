@@ -8,6 +8,7 @@ import { NotFoundAttendanceError } from "../errors/Not-found-attendance-error";
 import { NotFoundEmployeeError } from "../errors/Not-found-employee-error";
 import { EmployeeNotHaveAJourney } from "../errors/employee-not-have-journey-error";
 import { AttendanceRepository } from "../repositories/attendance-repository";
+import { ScheduleAlreadyExist } from "../errors/schedule-already-exist";
 
 export interface IRegisterClockedOutAttendanceDTO {
     rfid: string;
@@ -15,7 +16,7 @@ export interface IRegisterClockedOutAttendanceDTO {
 }
 
 type RegistertClockedOutAttendanceUseCaseResponse = Either<
-    NotFoundAttendanceError | NotFoundEmployeeError | EmployeeNotHaveAJourney,
+    NotFoundAttendanceError | NotFoundEmployeeError | EmployeeNotHaveAJourney | ScheduleAlreadyExist,
     {
         attendance: Attendance;
     }
@@ -44,6 +45,10 @@ export class RegisterClockedOutAttendanceUseCase
         }
 
         const { attendance, journey } = result.value;
+
+        if(attendance.clockedOut) {
+            return left(new ScheduleAlreadyExist());
+        }
 
         const hoursWorked = this.calculateWorkTimeService.calculateWorkTime(
             attendance,

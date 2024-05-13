@@ -13,7 +13,7 @@ import { AttendanceRepository } from "../repositories/attendance-repository";
 export interface IEditFirstTimeUseCaseDTO {
     attendanceId: string;
     rfid: string;
-    newTime: Date;
+    clockedIn: Date;
 }
 
 type EditFirstTimeUseCaseResponse = Either<
@@ -37,7 +37,7 @@ export class EditFirstTimeUseCase
     async execute({
         attendanceId,
         rfid,
-        newTime,
+        clockedIn,
     }: IEditFirstTimeUseCaseDTO): Promise<EditFirstTimeUseCaseResponse> {
         const result = await this.entityFinderService.findEntitiesId(
             attendanceId,
@@ -49,7 +49,7 @@ export class EditFirstTimeUseCase
 
         const { journey, attendance } = result.value;
 
-        attendance.clockedIn = newTime;
+        attendance.clockedIn = clockedIn;
 
         if (attendance.clockedOut) {
             const extra = this.calculaExtraTimeService.calculateTotalExtraTime(

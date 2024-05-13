@@ -16,11 +16,11 @@ class EditFirstTimeController implements IController {
     ): Promise<void | Response<any, Record<string, any>>> {
         try {
             const { attendanceId } = request.params;
-            const { rfid, newTime } = request.body;
+            const { rfid, clockedIn } = request.body;
 
             const result = await this.useCase.execute({
                 attendanceId,
-                newTime,
+                clockedIn,
                 rfid,
             });
 

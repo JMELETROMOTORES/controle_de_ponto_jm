@@ -10,14 +10,15 @@ import { EmployeeNotHaveAJourney } from "../errors/employee-not-have-journey-err
 import { IsSameDayError } from "../errors/is-same-day-error";
 import { IDateProvider } from "../providers/IDateProvider";
 import { AttendanceRepository } from "../repositories/attendance-repository";
+import { ScheduleAlreadyExist } from "../errors/schedule-already-exist";
 
 export interface IRegisterFirstTimeInAttendanceDTO {
     rfid: string;
-    clockedIn?: Date;
+    clockedIn: Date;
 }
 
 type RegistertTimeInAttendanceUseCaseResponse = Either<
-    EmployeeNotHaveAJourney | NotFoundEmployeeError | IsSameDayError,
+    EmployeeNotHaveAJourney | NotFoundEmployeeError | IsSameDayError | ScheduleAlreadyExist,
     {
         attendance: Attendance;
     }
@@ -49,6 +50,13 @@ export class RegisterFirstTimeInAttendanceUseCase
         }
 
         const { employee, journey } = result.value;
+
+
+        const attendanceAlreadyExists = await this.attendanceRepository.findByDateAndRfid(clockedIn, rfid);
+
+        if(attendanceAlreadyExists) {
+            return left(new ScheduleAlreadyExist());
+        }
 
         const attendance = Attendance.create({
             rfid,
