@@ -14,6 +14,7 @@ import { envs } from "./shared/envs";
 
 import { AbonoRoutes } from "./routes/abono-routes";
 import dayjs from "dayjs";
+import { timeStamp } from "console";
 
 dotenv.config();
 const app = express();
@@ -31,7 +32,7 @@ app.use(errorHandler);
 
 app.get("/", (req, res) => {
     res.json({
-        timestemp: dayjs.utc().toDate(),
+        timeStamp: dayjs.utc().toDate(),
     });
 });
 app.use("/abono", AbonoRoutes);

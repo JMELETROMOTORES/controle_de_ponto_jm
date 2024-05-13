@@ -39,7 +39,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{baseUrl}}/report/2024-05-01T23:59:00.000Z/2024-05-31T23:59:00.000Z/9234567813
+GET {{baseUrl}}/report/pdf/2024-05-01T23:59:00.000Z/2024-05-31T23:59:00.000Z/0001702628
 Content-Type: application/json
 
 {
