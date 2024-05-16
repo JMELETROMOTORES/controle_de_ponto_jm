@@ -10,7 +10,7 @@ userRoutes.post("/register", (request, response, next) => {
     return createAccountController.handle(request, response, next);
 });
 
-userRoutes.post("/auth", (request, response, next) => {
+userRoutes.post("/authenticate", (request, response, next) => {
     return authenticateUserController.handle(request, response, next);
 });
 

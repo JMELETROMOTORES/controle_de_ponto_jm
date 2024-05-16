@@ -14,6 +14,7 @@ import { envs } from "./shared/envs";
 
 import { AbonoRoutes } from "./routes/abono-routes";
 import dayjs from "dayjs";
+import { integrationRoutes } from "./routes/integration-routes";
 
 dotenv.config();
 const app = express();
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 });
 app.use("/abono", AbonoRoutes);
 app.use("/report", reportRoutes);
+app.use("/integration", integrationRoutes);
 app.use("/schedules", SchedulesAttendancesRoutes);
 app.use("/attendances", AttendancesRoutes);
 app.use("/journey", JourneyRoutes);

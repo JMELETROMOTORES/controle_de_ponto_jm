@@ -1,4 +1,5 @@
 import {
+    deleteAttendanceController,
     editClockedOutAttendanceController,
     editFirstTimeController,
     editLunchEndAttendanceController,
@@ -34,6 +35,10 @@ AttendancesRoutes.put("/clockedOut/:id", (request, response, next) => {
 });
 AttendancesRoutes.get("/employee/:id", (request, response, next) => {
     return getSchedulesByEmployeeIdController.handle(request, response, next);
+})
+
+AttendancesRoutes.delete("/:id", (request, response, next) => {
+    return deleteAttendanceController.handle(request, response, next);
 })
 export { AttendancesRoutes };
 

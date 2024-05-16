@@ -1,14 +1,12 @@
 @baseUrl = http://localhost:3333
 @authToken = {{authenticate.response.body.accessToken}}
 # @name create_account
-POST {{baseUrl}}/user/register
+POST {{baseUrl}}/auth/authenticate
 Content-Type: application/json
 
 { 
-  "name": "jm",
-  "email": "gustvoa@gmail.com",
-  "password": "12345678",
-  "role": "ADMIN"
+  "email": "jmeletromotores-admin@hotmail.com",
+  "password": "12345678"
 }
 
 ###

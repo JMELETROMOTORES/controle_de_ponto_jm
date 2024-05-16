@@ -17,6 +17,8 @@ import { JourneyPrismaRepository } from "@/infra/database/repositories/prisma-jo
 import { EditFirstTimeUseCase } from "./../../../../domain/attendances/use-cases/edit-firts-time";
 import { RegisterClockedInAttendanceController } from "./create-attendance-controller";
 import { DeleteLunchStartController } from "./delete-lunch-start-controller";
+import { DeleteAttendanceUseCase } from "@/domain/attendances/use-cases/delete-attendance-controller";
+import { DeleteAttendanceController } from "./delete-attendance-controller";
 import { EditFirstTimeController } from "./edit-first-time-controller";
 import { ListAttendanceController } from "./fetch-attendances-controller";
 import { DeleteClockedOutUseCase } from "@/domain/attendances/use-cases/delete-clocked-out";
@@ -183,6 +185,10 @@ const registerClockedOutAttendanceController =
         registerClockedOutAttendanceUseCase,
     );
 
+
+const deleteAttendanceUseCase = new DeleteAttendanceUseCase(attendanceRepository);
+const deleteAttendanceController = new DeleteAttendanceController(deleteAttendanceUseCase);
+
 export {
     deleteLunchStartController,
     editFirstTimeController,
@@ -198,7 +204,8 @@ export {
     editLunchStartAttendanceController,
     getSchedulesByEmployeeIdController,
     editLunchEndAttendanceController,
-    editClockedOutAttendanceController
+    editClockedOutAttendanceController,
+    deleteAttendanceController
 };
 
 // Path: src/infra/http/routes/attendance-routes.ts
