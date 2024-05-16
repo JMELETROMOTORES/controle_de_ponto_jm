@@ -14,11 +14,7 @@ import { envs } from "./shared/envs";
 
 import { AbonoRoutes } from "./routes/abono-routes";
 import dayjs from "dayjs";
-<<<<<<< HEAD
 import { integrationRoutes } from "./routes/integration-routes";
-=======
-import { timeStamp } from "console";
->>>>>>> cb6ccbbbef1f7f14dcdc6304cee63468adea2e81
 
 dotenv.config();
 const app = express();

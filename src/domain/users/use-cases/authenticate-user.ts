@@ -51,13 +51,8 @@ export class AuthenticateUserUseCase
         });
 
         return right({
-<<<<<<< HEAD
             token:accessToken,
             role:user.role
-=======
-            token: accessToken,
-            role: user.role,
->>>>>>> cb6ccbbbef1f7f14dcdc6304cee63468adea2e81
         });
     }
 }
