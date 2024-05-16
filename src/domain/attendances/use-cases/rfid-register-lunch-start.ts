@@ -13,7 +13,6 @@ import { AttendanceRepository } from "../repositories/attendance-repository";
 import { ScheduleAlreadyExist } from "../errors/schedule-already-exist";
 
 export interface IRegisterLunchStartAttendanceDTO {
-    id: string;
     rfid: string;
     lunchStart: Date;
 }
@@ -44,11 +43,10 @@ export class RegisterLunchStartAttendanceUseCase
     ) {}
 
     async execute({
-        id,
         rfid,
         lunchStart,
     }: IRegisterLunchStartAttendanceDTO): Promise<RegistertLunchStartAttendanceUseCaseResponse> {
-        const result = await this.entityFinderService.findEntitiesId(id, rfid);
+        const result = await this.entityFinderService.findEntities(new Date(), rfid);
         if (result.isLeft()) {
             return left(result.value);
         }
