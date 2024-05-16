@@ -14,13 +14,17 @@ import { envs } from "./shared/envs";
 
 import { AbonoRoutes } from "./routes/abono-routes";
 import dayjs from "dayjs";
+<<<<<<< HEAD
 import { integrationRoutes } from "./routes/integration-routes";
+=======
+import { timeStamp } from "console";
+>>>>>>> cb6ccbbbef1f7f14dcdc6304cee63468adea2e81
 
 dotenv.config();
 const app = express();
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin: "https://front.controledepontojm.com",
         credentials: true,
     }),
 );
@@ -32,7 +36,7 @@ app.use(errorHandler);
 
 app.get("/", (req, res) => {
     res.json({
-        Horario: dayjs.utc().toDate(),
+        timeStamp: dayjs.utc().toDate(),
     });
 });
 app.use("/abono", AbonoRoutes);

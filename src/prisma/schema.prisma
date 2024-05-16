@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model user {
   id        String    @unique @default(uuid())
   name      String
   email     String
@@ -27,21 +27,21 @@ model holiday {
   updatedAt DateTime?
 }
 
-model Employee {
+model employee {
   id               String             @unique @default(uuid())
   name             String
   journeyId        String
-  journey          Journey            @relation(fields: [journeyId], references: [id])
+  journey          journey            @relation(fields: [journeyId], references: [id])
   position         String
   rfid             String             @unique
   imgUrl           String
   createdAt        DateTime           @default(now())
   updatedAt        DateTime?          @updatedAt
-  Attendance       Attendance[]
+  Attendance       attendance[]
   absenceAllowance absenceAllowance[]
 }
 
-model Attendance {
+model attendance {
   id          String    @unique @default(uuid())
   date        DateTime
   rfid        String
@@ -55,20 +55,20 @@ model Attendance {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   employeeId  String
-  employee    Employee  @relation(fields: [employeeId], references: [id])
+  employee    employee  @relation(fields: [employeeId], references: [id])
 }
 
 model absenceAllowance {
   id         String    @unique @default(uuid())
   employeeId String
-  employee   Employee  @relation(fields: [employeeId], references: [id])
+  employee   employee  @relation(fields: [employeeId], references: [id])
   reason     String
   date       DateTime
   createdAt  DateTime?
   updatedAt  DateTime?
 }
 
-model Journey {
+model journey {
   id                                 String     @unique @default(uuid())
   name                               String
   start_date                         String
@@ -81,5 +81,5 @@ model Journey {
   lunch_time_tolerance               Int
   createdAt                          DateTime   @default(now())
   updatedAt                          DateTime?  @updatedAt
-  employee                           Employee[]
+  employee                           employee[]
 }

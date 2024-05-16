@@ -15,5 +15,5 @@
         },
         "typeRoots": ["./src/shared/types", "./node_modules/@types"],
     },
-    "exclude": ["node_modules", "prisma"],
+    "exclude": ["node_modules", "src/prisma"],
 }

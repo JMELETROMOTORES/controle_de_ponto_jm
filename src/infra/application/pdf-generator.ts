@@ -5,8 +5,10 @@ export class PuppeteerPdfGenerator implements IPdfGenerator {
     async generatePdf(html: string, options?: puppeteer.PDFOptions): Promise<Buffer> {
         return new Promise(async (resolve, reject) => {
             try {
-                // Inicia o navegador em modo headless
-                const browser = await puppeteer.launch();
+                // Inicia o navegador em modo headless com a opção --no-sandbox
+                const browser = await puppeteer.launch({
+                    args: ['--no-sandbox', '--disable-setuid-sandbox']
+                });
                 const page = await browser.newPage();
                 
                 // Define o conteúdo HTML da página

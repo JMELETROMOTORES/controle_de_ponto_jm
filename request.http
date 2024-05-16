@@ -1,12 +1,23 @@
 @baseUrl = http://localhost:3333
 @authToken = {{authenticate.response.body.accessToken}}
 # @name create_account
+<<<<<<< HEAD
 POST {{baseUrl}}/auth/authenticate
 Content-Type: application/json
 
 { 
   "email": "jmeletromotores-admin@hotmail.com",
   "password": "12345678"
+=======
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{ 
+  "name": "Jm admin",
+  "email": "jmeletromotores-admin@hotmail.com",
+  "password": "1609Jota@",
+  "role": "ADMIN"
+>>>>>>> cb6ccbbbef1f7f14dcdc6304cee63468adea2e81
 }
 
 ###
@@ -16,11 +27,11 @@ POST {{baseUrl}}/employee
 Content-Type: application/json
 
 {
-  "name": "Gustavo Gomes",
-  "position": "Desenvolvedor Front-end",
-  "imgUrl": "http",
-  "rfid": "1234567894",
-  "journeyId": "82ea2d4e-be9d-4a81-b79c-342f76b86d95"
+  "name": "Miriam Romualdo",
+  "position": "Administrativo",
+  "imgUrl": "https://placehold.co/600x400/png",
+  "rfid": "0001702628",
+  "journeyId": "dbc94b6d-9b56-4f21-a1af-c2e69faba74d"
 }
 
 ###
@@ -37,7 +48,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{baseUrl}}/report/2024-05-01T23:59:00.000Z/2024-05-31T23:59:00.000Z/9234567813
+GET {{baseUrl}}/report/pdf/2024-05-01T23:59:00.000Z/2024-05-31T23:59:00.000Z/0001702628
 Content-Type: application/json
 
 {
