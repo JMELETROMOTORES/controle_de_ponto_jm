@@ -303,7 +303,7 @@ export const HtmlBolTemplate = (attendances: any) => {
               <div class="assin_r">
                   <ul>
                       <li>
-                          José Evaldo de Almeida Xavier
+                          Monica dos Santos Gomes
                       </li>
                   </ul>
                   <ul>
@@ -315,7 +315,7 @@ export const HtmlBolTemplate = (attendances: any) => {
                   <div class="assin_t">
                       <ul>
                           <li>
-                          Clarice Lispector (59)
+                                ${attendances.employeeName}
                           </li>
                       </ul>
                       <ul>
