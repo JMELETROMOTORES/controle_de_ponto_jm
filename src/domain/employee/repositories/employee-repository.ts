@@ -22,6 +22,7 @@ export interface IListUseCaseParams {
 export abstract class EmployeeRepository {
     abstract findById(id: string): Promise<Employee | null>;
     abstract findByRfid(rfid: string): Promise<Employee | null>;
+    abstract findMany(): Promise<Employee[] | null>;
     abstract list({
         search,
         limit,

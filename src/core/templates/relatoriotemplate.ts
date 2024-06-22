@@ -89,8 +89,7 @@ export const HtmlBolTemplate = (attendances: any) => {
     }, {});
 
     const daysAbsencesSet = new Set(attendances.daysAbsences.map((date: string | number | Date | dayjs.Dayjs | null | undefined) => dayjs(date).format('YYYY-MM-DD')));
-    console.log(startDate);
-        console.log(endDate);
+
     const days = [];
     for (let day = startDate; day.isBefore(endDate.add(1, 'day')); day = day.add(1, 'day')) {
     
@@ -125,7 +124,6 @@ export const HtmlBolTemplate = (attendances: any) => {
         }
     }
 
-    console.log(days);
 
   return `<!DOCTYPE html>
   <html lang="pt-BR">

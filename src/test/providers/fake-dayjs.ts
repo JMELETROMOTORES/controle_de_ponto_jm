@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 class FakeDateProvider implements IDateProvider {
     dateTomorrow(): Date {
         const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 22);
+        tomorrow.setDate(tomorrow.getDate() + 1);
         return tomorrow;
     }
 

@@ -1,6 +1,6 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { Journey, JourneyProps } from "@/domain/journey/entities/journey";
-import { PrismaJourneyMapper } from "@/infra/database/mappers/prisma-journey-mapper";
+// import { PrismaJourneyMapper } from "@/infra/database/mappers/prisma-journey-mapper";
 import { PrismaClient } from "@prisma/client";
 
 export function makeJourney(
@@ -25,16 +25,16 @@ export function makeJourney(
     return journey;
 }
 
-export class JourneyFactory {
-    constructor(private prisma: PrismaClient) {}
+// export class JourneyFactory {
+//     constructor(private prisma: PrismaClient) {}
 
-    async makePrismaJourney(data: Partial<JourneyProps> = {}) {
-        const journey = makeJourney(data);
+//     async makePrismaJourney(data: Partial<JourneyProps> = {}) {
+//         const journey = makeJourney(data);
 
-        await this.prisma.journey.create({
-            data: PrismaJourneyMapper.toPrisma(journey),
-        });
-        return journey;
-    }
-}
+//         await this.prisma.journey.create({
+//             data: PrismaJourneyMapper.toPrisma(journey),
+//         });
+//         return journey;
+//     }
+// }
 

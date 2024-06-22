@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-
+import { envs } from "@/shared/envs";
 const prisma = new PrismaClient({
     log: [
         {
@@ -19,8 +19,15 @@ const prisma = new PrismaClient({
             level: "warn",
         },
     ],
-});
+    datasources: {
+        db: {
+            url: envs.databaseUrl,
+        },
 
+    }
+    
+});
+console.log("Database URL: ", envs.databaseUrl);
 prisma.$on("query", (e: any) => {
     // console.log("Query: ", e.query);
     // console.log("Duration: ", e.duration);

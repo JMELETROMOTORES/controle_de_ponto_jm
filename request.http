@@ -1,7 +1,17 @@
-@baseUrl = http://localhost:3333
+@baseUrl = https://v3.controledepontojm.com
 @authToken = {{authenticate.response.body.accessToken}}
 # @name create_account
 
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{ 
+  "name": "Jm usuario",
+  "email": "jmeletromotores-usuario@hotmail.com",
+  "password": "1609Jota@",
+  "role": "USER"
+
+}
 
 ###
 

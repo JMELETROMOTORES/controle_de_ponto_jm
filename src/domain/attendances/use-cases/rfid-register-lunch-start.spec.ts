@@ -71,7 +71,7 @@ describe("Register lunch time", () => {
 
         expect(result.isRight()).toBeTruthy();
         expect(inMemoryAttendanceRepository.items.length).toBe(2);
-        console.log(inMemoryAttendanceRepository.items);
+
     });
 });
 

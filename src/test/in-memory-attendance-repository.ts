@@ -19,6 +19,14 @@ export class InMemoryAttendanceRepository implements AttendanceRepository {
         return attendance || null;
     }
 
+    async findMany(startDate: Date, endDate: Date): Promise<Attendance[] | null> {
+        const attendances = this.items.filter(
+            (attendance) =>
+                attendance.date >= startDate && attendance.date <= endDate,
+        );
+
+        return attendances || null;
+    }
     async findByEmployeeId(employeeId: string): Promise<AttendancesEmployees[] | null> {
         const attendances = this.attendancesEmployees.filter(
             (attendance) => attendance.employee.id === employeeId,

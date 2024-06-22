@@ -51,6 +51,28 @@ class AttendancePrismaRepository implements AttendanceRepository {
 
         return attendances;
     }
+
+    async findMany(startDate: Date, endDate: Date): Promise<Attendance[] | null> {
+        const attendancesP = await this.prismaClient.attendance.findMany({
+            where: {
+                createdAt: {
+                    gte: startDate,
+                    lte: endDate,
+                },
+            },
+        });
+        if (!attendancesP) {
+            return null;
+        }
+
+        const attendances = await Promise.all(
+            attendancesP.map(async (attendanceP) => {
+                return PrismaAttendanceMapper.toDomain(attendanceP);
+            }),
+        );
+
+        return attendances;
+    }
     async findById(id: string): Promise<Attendance | null> {
         const attendancesP = await this.prismaClient.attendance.findFirst({
             where: {
@@ -81,10 +103,7 @@ class AttendancePrismaRepository implements AttendanceRepository {
                 },
             },
         });
-        
-        console.log('repositorio')
 
-    console.log(attendance);
         if (!attendance) {
             return null;
         }

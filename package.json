@@ -4,16 +4,17 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "ts-node-dev --exit-child --inspect --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/server.ts",
-        "start": "ts-node-dev -r tsconfig-paths/register src/server.ts",
+        "dev": "NODE_ENV=dev ts-node-dev --exit-child --inspect --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/server.ts",
+        "dev:prod": "NODE_ENV=prod ts-node-dev --exit-child --inspect --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/server.ts",
         "lint:fix": "eslint --fix . --ext ts,tsx",
         "test": "jest",
         "test:e2e": "jest --config jest-e2e.config.ts",
         "build:tsc": "rm -rf dist && tsc --build && tscpaths -p tsconfig.json -s ./src -o ./dist",
-        "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files"
+        "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
+        "seed:dev": "NODE_ENV=dev ts-node prisma/seed.ts"
     },
     "prisma": {
-        "seed": "ts-node prisma/seed.ts"
+        "seed": "NODE_ENV=dev ts-node prisma/seed.ts"
     },
     "keywords": [],
     "author": "",

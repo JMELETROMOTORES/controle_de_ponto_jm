@@ -17,22 +17,21 @@ export class DelayCalculationService {
             journey.start_date_toleranceDelay,
         );
 
-        console.log('journeyToleranceTime', journeyToleranceTime);
-    
+
         const delay = this.dateProvider.calculateDelay(
             journeyToleranceTime,
             attendance.clockedIn,
         );
 
-        console.log('delay', delay);
+
         const delayWithLunchTime =
             this.dateProvider.calculateDelayWithLunchTime(
                 journey.lunch_time_tolerance,
                 attendance.lunchStart,
                 lunchEnd,
             );
-            console.log('delayWithLunchTime', attendance.lunchStart);
-            console.log('delayWithLunchTime', lunchEnd);
+
+
         return delay + delayWithLunchTime;
     }
 

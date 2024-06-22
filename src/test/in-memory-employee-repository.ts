@@ -22,6 +22,10 @@ export class InMemoryEmployeeRepository implements EmployeeRepository {
         return employee || null;
     }
 
+    async findMany(): Promise<Employee[] | null> {
+        return this.items;
+    }
+
     async save(employee: Employee): Promise<void> {
         const index = this.items.findIndex((p) => p.id.equals(employee.id));
 

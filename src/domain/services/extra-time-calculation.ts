@@ -64,14 +64,13 @@ export class ExtraTimeCalculationService {
             attendance,
         );
 
-        console.log('teste1', extraTimeBefore);
+
 
         const extraTimeAfter = this.calculateExtraTimeAfter(
             journey,
             clockedOut,
         );
-        console.log('teste1', journey);
-        console.log('teste1', clockedOut);
+
         
 
 

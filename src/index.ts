@@ -20,7 +20,7 @@ dotenv.config();
 const app = express();
 app.use(
     cors({
-        origin: "https://front.controledepontojm.com",
+        origin: envs.origin,
         credentials: true,
     }),
 );
@@ -45,7 +45,7 @@ app.use("/auth", userRoutes);
 app.use("/employee", EmployeeRoutes);
 app.use("/holiday", holidayRoutes);
 
-if (envs.nodeEnv === "development") {
+if (envs.nodeEnv === "dev") {
     app.use(
         "/public/files",
         express.static(path.resolve(__dirname, "shared", "infra", "temp")),

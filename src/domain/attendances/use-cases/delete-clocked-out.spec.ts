@@ -16,7 +16,7 @@ describe("Delete clockedOut register", () => {
         await inMemoryAttendanceRepository.create(newAttendance);
 
         await sut.execute(newAttendance.id.toString());
-        console.log(inMemoryAttendanceRepository.items[0]);
+
         expect(
             inMemoryAttendanceRepository.items[0].clockedOut,
         ).toBeNull();

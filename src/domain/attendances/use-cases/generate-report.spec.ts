@@ -99,7 +99,7 @@ const attendace = makeTimeIn({
 
 await inMemoryAttendanceRepository.create(attendace);
 const response = await sut.execute({ rfid: newEmployee.rfid, startDate: firstDayOfMonth.toDate(), endDate: lastDayOfMonth.toDate() });
-console.log(response?.value?.report);
+
 expect(response?.value?.report).toBeDefined();
 
 

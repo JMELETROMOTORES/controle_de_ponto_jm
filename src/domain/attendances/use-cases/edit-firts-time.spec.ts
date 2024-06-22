@@ -74,7 +74,7 @@ describe("Edit firts time", () => {
             rfid: newEmployee.rfid,
             clockedIn: fakeDayjsProvider.currentDateWithTime(7, 49, 0),
         });
-        console.log(inMemoryAttendanceRepository.items[0])
+
         expect(inMemoryAttendanceRepository.items[0].extraHours).toBe(60);
         expect(response.isRight()).toBeTruthy();
     });

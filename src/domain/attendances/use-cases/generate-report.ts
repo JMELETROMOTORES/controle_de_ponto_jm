@@ -28,13 +28,13 @@ export class GenerateReportUseCase implements IUseCase<IGenerateReportUseCaseDTO
     async execute({ rfid, startDate, endDate }: IGenerateReportUseCaseDTO): Promise<GenerateReportUseCaseResponse> {
 
         const employee =  await this.employeeRepository.findByRfid(rfid);
-        console.log(employee)
+    
         if(!employee){
             return left(null);
         }
 
         const attendance = await this.attendanceRepository.generateReport(employee.rfid, startDate, endDate);
-        console.log(attendance)
+
         if(!attendance){
             return left(null);
         }

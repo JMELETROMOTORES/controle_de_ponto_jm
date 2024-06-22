@@ -26,6 +26,7 @@ export abstract class AttendanceRepository {
     abstract findByDateAndRfid(date: Date, rfid: string): Promise<Attendance | null>;
     abstract generateReport(rfid: string, startDate: Date, endDate: Date): Promise<Attendance[] | null>;
     abstract findByRfid(rfid: string): Promise<Attendance| null>;
+    abstract findMany(startDate: Date, endDate: Date): Promise<Attendance[] | null>;
     abstract list({
         search,
         limit,
