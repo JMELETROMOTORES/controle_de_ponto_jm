@@ -15,11 +15,23 @@ import allowCors from './infra/middlewares/allowCors';
 import { AbonoRoutes } from "./routes/abono-routes";
 import dayjs from "dayjs";
 // import { integrationRoutes } from "./routes/integration-routes";
-
+const allowedOrigins = [
+    "https://front.controledepontojm.com",
+    "http://localhost:5173/",
+];
 dotenv.config();
 const app = express();
 app.use(
-    allowCors
+    cors({
+        origin: function (origin: any, callback) {
+            if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
+        credentials: true,
+    }),
 );
 
 app.use((req, res, next) => {
