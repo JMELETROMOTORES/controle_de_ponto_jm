@@ -14,16 +14,12 @@ import { envs } from "./shared/envs";
 
 import { AbonoRoutes } from "./routes/abono-routes";
 import dayjs from "dayjs";
+import allowCors from "./infra/middlewares/allowCors";
 // import { integrationRoutes } from "./routes/integration-routes";
 
 dotenv.config();
 const app = express();
-app.use(
-    cors({
-        origin: "https://front.controledepontojm.com",
-        credentials: true,
-    }),
-);
+app.use(allowCors);
 
 
 app.use(express.json());
