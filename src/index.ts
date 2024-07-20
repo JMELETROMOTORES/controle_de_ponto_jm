@@ -21,25 +21,14 @@ const allowedOrigins = [
 ];
 dotenv.config();
 const app = express();
+
 app.use(
     cors({
-        origin: function (origin: any, callback) {
-            if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        },
+        origin: "https://front.controledepontojm.com",
         credentials: true,
     }),
 );
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
 
 
 app.use(express.json());
