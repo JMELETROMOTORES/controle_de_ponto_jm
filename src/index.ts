@@ -11,7 +11,7 @@ import { userRoutes } from "./routes/users.routes";
 import { reportRoutes } from "./routes/report-routes";
 import { holidayRoutes } from "./routes/holiday-routes";
 import { envs } from "./shared/envs";
-import corsConfig from './infra/middlewares/allowCors';
+import allowCors from './infra/middlewares/allowCors';
 import { AbonoRoutes } from "./routes/abono-routes";
 import dayjs from "dayjs";
 // import { integrationRoutes } from "./routes/integration-routes";
@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 dotenv.config();
 const app = express();
 app.use(
-    corsConfig
+    allowCors
 );
 
 app.use((req, res, next) => {
