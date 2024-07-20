@@ -24,7 +24,7 @@ const app = express();
 
 app.use(
     cors({
-        origin: "https://front.controledepontojm.com",
+        origin: "*",
         credentials: true,
     }),
 );
