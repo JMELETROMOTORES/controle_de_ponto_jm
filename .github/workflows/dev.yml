@@ -19,6 +19,7 @@ jobs:
                   node-version: "18.19.1" 
 
             - name: install dependencies
+              run: npm cache clean --force
               run: npm install
                   
             - name: Build
