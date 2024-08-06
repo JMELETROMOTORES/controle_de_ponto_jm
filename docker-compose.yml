@@ -1,11 +1,8 @@
 services:
-    db:
-        image: mysql
-        command: --default-authentication-plugin=mysql_native_password
-        restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: docker
-        ports:
-            - 3307:3306
-        expose:
-            - 3307
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: docker
+    ports:
+      - 3307:3306
