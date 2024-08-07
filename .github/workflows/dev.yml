@@ -47,10 +47,8 @@ jobs:
                   port: ${{ secrets.DEV_SSH_PORT }}
                   key: ${{ secrets.DEV_SSH_KEY }}
                   script: |
-                      cd "~/controle_de_ponto_jm"
-                      npm install
                       npx prisma generate 
                       echo "Prisma generation completed."
                       npx prisma migrate deploy 
                       echo "Prisma migration completed."
-                      pm2 restart point_system
+                      pm2 restart server
