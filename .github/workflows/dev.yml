@@ -32,10 +32,10 @@ jobs:
             - name: Deploy 
               uses: appleboy/scp-action@master
               with:
-                  host: ${{ secrets.SSH_HOST }}
-                  username: ${{ secrets.SSH_USER }}
-                  port: ${{ secrets.SSH_PORT }}
-                  key: ${{ secrets.SSH_KEY }}
+               host: ${{ secrets.DEV_SSH_HOST }}
+                  username: ${{ secrets.DEV_SSH_USER }}
+                  port: ${{ secrets.DEV_SSH_PORT }}
+                  key: ${{ secrets.DEV_SSH_KEY }}
                   source: "., !node_modules"
                   target: "~/controle_de_ponto_jm"
 
