@@ -51,7 +51,7 @@ app.use("/attendances", AttendancesRoutes);
 app.use("/journey", JourneyRoutes);
 app.use("/auth", userRoutes);
 app.use("/employee", EmployeeRoutes);
-app.use("/holiday", holidayRoutes);
+app.use("/dayoff", holidayRoutes);
 
 if (envs.nodeEnv === "development") {
     app.use(
