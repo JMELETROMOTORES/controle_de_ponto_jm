@@ -1,12 +1,8 @@
-#create compose for mysql
 services:
-    postgres:
-        container_name: point_system_v2
-        image: postgres
-        ports:
-            - "5431:5432"
-        environment:
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: docker
-            POSTGRES_DB: point_system_v2
-
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: docker
+    ports:
+      - 3307:3306
