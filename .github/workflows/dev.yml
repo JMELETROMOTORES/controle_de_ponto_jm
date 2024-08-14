@@ -11,12 +11,12 @@ jobs:
 
         steps:
             - name: Checkout do Repositório
-              uses: actions/checkout@v4
+              uses: actions/checkout@v4.1.7
 
             - name: Setup Node.js
-              uses: actions/setup-node@v2
+            - uses: actions/setup-node@v4
               with:
-                  node-version: "18.19.x" 
+                node-version: 18
 
             - name: Clean Node.js Cache
               run: npm cache clean --force
