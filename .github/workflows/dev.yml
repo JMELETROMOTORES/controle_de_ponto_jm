@@ -50,7 +50,7 @@ jobs:
                   username: ${{ secrets.DEV_SSH_USER }}
                   port: ${{ secrets.DEV_SSH_PORT }}
                   key: ${{ secrets.DEV_SSH_KEY }}
-                  source: "., !node_modules"
+                  source: ". !node_modules"
                   target: "~/controle_de_ponto_jm"
 
             - name: Update API
