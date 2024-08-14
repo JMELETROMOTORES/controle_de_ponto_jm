@@ -18,11 +18,14 @@ jobs:
               with:
                   node-version: "18.19.1" 
 
-            # - name: install dependencies
-            #   run: npm install
+            - name: Clean Node.js Cache
+              run: npm cache clean --force
+
+            - name: Install Dependencies
+              run: npm install
                   
-            # - name: Build
-            #   run: npm run build
+            - name: Build
+              run: npm run build
 
             - name: Test SSH Connection
               uses: appleboy/ssh-action@master
@@ -44,18 +47,18 @@ jobs:
                   source: "., !node_modules"
                   target: "~/controle_de_ponto_jm"
 
-            # - name: update API
-            #   uses: appleboy/ssh-action@master
-            #   with:
-            #       host: ${{ secrets.DEV_SSH_HOST }}
-            #       username: ${{ secrets.DEV_SSH_USER }}
-            #       port: ${{ secrets.DEV_SSH_PORT }}
-            #       key: ${{ secrets.DEV_SSH_KEY }}
-            #       script: |
-            #           cd "~/controle_de_ponto_jm"
-            #           npm install
-            #           npx prisma generate 
-            #           echo "Prisma generation completed."
-            #           npx prisma migrate deploy 
-            #           echo "Prisma migration completed."
-            #           pm2 restart point_system
+            - name: Update API
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.DEV_SSH_HOST }}
+                  username: ${{ secrets.DEV_SSH_USER }}
+                  port: ${{ secrets.DEV_SSH_PORT }}
+                  key: ${{ secrets.DEV_SSH_KEY }}
+                  script: |
+                      cd "~/controle_de_ponto_jm"
+                      npm install
+                      npx prisma generate 
+                      echo "Prisma generation completed."
+                      npx prisma migrate deploy 
+                      echo "Prisma migration completed."
+                      pm2 restart point_system
