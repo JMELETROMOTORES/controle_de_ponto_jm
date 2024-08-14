@@ -21,12 +21,14 @@ jobs:
             - name: Clean Node.js Cache
               run: npm cache clean --force
 
+            - name: Remove package-lock.json
+              run: rm -f package-lock.json
+
             - name: Install Yarn
               run: npm install -g yarn
 
             - name: Install Dependencies
-              run: yarn install
-
+              run: yarn install --ignore-engines
                   
             - name: Build
               run: npm run build
