@@ -42,12 +42,10 @@ jobs:
                   username: ${{ secrets.DEV_SSH_USER }}
                   port: ${{ secrets.DEV_SSH_PORT }}
                   key: ${{ secrets.DEV_SSH_KEY }}
-                  script: |
-                      ls -la
-                      cd "~/controle_de_ponto_jm"
-                      npm install
-                      npx prisma generate 
-                      echo "Prisma generation completed."
-                      npx prisma migrate deploy 
-                      echo "Prisma migration completed."
-                      pm2 restart server
+                 script: |
+                    ls -la
+                    top -b -n 1
+                    df -h
+                    set -x
+             
+
