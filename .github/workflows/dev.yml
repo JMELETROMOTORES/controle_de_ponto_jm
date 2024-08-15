@@ -43,6 +43,7 @@ jobs:
                   port: ${{ secrets.DEV_SSH_PORT }}
                   key: ${{ secrets.DEV_SSH_KEY }}
                   script: |
+                      ls -la
                       cd "~/controle_de_ponto_jm"
                       npm install
                       npx prisma generate 
