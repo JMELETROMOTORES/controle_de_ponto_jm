@@ -35,6 +35,13 @@ jobs:
                   source: "., !node_modules"
                   target: "~/controle_de_ponto_jm"
 
+                  
+            - name: Install PM2 globally
+              run: npm install -g pm2
+
+            - name: Check PM2 installation
+              run: pm2 -v
+
             - name: update API
               uses: appleboy/ssh-action@master
               with:
@@ -49,4 +56,5 @@ jobs:
                       echo "Prisma generation completed."
                       npx prisma migrate deploy 
                       echo "Prisma migration completed."
+                      pm2 restart server
                     
