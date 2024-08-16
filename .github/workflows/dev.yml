@@ -35,9 +35,6 @@ jobs:
                   source: "., !node_modules"
                   target: "~/controle_de_ponto_jm"
 
-            - name: Check PM2 installation
-              run: pm2 -v
-              
             - name: update API
               uses: appleboy/ssh-action@master
               with:
@@ -46,6 +43,8 @@ jobs:
                   port: ${{ secrets.DEV_SSH_PORT }}
                   key: ${{ secrets.DEV_SSH_KEY }}
                   script: |
+                      ls -la
+                      pm2 -v
                       cd "./controle_de_ponto_jm"
                       npm install
                       npx prisma generate 
