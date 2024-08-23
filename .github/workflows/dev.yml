@@ -18,12 +18,17 @@ jobs:
               with:
                   node-version: "18.19.1" 
 
-            - name: install dependencies
+            - name: Install dependencies
               run: npm install
                   
             - name: Build
               run: npm run build
 
+            - name: Prepare environment files
+              run: |
+                  rm -f .env
+                  mv .env.test .env
+              shell: bash
 
             - name: Deploy 
               uses: appleboy/scp-action@master
@@ -35,7 +40,7 @@ jobs:
                   source: "., !node_modules"
                   target: "~/controle_de_ponto_jm"
 
-            - name: update API
+            - name: Update API
               uses: appleboy/ssh-action@master
               with:
                   host: ${{ secrets.DEV_SSH_HOST }}
@@ -45,5 +50,10 @@ jobs:
                   script: |
                       ls -la
                       pm2 -v
-
-                    
+                      cd "./controle_de_ponto_jm"
+                      npm install
+                      npx prisma generate --schema=./prisma/schema.dev.prisma
+                      echo "Prisma generation completed."
+                      npx prisma migrate deploy --schema=./prisma/schema.dev.prisma
+                      echo "Prisma migration completed."
+                      pm2 restart server
