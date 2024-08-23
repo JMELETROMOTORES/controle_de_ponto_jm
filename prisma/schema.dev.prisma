@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id        String    @unique @default(uuid())
+  name      String
+  email     String
+  password  String
+  role      String
+  createdAt DateTime?
+  updatedAt DateTime?
+
+  @@map("users")
+}
+
+model holiday {
+  id        String    @unique @default(uuid())
+  reason    String
+  date      DateTime
+  createdAt DateTime?
+  updatedAt DateTime?
+}
+
+model employee {
+  id               String             @unique @default(uuid())
+  name             String
+  journeyId        String
+  journey          journey            @relation(fields: [journeyId], references: [id])
+  position         String
+  rfid             String             @unique
+  imgUrl           String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime?          @updatedAt
+  Attendance       attendance[]
+  absenceAllowance absenceAllowance[]
+}
+
+model attendance {
+  id          String    @unique @default(uuid())
+  date        DateTime
+  rfid        String
+  clockedIn   DateTime?
+  lunchStart  DateTime?
+  lunchEnd    DateTime?
+  clockedOut  DateTime?
+  hoursWorked Int
+  delay       Int
+  extraHours  Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  employeeId  String
+  employee    employee  @relation(fields: [employeeId], references: [id])
+}
+
+model absenceAllowance {
+  id         String    @unique @default(uuid())
+  employeeId String
+  employee   employee  @relation(fields: [employeeId], references: [id])
+  reason     String
+  date       DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+}
+
+model journey {
+  id                                 String     @unique @default(uuid())
+  name                               String
+  start_date                         String
+  start_date_toleranceExtraTime      String
+  start_date_toleranceDelay          String
+  end_date                           String
+  end_date_toleranceExtraTime        String
+  friday_end_date                    String
+  friday_end_date_toleranceExtraTime String
+  lunch_time_tolerance               Int
+  createdAt                          DateTime   @default(now())
+  updatedAt                          DateTime?  @updatedAt
+  employee                           employee[]
+}

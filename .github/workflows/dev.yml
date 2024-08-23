@@ -45,11 +45,5 @@ jobs:
                   script: |
                       ls -la
                       pm2 -v
-                      cd "./controle_de_ponto_jm"
-                      npm install
-                      npx prisma generate 
-                      echo "Prisma generation completed."
-                      npx prisma migrate deploy 
-                      echo "Prisma migration completed."
-                      pm2 restart server
+
                     
