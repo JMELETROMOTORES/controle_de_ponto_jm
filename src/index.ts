@@ -44,14 +44,14 @@ app.get("/", (req, res) => {
 	});
 });
 
-app.use("/justification", AbonoRoutes);
+app.use("/abono", AbonoRoutes);
 app.use("/report", reportRoutes);
 app.use("/schedules", SchedulesAttendancesRoutes);
 app.use("/attendances", AttendancesRoutes);
 app.use("/journey", JourneyRoutes);
 app.use("/auth", userRoutes);
 app.use("/employee", EmployeeRoutes);
-app.use("/daysoff", holidayRoutes);
+app.use("/holiday", holidayRoutes);
 
 if (envs.nodeEnv === "development") {
 	app.use("/public/files", express.static(path.resolve(__dirname, "shared", "infra", "temp")));

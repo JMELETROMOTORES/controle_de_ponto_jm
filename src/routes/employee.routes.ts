@@ -9,11 +9,11 @@ import { Router } from "express";
 
 const EmployeeRoutes = Router();
 
-EmployeeRoutes.post("/create", (request, response, next) => {
+EmployeeRoutes.post("/", (request, response, next) => {
 	return createEmployeeController.handle(request, response, next);
 });
 
-EmployeeRoutes.get("/list", (request, response, next) => {
+EmployeeRoutes.get("/", (request, response, next) => {
 	return listEmployeeController.handle(request, response, next);
 });
 

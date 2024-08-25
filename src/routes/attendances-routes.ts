@@ -11,23 +11,23 @@ import { Router } from "express";
 
 const AttendancesRoutes = Router();
 
-AttendancesRoutes.get("/list", (request, response, next) => {
+AttendancesRoutes.get("/", (request, response, next) => {
 	return listAttendanceController.handle(request, response, next);
 });
 
-AttendancesRoutes.put("/edit/clockedIn/:attendanceId", (request, response, next) => {
+AttendancesRoutes.put("/clockedIn/:attendanceId", (request, response, next) => {
 	return editFirstTimeController.handle(request, response, next);
 });
 
-AttendancesRoutes.put("/edit/lunchStart/:id", (request, response, next) => {
+AttendancesRoutes.put("/lunchStart/:id", (request, response, next) => {
 	return editLunchStartAttendanceController.handle(request, response, next);
 });
 
-AttendancesRoutes.put("/edit/lunchEnd/:id", (request, response, next) => {
+AttendancesRoutes.put("/lunchEnd/:id", (request, response, next) => {
 	return editLunchEndAttendanceController.handle(request, response, next);
 });
 
-AttendancesRoutes.put("/edit/clockedOut/:id", (request, response, next) => {
+AttendancesRoutes.put("/clockedOut/:id", (request, response, next) => {
 	return editClockedOutAttendanceController.handle(request, response, next);
 });
 AttendancesRoutes.get("/employee/:id", (request, response, next) => {
