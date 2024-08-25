@@ -7,50 +7,49 @@ import { AbsenceAllowanceRepository } from "../repositories/absence-allowance-re
 import { EmployeeRepository } from "@/domain/employee/repositories/employee-repository";
 
 export interface ICreateAbsenceAllowanceDTO {
-    employeeId: string;
-    reason: string;
-    date: string;
+	employeeId: string;
+	reason: string;
+	date: string;
 }
 
 type CreateAbsenceAllowanceUseCaseResponse = Either<
-EmployeeNotFoundError,
-    {
-        absenceallowance: AbsenceAllowance;
-    }
+	EmployeeNotFoundError,
+	{
+		absenceallowance: AbsenceAllowance;
+	}
 >;
 export class CreateAbsenceAllowanceUseCase
-    implements IUseCase<ICreateAbsenceAllowanceDTO, CreateAbsenceAllowanceUseCaseResponse>
+	implements IUseCase<ICreateAbsenceAllowanceDTO, CreateAbsenceAllowanceUseCaseResponse>
 {
-    constructor(private readonly absenceallowanceRepository: AbsenceAllowanceRepository,
-        private readonly employeeRepository: EmployeeRepository,
-    ) {}
+	constructor(
+		private readonly absenceallowanceRepository: AbsenceAllowanceRepository,
+		private readonly employeeRepository: EmployeeRepository,
+	) {}
 
-    async execute({
-        employeeId,
-        reason,
-        date,
-    }: ICreateAbsenceAllowanceDTO): Promise<CreateAbsenceAllowanceUseCaseResponse> {
-        const employee = await this.employeeRepository.findById(employeeId);
+	async execute({
+		employeeId,
+		reason,
+		date,
+	}: ICreateAbsenceAllowanceDTO): Promise<CreateAbsenceAllowanceUseCaseResponse> {
+		const employee = await this.employeeRepository.findById(employeeId);
 
-        if (!employee) {
-            return left(new EmployeeNotFoundError());
-        }
+		if (!employee) {
+			return left(new EmployeeNotFoundError());
+		}
 
-        const absenceallowance = AbsenceAllowance.create(
-            {
-                employeeId,
-                reason,
-                date: new Date(date),
-            },
-            new UniqueEntityID(),
-        );
+		const absenceallowance = AbsenceAllowance.create(
+			{
+				employeeId,
+				reason,
+				date: new Date(date),
+			},
+			new UniqueEntityID(),
+		);
 
+		await this.absenceallowanceRepository.create(absenceallowance);
 
-        await this.absenceallowanceRepository.create(absenceallowance);
-
-        return right({
-            absenceallowance,
-        });
-    }
+		return right({
+			absenceallowance,
+		});
+	}
 }
-
