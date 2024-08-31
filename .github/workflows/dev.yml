@@ -55,5 +55,5 @@ jobs:
                       npx prisma generate --schema=./prisma/schema.dev.prisma
                       echo "Prisma generation completed."
                       npx prisma migrate deploy --schema=./prisma/schema.dev.prisma
-                      echo "Prisma migration completed."
+                      echo "Prisma migration completd."
                       pm2 restart server
