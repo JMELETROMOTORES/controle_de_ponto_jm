@@ -18,7 +18,7 @@ v1.0.0
 -   [x] Autenticação de usuario
 -   [x] Cadastro e listagem de produtos
 -   [x] realizar pedido
-
+...
 ## Tecnologias
 
 1. [NodeJs](https://nodejs.org/en)
